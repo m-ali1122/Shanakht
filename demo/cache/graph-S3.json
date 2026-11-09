@@ -1,0 +1,229 @@
+{
+ "recorded_from": "live",
+ "events": [],
+ "result": {
+  "scenario": "S3",
+  "focus_ids": [
+   "RM-S3",
+   "PK36MRGL0000000000030021",
+   "PK36MRGL0000000000030012"
+  ],
+  "nodes": [
+   {
+    "data": {
+     "id": "RM-S3",
+     "label": "Abdul Rehman Qureshi",
+     "kind": "remitter",
+     "bank": null,
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Remitter:RM-S3"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36MRGL0000000000030012",
+     "label": "MRGL ··0012",
+     "kind": "account",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Account:PK36MRGL0000000000030012"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36MRGL0000000000030021",
+     "label": "MRGL ··0021",
+     "kind": "account",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Account:PK36MRGL0000000000030021"
+    }
+   },
+   {
+    "data": {
+     "id": "R-MRGL-S3-Z",
+     "label": "Zainab Bibi",
+     "kind": "record",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Record:R-MRGL-S3-Z"
+    }
+   },
+   {
+    "data": {
+     "id": "R-MRGL-S3-T",
+     "label": "Tariq Mehmood",
+     "kind": "record",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Record:R-MRGL-S3-T"
+    }
+   },
+   {
+    "data": {
+     "id": "P-e8ccc74f7f",
+     "label": "Zainab Bibi",
+     "kind": "person",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Person:P-e8ccc74f7f"
+    }
+   },
+   {
+    "data": {
+     "id": "ph:a89e5f30fcee3f1d569eabfa825243f7a7f02d3b4044a6248fe56e7968f9513a",
+     "label": "a89e5f",
+     "kind": "phone",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Phone:a89e5f30fcee3f1d569eabfa825243f7a7f02d3b4044a6248fe56e7968f9513a"
+    }
+   },
+   {
+    "data": {
+     "id": "dv:31bebadb22357f580cfb12af895af7b39f3efa185aefde533d2f025573580566",
+     "label": "31beba",
+     "kind": "device",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Device:31bebadb22357f580cfb12af895af7b39f3efa185aefde533d2f025573580566"
+    }
+   },
+   {
+    "data": {
+     "id": "P-23c90498ab",
+     "label": "Tariq Mehmood",
+     "kind": "person",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Person:P-23c90498ab"
+    }
+   },
+   {
+    "data": {
+     "id": "dv:db0357f04fc5816c785247b5eb0770c06f60c3ad56d339cfe985157b0427dece",
+     "label": "db0357",
+     "kind": "device",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Device:db0357f04fc5816c785247b5eb0770c06f60c3ad56d339cfe985157b0427dece"
+    }
+   },
+   {
+    "data": {
+     "id": "ph:db675b6133677aba93f5e243859e5740ad8e71f64560bbfea7d725c6d73b0352",
+     "label": "db675b",
+     "kind": "phone",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Phone:db675b6133677aba93f5e243859e5740ad8e71f64560bbfea7d725c6d73b0352"
+    }
+   }
+  ],
+  "edges": [
+   {
+    "data": {
+     "id": "HOLDS:R-MRGL-S3-Z>PK36MRGL0000000000030012",
+     "source": "R-MRGL-S3-Z",
+     "target": "PK36MRGL0000000000030012",
+     "rel": "HOLDS",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "HOLDS:R-MRGL-S3-T>PK36MRGL0000000000030021",
+     "source": "R-MRGL-S3-T",
+     "target": "PK36MRGL0000000000030021",
+     "rel": "HOLDS",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "SENT:RM-S3>PK36MRGL0000000000030012",
+     "source": "RM-S3",
+     "target": "PK36MRGL0000000000030012",
+     "rel": "SENT",
+     "label": "4"
+    }
+   },
+   {
+    "data": {
+     "id": "RESOLVES_TO:R-MRGL-S3-Z>P-e8ccc74f7f",
+     "source": "R-MRGL-S3-Z",
+     "target": "P-e8ccc74f7f",
+     "rel": "RESOLVES_TO",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_PHONE:R-MRGL-S3-Z>ph:a89e5f30fcee3f1d569eabfa825243f7a7f02d3b4044a6248fe56e7968f9513a",
+     "source": "R-MRGL-S3-Z",
+     "target": "ph:a89e5f30fcee3f1d569eabfa825243f7a7f02d3b4044a6248fe56e7968f9513a",
+     "rel": "USES_PHONE",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_DEVICE:R-MRGL-S3-Z>dv:31bebadb22357f580cfb12af895af7b39f3efa185aefde533d2f025573580566",
+     "source": "R-MRGL-S3-Z",
+     "target": "dv:31bebadb22357f580cfb12af895af7b39f3efa185aefde533d2f025573580566",
+     "rel": "USES_DEVICE",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "RESOLVES_TO:R-MRGL-S3-T>P-23c90498ab",
+     "source": "R-MRGL-S3-T",
+     "target": "P-23c90498ab",
+     "rel": "RESOLVES_TO",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_DEVICE:R-MRGL-S3-T>dv:db0357f04fc5816c785247b5eb0770c06f60c3ad56d339cfe985157b0427dece",
+     "source": "R-MRGL-S3-T",
+     "target": "dv:db0357f04fc5816c785247b5eb0770c06f60c3ad56d339cfe985157b0427dece",
+     "rel": "USES_DEVICE",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_PHONE:R-MRGL-S3-T>ph:db675b6133677aba93f5e243859e5740ad8e71f64560bbfea7d725c6d73b0352",
+     "source": "R-MRGL-S3-T",
+     "target": "ph:db675b6133677aba93f5e243859e5740ad8e71f64560bbfea7d725c6d73b0352",
+     "rel": "USES_PHONE",
+     "label": null
+    }
+   }
+  ]
+ }
+}

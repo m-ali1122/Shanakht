@@ -1,0 +1,228 @@
+{
+ "recorded_from": "live",
+ "events": [
+  {
+   "step": "title_fetch",
+   "status": "ok",
+   "data": {
+    "bank": "MRGL",
+    "title": "TARIQ MEHMOOD",
+    "urdu_name": "طارق محمود",
+    "status": "FOUND"
+   },
+   "ms": 2864
+  },
+  {
+   "step": "compare",
+   "status": "ok",
+   "data": {
+    "band": "NO_MATCH",
+    "score": 0.0,
+    "reasons": [
+     "DIFFERENT_PERSON"
+    ],
+    "alignment": [
+     {
+      "typed_token": "Zainab",
+      "title_token": null,
+      "relation": "extra",
+      "reason": null
+     },
+     {
+      "typed_token": "Bibi",
+      "title_token": null,
+      "relation": "extra",
+      "reason": "SURNAME_MISSING"
+     },
+     {
+      "typed_token": null,
+      "title_token": "TARIQ",
+      "relation": "extra",
+      "reason": null
+     },
+     {
+      "typed_token": null,
+      "title_token": "MEHMOOD",
+      "relation": "extra",
+      "reason": null
+     }
+    ],
+    "typed_parsed": {
+     "raw": "Zainab Bibi",
+     "script": "roman",
+     "titles": [],
+     "given": [
+      "zainab"
+     ],
+     "family": [
+      "bibi"
+     ],
+     "patronymic": null,
+     "tokens_canonical": [
+      "zainab",
+      "bibi"
+     ],
+     "transformations": []
+    },
+    "title_parsed": {
+     "raw": "TARIQ MEHMOOD",
+     "script": "roman",
+     "titles": [],
+     "given": [
+      "tariq",
+      "mehmood"
+     ],
+     "family": [],
+     "patronymic": null,
+     "tokens_canonical": [
+      "tariq",
+      "mehmood"
+     ],
+     "transformations": []
+    },
+    "urdu_parsed": {
+     "raw": "طارق محمود",
+     "script": "urdu",
+     "titles": [],
+     "given": [
+      "tariq",
+      "mehmood"
+     ],
+     "family": [],
+     "patronymic": null,
+     "tokens_canonical": [
+      "tariq",
+      "mehmood"
+     ],
+     "transformations": [
+      "script_converted:طارق->tariq",
+      "script_converted:محمود->mehmood"
+     ]
+    }
+   },
+   "ms": 2283
+  },
+  {
+   "step": "history",
+   "status": "ok",
+   "data": {
+    "prior_transfers": 0,
+    "first": null,
+    "last": null,
+    "months": null
+   },
+   "ms": 4
+  },
+  {
+   "step": "decision",
+   "status": "ok",
+   "data": {
+    "band": "NO_MATCH",
+    "action": "hold",
+    "banner": "Account exists. Name does not belong to it. This payment would have reached a stranger.",
+    "open_case": false
+   },
+   "ms": 0
+  },
+  {
+   "step": "phrase",
+   "status": "ok",
+   "data": {
+    "en": "The check indicates a different person.",
+    "ur": "چیک مختلف شخص کی نشاندہی کرتا ہے۔",
+    "source": "llm",
+    "egress_sha256": "f458e4da1c18c5f76c4d2ea6237fcd6cb3ee23b58549001d6a781643b24b4b2f"
+   },
+   "ms": 5296
+  },
+  {
+   "step": "ledger",
+   "status": "ok",
+   "data": {
+    "anchored": true,
+    "decision_hash": "7e75fc9bb8044fb775bcceb8c1f4dd7c1ba6f55547e73c6d91746df2e96bc01d",
+    "tx": "0x4280997239f1d82e7ee1045dc9b592acb2f94ea6cf3ee250689cf6cb0af6a2d6",
+    "block": 13,
+    "id": 4,
+    "epoch": 8
+   },
+   "ms": 2069
+  },
+  {
+   "step": "final",
+   "status": "ok",
+   "data": {
+    "scenario": "S3",
+    "case_id": null,
+    "payee_check_id": "pc-3977eda0df",
+    "bank": "MRGL",
+    "title": "TARIQ MEHMOOD",
+    "urdu_name": "طارق محمود",
+    "typed_name": "Zainab Bibi",
+    "band": "NO_MATCH",
+    "score": 0.0,
+    "reasons": [
+     "DIFFERENT_PERSON"
+    ],
+    "alignment": [
+     {
+      "typed_token": "Zainab",
+      "title_token": null,
+      "relation": "extra",
+      "reason": null
+     },
+     {
+      "typed_token": "Bibi",
+      "title_token": null,
+      "relation": "extra",
+      "reason": "SURNAME_MISSING"
+     },
+     {
+      "typed_token": null,
+      "title_token": "TARIQ",
+      "relation": "extra",
+      "reason": null
+     },
+     {
+      "typed_token": null,
+      "title_token": "MEHMOOD",
+      "relation": "extra",
+      "reason": null
+     }
+    ],
+    "history": {
+     "prior_transfers": 0,
+     "first": null,
+     "last": null,
+     "months": null
+    },
+    "decision": {
+     "action": "hold",
+     "banner": "Account exists. Name does not belong to it. This payment would have reached a stranger.",
+     "open_case": false
+    },
+    "phrase": {
+     "en": "The check indicates a different person.",
+     "ur": "چیک مختلف شخص کی نشاندہی کرتا ہے۔",
+     "source": "llm",
+     "egress_sha256": "f458e4da1c18c5f76c4d2ea6237fcd6cb3ee23b58549001d6a781643b24b4b2f"
+    },
+    "explain": {
+     "en": "The check indicates a different person.",
+     "ur": "چیک مختلف شخص کی نشاندہی کرتا ہے۔"
+    },
+    "ledger": {
+     "anchored": true,
+     "decision_hash": "7e75fc9bb8044fb775bcceb8c1f4dd7c1ba6f55547e73c6d91746df2e96bc01d",
+     "tx": "0x4280997239f1d82e7ee1045dc9b592acb2f94ea6cf3ee250689cf6cb0af6a2d6",
+     "block": 13,
+     "id": 4,
+     "epoch": 8
+    },
+    "banner": "Account exists. Name does not belong to it. This payment would have reached a stranger.",
+    "case_trigger": null
+   },
+   "ms": 0
+  }
+ ]
+}

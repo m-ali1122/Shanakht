@@ -1,0 +1,547 @@
+{
+ "recorded_from": "live",
+ "events": [],
+ "result": {
+  "scenario": "S5",
+  "focus_ids": [
+   "RM-S5",
+   "R-MRGL-S5-1",
+   "R-MRGL-S5-2",
+   "PK36RAVI0000000000050003",
+   "PK36RAVI0000000000050004",
+   "PK36INDS0000000000050005"
+  ],
+  "nodes": [
+   {
+    "data": {
+     "id": "R-MRGL-S5-1",
+     "label": "Usman Ghani",
+     "kind": "record",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Record:R-MRGL-S5-1"
+    }
+   },
+   {
+    "data": {
+     "id": "R-MRGL-S5-2",
+     "label": "M. Usman",
+     "kind": "record",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Record:R-MRGL-S5-2"
+    }
+   },
+   {
+    "data": {
+     "id": "RM-S5",
+     "label": "Faisal Nawaz",
+     "kind": "remitter",
+     "bank": null,
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Remitter:RM-S5"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36RAVI0000000000050003",
+     "label": "RAVI ··0003",
+     "kind": "account",
+     "bank": "RAVI",
+     "hollow": true,
+     "focus": true,
+     "tampered": false,
+     "eid": "Account:PK36RAVI0000000000050003"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36RAVI0000000000050004",
+     "label": "RAVI ··0004",
+     "kind": "account",
+     "bank": "RAVI",
+     "hollow": true,
+     "focus": true,
+     "tampered": false,
+     "eid": "Account:PK36RAVI0000000000050004"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36INDS0000000000050005",
+     "label": "INDS ··0005",
+     "kind": "account",
+     "bank": "INDS",
+     "hollow": true,
+     "focus": true,
+     "tampered": false,
+     "eid": "Account:PK36INDS0000000000050005"
+    }
+   },
+   {
+    "data": {
+     "id": "P-a9afb49ed6",
+     "label": "Usman Ghani",
+     "kind": "person",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Person:P-a9afb49ed6"
+    }
+   },
+   {
+    "data": {
+     "id": "ph:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "label": "e7edcb",
+     "kind": "phone",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Phone:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36MRGL0000000000050001",
+     "label": "MRGL ··0001",
+     "kind": "account",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Account:PK36MRGL0000000000050001"
+    }
+   },
+   {
+    "data": {
+     "id": "dv:b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898",
+     "label": "b9add9",
+     "kind": "device",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Device:b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898"
+    }
+   },
+   {
+    "data": {
+     "id": "P-27f1e7ce7e",
+     "label": "M Usman",
+     "kind": "person",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Person:P-27f1e7ce7e"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36MRGL0000000000050002",
+     "label": "MRGL ··0002",
+     "kind": "account",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Account:PK36MRGL0000000000050002"
+    }
+   },
+   {
+    "data": {
+     "id": "dv:2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489",
+     "label": "2555ca",
+     "kind": "device",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Device:2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489"
+    }
+   },
+   {
+    "data": {
+     "id": "D-1",
+     "label": "decision D-1",
+     "kind": "decision",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Decision:D-1"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+     "label": "58bae7",
+     "kind": "fingerprint",
+     "bank": "RAVI",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:RAVI:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+     "fpKind": "cnic"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "label": "e7edcb",
+     "kind": "fingerprint",
+     "bank": "INDS",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:INDS:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "fpKind": "phone"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "label": "374a6d",
+     "kind": "fingerprint",
+     "bank": "INDS",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:INDS:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "fpKind": "device"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+     "label": "b8956e",
+     "kind": "fingerprint",
+     "bank": "RAVI",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:RAVI:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+     "fpKind": "cnic"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+     "label": "23ac20",
+     "kind": "fingerprint",
+     "bank": "RAVI",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:RAVI:23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+     "fpKind": "device"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+     "label": "aa55e3",
+     "kind": "fingerprint",
+     "bank": "INDS",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:INDS:aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+     "fpKind": "cnic"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36INDS0000000000050006",
+     "label": "INDS ··0006",
+     "kind": "account",
+     "bank": "INDS",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Account:PK36INDS0000000000050006"
+    }
+   }
+  ],
+  "edges": [
+   {
+    "data": {
+     "id": "RESOLVES_TO:R-MRGL-S5-1>P-a9afb49ed6",
+     "source": "R-MRGL-S5-1",
+     "target": "P-a9afb49ed6",
+     "rel": "RESOLVES_TO",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_PHONE:R-MRGL-S5-1>ph:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "source": "R-MRGL-S5-1",
+     "target": "ph:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "rel": "USES_PHONE",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "HOLDS:R-MRGL-S5-1>PK36MRGL0000000000050001",
+     "source": "R-MRGL-S5-1",
+     "target": "PK36MRGL0000000000050001",
+     "rel": "HOLDS",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_DEVICE:R-MRGL-S5-1>dv:b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898",
+     "source": "R-MRGL-S5-1",
+     "target": "dv:b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898",
+     "rel": "USES_DEVICE",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "RESOLVES_TO:R-MRGL-S5-2>P-27f1e7ce7e",
+     "source": "R-MRGL-S5-2",
+     "target": "P-27f1e7ce7e",
+     "rel": "RESOLVES_TO",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "HOLDS:R-MRGL-S5-2>PK36MRGL0000000000050002",
+     "source": "R-MRGL-S5-2",
+     "target": "PK36MRGL0000000000050002",
+     "rel": "HOLDS",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_PHONE:R-MRGL-S5-2>ph:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "source": "R-MRGL-S5-2",
+     "target": "ph:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "rel": "USES_PHONE",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_DEVICE:R-MRGL-S5-2>dv:2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489",
+     "source": "R-MRGL-S5-2",
+     "target": "dv:2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489",
+     "rel": "USES_DEVICE",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "ABOUT:D-1>RM-S5",
+     "source": "D-1",
+     "target": "RM-S5",
+     "rel": "ABOUT",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "ABOUT:D-1>PK36RAVI0000000000050003",
+     "source": "D-1",
+     "target": "PK36RAVI0000000000050003",
+     "rel": "ABOUT",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36RAVI0000000000050003>fp:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+     "source": "PK36RAVI0000000000050003",
+     "target": "fp:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36RAVI0000000000050003>fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "source": "PK36RAVI0000000000050003",
+     "target": "fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36RAVI0000000000050003>fp:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "source": "PK36RAVI0000000000050003",
+     "target": "fp:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "ABOUT:D-1>PK36RAVI0000000000050004",
+     "source": "D-1",
+     "target": "PK36RAVI0000000000050004",
+     "rel": "ABOUT",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36RAVI0000000000050004>fp:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+     "source": "PK36RAVI0000000000050004",
+     "target": "fp:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36RAVI0000000000050004>fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "source": "PK36RAVI0000000000050004",
+     "target": "fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36RAVI0000000000050004>fp:23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+     "source": "PK36RAVI0000000000050004",
+     "target": "fp:23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "ABOUT:D-1>PK36INDS0000000000050005",
+     "source": "D-1",
+     "target": "PK36INDS0000000000050005",
+     "rel": "ABOUT",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36INDS0000000000050005>fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "source": "PK36INDS0000000000050005",
+     "target": "fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36INDS0000000000050005>fp:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "source": "PK36INDS0000000000050005",
+     "target": "fp:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36INDS0000000000050005>fp:aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+     "source": "PK36INDS0000000000050005",
+     "target": "fp:aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "SENT:RM-S5>PK36MRGL0000000000050002",
+     "source": "RM-S5",
+     "target": "PK36MRGL0000000000050002",
+     "rel": "SENT",
+     "label": "2"
+    }
+   },
+   {
+    "data": {
+     "id": "SENT:RM-S5>PK36MRGL0000000000050001",
+     "source": "RM-S5",
+     "target": "PK36MRGL0000000000050001",
+     "rel": "SENT",
+     "label": "2"
+    }
+   },
+   {
+    "data": {
+     "id": "SENT:RM-S5>PK36INDS0000000000050005",
+     "source": "RM-S5",
+     "target": "PK36INDS0000000000050005",
+     "rel": "SENT",
+     "label": "1"
+    }
+   },
+   {
+    "data": {
+     "id": "SENT:RM-S5>PK36RAVI0000000000050003",
+     "source": "RM-S5",
+     "target": "PK36RAVI0000000000050003",
+     "rel": "SENT",
+     "label": "1"
+    }
+   },
+   {
+    "data": {
+     "id": "SENT:RM-S5>PK36RAVI0000000000050004",
+     "source": "RM-S5",
+     "target": "PK36RAVI0000000000050004",
+     "rel": "SENT",
+     "label": "1"
+    }
+   },
+   {
+    "data": {
+     "id": "SAME_AS:ph:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9>fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "source": "ph:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "target": "fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+     "rel": "SAME_AS",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "ABOUT:D-1>PK36MRGL0000000000050001",
+     "source": "D-1",
+     "target": "PK36MRGL0000000000050001",
+     "rel": "ABOUT",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "ABOUT:D-1>PK36MRGL0000000000050002",
+     "source": "D-1",
+     "target": "PK36MRGL0000000000050002",
+     "rel": "ABOUT",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36INDS0000000000050006>fp:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "source": "PK36INDS0000000000050006",
+     "target": "fp:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "rel": "FP",
+     "label": null
+    }
+   }
+  ]
+ }
+}

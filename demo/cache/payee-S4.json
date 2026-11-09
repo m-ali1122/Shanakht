@@ -1,0 +1,233 @@
+{
+ "recorded_from": "live",
+ "events": [
+  {
+   "step": "title_fetch",
+   "status": "ok",
+   "data": {
+    "bank": "CHNB",
+    "title": "RAJA IMRAN AKRAM",
+    "urdu_name": "راجہ عمران اکرم",
+    "status": "FOUND"
+   },
+   "ms": 2765
+  },
+  {
+   "step": "compare",
+   "status": "ok",
+   "data": {
+    "band": "CLOSE",
+    "score": 0.8757,
+    "reasons": [
+     "VARIANT_SPELLING",
+     "TITLE_DROPPED",
+     "SCRIPT_CONVERTED"
+    ],
+    "alignment": [
+     {
+      "typed_token": "Imraan",
+      "title_token": "IMRAN",
+      "relation": "transliterated",
+      "reason": "VARIANT_SPELLING",
+      "urdu_token": "عمران"
+     },
+     {
+      "typed_token": "Akram",
+      "title_token": "AKRAM",
+      "relation": "exact",
+      "reason": null
+     },
+     {
+      "typed_token": null,
+      "title_token": "RAJA",
+      "relation": "dropped",
+      "reason": "TITLE_DROPPED"
+     }
+    ],
+    "typed_parsed": {
+     "raw": "Imraan Akram",
+     "script": "roman",
+     "titles": [],
+     "given": [
+      "imran",
+      "akram"
+     ],
+     "family": [],
+     "patronymic": null,
+     "tokens_canonical": [
+      "imran",
+      "akram"
+     ],
+     "transformations": [
+      "variant:imraan->imran"
+     ]
+    },
+    "title_parsed": {
+     "raw": "RAJA IMRAN AKRAM",
+     "script": "roman",
+     "titles": [
+      "raja"
+     ],
+     "given": [
+      "imran",
+      "akram"
+     ],
+     "family": [],
+     "patronymic": null,
+     "tokens_canonical": [
+      "imran",
+      "akram"
+     ],
+     "transformations": [
+      "title_stripped:raja"
+     ]
+    },
+    "urdu_parsed": {
+     "raw": "راجہ عمران اکرم",
+     "script": "urdu",
+     "titles": [
+      "raja"
+     ],
+     "given": [
+      "imran",
+      "akram"
+     ],
+     "family": [],
+     "patronymic": null,
+     "tokens_canonical": [
+      "imran",
+      "akram"
+     ],
+     "transformations": [
+      "script_converted:راجہ->raja",
+      "script_converted:عمران->imran",
+      "script_converted:اکرم->akram",
+      "title_stripped:raja"
+     ]
+    }
+   },
+   "ms": 2262
+  },
+  {
+   "step": "history",
+   "status": "ok",
+   "data": {
+    "prior_transfers": 3,
+    "first": "2026-08-05",
+    "last": "2026-10-05",
+    "months": 2
+   },
+   "ms": 4
+  },
+  {
+   "step": "decision",
+   "status": "ok",
+   "data": {
+    "band": "CLOSE",
+    "action": "review",
+    "open_case": true,
+    "banner": null,
+    "case_trigger": {
+     "type": "close_match",
+     "ref_ids": [
+      "RM-S4",
+      "PK36CHNB0000000000040001"
+     ]
+    },
+    "note": "3 prior transfers"
+   },
+   "ms": 0
+  },
+  {
+   "step": "phrase",
+   "status": "ok",
+   "data": {
+    "en": "The name matches closely with a variant spelling, title dropped and script converted.",
+    "ur": "نام ملتا جلتا ہے، مختلف املا، عنوان حذف شدہ اور اسکرپٹ تبدیل شدہ۔",
+    "source": "llm",
+    "egress_sha256": "a4ea7bf75c5bbd6e99ceba01308867763a33a6ae3155733046cd970fbaeee196"
+   },
+   "ms": 5563
+  },
+  {
+   "step": "final",
+   "status": "ok",
+   "data": {
+    "scenario": "S4",
+    "case_id": "case-85444b772f",
+    "payee_check_id": "pc-85444b772f",
+    "bank": "CHNB",
+    "title": "RAJA IMRAN AKRAM",
+    "urdu_name": "راجہ عمران اکرم",
+    "typed_name": "Imraan Akram",
+    "band": "CLOSE",
+    "score": 0.8757,
+    "reasons": [
+     "VARIANT_SPELLING",
+     "TITLE_DROPPED",
+     "SCRIPT_CONVERTED"
+    ],
+    "alignment": [
+     {
+      "typed_token": "Imraan",
+      "title_token": "IMRAN",
+      "relation": "transliterated",
+      "reason": "VARIANT_SPELLING",
+      "urdu_token": "عمران"
+     },
+     {
+      "typed_token": "Akram",
+      "title_token": "AKRAM",
+      "relation": "exact",
+      "reason": null
+     },
+     {
+      "typed_token": null,
+      "title_token": "RAJA",
+      "relation": "dropped",
+      "reason": "TITLE_DROPPED"
+     }
+    ],
+    "history": {
+     "prior_transfers": 3,
+     "first": "2026-08-05",
+     "last": "2026-10-05",
+     "months": 2
+    },
+    "decision": {
+     "action": "review",
+     "open_case": true,
+     "banner": null,
+     "case_trigger": {
+      "type": "close_match",
+      "ref_ids": [
+       "RM-S4",
+       "PK36CHNB0000000000040001"
+      ]
+     },
+     "note": "3 prior transfers"
+    },
+    "phrase": {
+     "en": "The name matches closely with a variant spelling, title dropped and script converted.",
+     "ur": "نام ملتا جلتا ہے، مختلف املا، عنوان حذف شدہ اور اسکرپٹ تبدیل شدہ۔",
+     "source": "llm",
+     "egress_sha256": "a4ea7bf75c5bbd6e99ceba01308867763a33a6ae3155733046cd970fbaeee196"
+    },
+    "explain": {
+     "en": "The name matches closely with a variant spelling, title dropped and script converted.",
+     "ur": "نام ملتا جلتا ہے، مختلف املا، عنوان حذف شدہ اور اسکرپٹ تبدیل شدہ۔"
+    },
+    "ledger": null,
+    "banner": null,
+    "case_trigger": {
+     "type": "close_match",
+     "ref_ids": [
+      "RM-S4",
+      "PK36CHNB0000000000040001"
+     ]
+    }
+   },
+   "ms": 1
+  }
+ ]
+}

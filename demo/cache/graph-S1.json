@@ -1,0 +1,133 @@
+{
+ "recorded_from": "live",
+ "events": [],
+ "result": {
+  "scenario": "S1",
+  "focus_ids": [
+   "RM-S1",
+   "PK36MRGL0000000000010001",
+   "R-MRGL-S1"
+  ],
+  "nodes": [
+   {
+    "data": {
+     "id": "R-MRGL-S1",
+     "label": "Ayesha Siddiqui",
+     "kind": "record",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Record:R-MRGL-S1"
+    }
+   },
+   {
+    "data": {
+     "id": "RM-S1",
+     "label": "Kamran Butt",
+     "kind": "remitter",
+     "bank": null,
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Remitter:RM-S1"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36MRGL0000000000010001",
+     "label": "MRGL ··0001",
+     "kind": "account",
+     "bank": "MRGL",
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Account:PK36MRGL0000000000010001"
+    }
+   },
+   {
+    "data": {
+     "id": "P-a18016a524",
+     "label": "Ayesha Siddiqui",
+     "kind": "person",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Person:P-a18016a524"
+    }
+   },
+   {
+    "data": {
+     "id": "ph:8626ebef62916a7e230a483a6966117d05a3a322f731a3c507de664e5252b2be",
+     "label": "8626eb",
+     "kind": "phone",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Phone:8626ebef62916a7e230a483a6966117d05a3a322f731a3c507de664e5252b2be"
+    }
+   },
+   {
+    "data": {
+     "id": "dv:302d5ff885b9eb329421b2b9d19f653e44483b685b419c2c28c427db5f2151e1",
+     "label": "302d5f",
+     "kind": "device",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Device:302d5ff885b9eb329421b2b9d19f653e44483b685b419c2c28c427db5f2151e1"
+    }
+   }
+  ],
+  "edges": [
+   {
+    "data": {
+     "id": "RESOLVES_TO:R-MRGL-S1>P-a18016a524",
+     "source": "R-MRGL-S1",
+     "target": "P-a18016a524",
+     "rel": "RESOLVES_TO",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_PHONE:R-MRGL-S1>ph:8626ebef62916a7e230a483a6966117d05a3a322f731a3c507de664e5252b2be",
+     "source": "R-MRGL-S1",
+     "target": "ph:8626ebef62916a7e230a483a6966117d05a3a322f731a3c507de664e5252b2be",
+     "rel": "USES_PHONE",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "HOLDS:R-MRGL-S1>PK36MRGL0000000000010001",
+     "source": "R-MRGL-S1",
+     "target": "PK36MRGL0000000000010001",
+     "rel": "HOLDS",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "USES_DEVICE:R-MRGL-S1>dv:302d5ff885b9eb329421b2b9d19f653e44483b685b419c2c28c427db5f2151e1",
+     "source": "R-MRGL-S1",
+     "target": "dv:302d5ff885b9eb329421b2b9d19f653e44483b685b419c2c28c427db5f2151e1",
+     "rel": "USES_DEVICE",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "SENT:RM-S1>PK36MRGL0000000000010001",
+     "source": "RM-S1",
+     "target": "PK36MRGL0000000000010001",
+     "rel": "SENT",
+     "label": "5"
+    }
+   }
+  ]
+ }
+}

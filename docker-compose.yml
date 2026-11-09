@@ -1,0 +1,59 @@
+services:
+  neo4j:
+    image: neo4j:5
+    container_name: shanakht-neo4j
+    ports: ["7474:7474", "7687:7687"]
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER:-neo4j}/${NEO4J_PASSWORD:-shanakht2026}
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*
+      NEO4J_server_memory_heap_max__size: 1G
+    volumes: [neo4j_data:/data]
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 || exit 1"]
+      interval: 5s
+      retries: 30
+
+  # Optional: run everything in containers (dev default runs these natively).
+  chain:
+    profiles: [full]
+    image: node:22
+    working_dir: /app
+    volumes: [./chain:/app]
+    command: sh -c "npm install && npx hardhat node --hostname 0.0.0.0"
+    ports: ["8545:8545"]
+
+  banks:
+    profiles: [full]
+    image: python:3.11-slim
+    working_dir: /app
+    volumes: [.:/app]
+    env_file: .env
+    command: sh -c "pip install -q -r services/banks/requirements.txt && uvicorn --app-dir services/banks main:app --host 0.0.0.0 --port 8101"
+    ports: ["8101:8101"]
+
+  resolver:
+    profiles: [full]
+    image: python:3.11-slim
+    working_dir: /app
+    volumes: [.:/app]
+    env_file: .env
+    command: sh -c "pip install -q -r services/resolver/requirements.txt && uvicorn --app-dir services/resolver main:app --host 0.0.0.0 --port 8102"
+    ports: ["8102:8102"]
+
+  agent:
+    profiles: [full]
+    image: python:3.11-slim
+    working_dir: /app
+    volumes: [.:/app]
+    env_file: .env
+    environment:
+      NEO4J_URI: bolt://neo4j:7687
+      CHAIN_RPC: http://chain:8545
+      RESOLVER_URL: http://resolver:8102
+      BANKS_URL: http://banks:8101
+    command: sh -c "pip install -q -r services/agent/requirements.txt && uvicorn --app-dir services/agent main:app --host 0.0.0.0 --port 8103"
+    ports: ["8103:8103"]
+
+volumes:
+  neo4j_data:

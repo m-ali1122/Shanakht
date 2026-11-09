@@ -1,0 +1,230 @@
+{
+ "recorded_from": "live",
+ "events": [
+  {
+   "step": "title_fetch",
+   "status": "ok",
+   "data": {
+    "bank": "RAVI",
+    "title": "MUHAMMAD ALI",
+    "urdu_name": "محمد علی",
+    "status": "FOUND"
+   },
+   "ms": 2805
+  },
+  {
+   "step": "compare",
+   "status": "ok",
+   "data": {
+    "band": "CLOSE",
+    "score": 0.9083,
+    "reasons": [
+     "INITIAL_EXPANDED",
+     "PATRONYMIC_DROPPED"
+    ],
+    "alignment": [
+     {
+      "typed_token": "Mohd",
+      "title_token": "MUHAMMAD",
+      "relation": "initial",
+      "reason": "INITIAL_EXPANDED"
+     },
+     {
+      "typed_token": "Ali",
+      "title_token": "ALI",
+      "relation": "exact",
+      "reason": null
+     },
+     {
+      "typed_token": "Rehmat",
+      "title_token": null,
+      "relation": "dropped",
+      "reason": "PATRONYMIC_DROPPED",
+      "patronymic": "s/o"
+     }
+    ],
+    "typed_parsed": {
+     "raw": "Mohd Ali s/o Rehmat",
+     "script": "roman",
+     "titles": [],
+     "given": [
+      "muhammad",
+      "ali"
+     ],
+     "family": [],
+     "patronymic": {
+      "relation": "s/o",
+      "name": "rehmat",
+      "tokens": [
+       "rehmat"
+      ]
+     },
+     "tokens_canonical": [
+      "muhammad",
+      "ali"
+     ],
+     "transformations": [
+      "patronymic_split:s/o",
+      "initial_expanded:mohd->muhammad"
+     ]
+    },
+    "title_parsed": {
+     "raw": "MUHAMMAD ALI",
+     "script": "roman",
+     "titles": [],
+     "given": [
+      "muhammad",
+      "ali"
+     ],
+     "family": [],
+     "patronymic": null,
+     "tokens_canonical": [
+      "muhammad",
+      "ali"
+     ],
+     "transformations": []
+    },
+    "urdu_parsed": {
+     "raw": "محمد علی",
+     "script": "urdu",
+     "titles": [],
+     "given": [
+      "muhammad",
+      "ali"
+     ],
+     "family": [],
+     "patronymic": null,
+     "tokens_canonical": [
+      "muhammad",
+      "ali"
+     ],
+     "transformations": [
+      "script_converted:محمد->muhammad",
+      "script_converted:علی->ali"
+     ]
+    }
+   },
+   "ms": 2278
+  },
+  {
+   "step": "history",
+   "status": "ok",
+   "data": {
+    "prior_transfers": 7,
+    "first": "2026-06-02",
+    "last": "2026-11-01",
+    "months": 5
+   },
+   "ms": 4
+  },
+  {
+   "step": "decision",
+   "status": "ok",
+   "data": {
+    "band": "CLOSE",
+    "action": "review",
+    "open_case": true,
+    "banner": null,
+    "case_trigger": {
+     "type": "close_match",
+     "ref_ids": [
+      "RM-S2",
+      "PK36RAVI0000000000020001"
+     ]
+    },
+    "note": "7 prior transfers"
+   },
+   "ms": 0
+  },
+  {
+   "step": "phrase",
+   "status": "ok",
+   "data": {
+    "en": "The name matches with an initial expanded and a patronymic dropped.",
+    "ur": "نام میں ابتدائی توسیع اور خاندانی نام حذف ہوا ہے۔",
+    "source": "llm",
+    "egress_sha256": "e3d0db31ab4bb78c8bd3fd2c610bff377d019967241fca6cf11c94766a4ac78b"
+   },
+   "ms": 5632
+  },
+  {
+   "step": "final",
+   "status": "ok",
+   "data": {
+    "scenario": "S2",
+    "case_id": "case-4b9c5ef93d",
+    "payee_check_id": "pc-4b9c5ef93d",
+    "bank": "RAVI",
+    "title": "MUHAMMAD ALI",
+    "urdu_name": "محمد علی",
+    "typed_name": "Mohd Ali s/o Rehmat",
+    "band": "CLOSE",
+    "score": 0.9083,
+    "reasons": [
+     "INITIAL_EXPANDED",
+     "PATRONYMIC_DROPPED"
+    ],
+    "alignment": [
+     {
+      "typed_token": "Mohd",
+      "title_token": "MUHAMMAD",
+      "relation": "initial",
+      "reason": "INITIAL_EXPANDED"
+     },
+     {
+      "typed_token": "Ali",
+      "title_token": "ALI",
+      "relation": "exact",
+      "reason": null
+     },
+     {
+      "typed_token": "Rehmat",
+      "title_token": null,
+      "relation": "dropped",
+      "reason": "PATRONYMIC_DROPPED",
+      "patronymic": "s/o"
+     }
+    ],
+    "history": {
+     "prior_transfers": 7,
+     "first": "2026-06-02",
+     "last": "2026-11-01",
+     "months": 5
+    },
+    "decision": {
+     "action": "review",
+     "open_case": true,
+     "banner": null,
+     "case_trigger": {
+      "type": "close_match",
+      "ref_ids": [
+       "RM-S2",
+       "PK36RAVI0000000000020001"
+      ]
+     },
+     "note": "7 prior transfers"
+    },
+    "phrase": {
+     "en": "The name matches with an initial expanded and a patronymic dropped.",
+     "ur": "نام میں ابتدائی توسیع اور خاندانی نام حذف ہوا ہے۔",
+     "source": "llm",
+     "egress_sha256": "e3d0db31ab4bb78c8bd3fd2c610bff377d019967241fca6cf11c94766a4ac78b"
+    },
+    "explain": {
+     "en": "The name matches with an initial expanded and a patronymic dropped.",
+     "ur": "نام میں ابتدائی توسیع اور خاندانی نام حذف ہوا ہے۔"
+    },
+    "ledger": null,
+    "banner": null,
+    "case_trigger": {
+     "type": "close_match",
+     "ref_ids": [
+      "RM-S2",
+      "PK36RAVI0000000000020001"
+     ]
+    }
+   },
+   "ms": 1
+  }
+ ]
+}

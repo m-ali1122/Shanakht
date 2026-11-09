@@ -1,0 +1,13 @@
+[project]
+name = "shanakht-resolver"
+version = "0.1.0"
+description = "Pakistani name parser and entity-resolution core (TaxNet port)"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi", "uvicorn[standard]", "pydantic>=2", "numpy", "scikit-learn",
+  "sentence-transformers", "metaphone", "pyphonetics", "unidecode",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

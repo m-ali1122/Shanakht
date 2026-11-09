@@ -1,0 +1,89 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-match: var(--match);
+  --color-close: var(--close);
+  --color-nomatch: var(--nomatch);
+  --color-bank-mrgl: var(--bank-mrgl);
+  --color-bank-ravi: var(--bank-ravi);
+  --color-bank-chnb: var(--bank-chnb);
+  --color-bank-inds: var(--bank-inds);
+  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-urdu: var(--font-nastaliq), "Noto Nastaliq Urdu", serif;
+  --radius-ds: var(--radius);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* Section label: small uppercase, tracked, muted */
+.label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.urdu {
+  font-family: var(--font-urdu);
+  direction: rtl;
+  line-height: 2.2;
+  unicode-bidi: isolate;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.band-tint-MATCH   { background: color-mix(in srgb, var(--match) 12%, var(--surface)); border-left: 3px solid var(--match); }
+.band-tint-CLOSE   { background: color-mix(in srgb, var(--close) 12%, var(--surface)); border-left: 3px solid var(--close); }
+.band-tint-NO_MATCH{ background: color-mix(in srgb, var(--nomatch) 12%, var(--surface)); border-left: 3px solid var(--nomatch); }
+.band-tint-RING    { background: color-mix(in srgb, var(--nomatch) 12%, var(--surface)); border-left: 3px solid var(--nomatch); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@keyframes slide-in-right {
+  from { transform: translateX(24px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+.slide-in { animation: slide-in-right 200ms ease-out both; }
+
+@keyframes line-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: none; }
+}
+.line-in { animation: line-in 150ms ease-out both; }
+
+@keyframes chip-flash {
+  0%   { background: var(--surface); }
+  30%  { background: color-mix(in srgb, var(--nomatch) 22%, var(--surface)); }
+  100% { background: var(--surface); }
+}
+.chip-flash { animation: chip-flash 1600ms ease-out 1; }
+
+.scroll-thin { scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }

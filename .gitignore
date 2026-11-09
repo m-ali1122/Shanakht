@@ -1,0 +1,21 @@
+.env
+.venv/
+node_modules/
+.next/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/out/
+chain/artifacts/
+chain/cache/
+chain/typechain-types/
+services/agent/state/
+*.sqlite
+*.db
+
+# local logs and scratch
+*.log
+.s5run.txt
+
+# large model weights (copy from TaxNet: backend/models/pak-name-matcher-v1)
+services/resolver/models/

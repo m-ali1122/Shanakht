@@ -1,0 +1,50 @@
+{
+ "recorded_from": "live",
+ "events": [],
+ "result": {
+  "transcript": "Which remitters sent to more than three banks this quarter?",
+  "language": "en",
+  "language_detection": {
+   "language": "en",
+   "script": "latin",
+   "method": "keywords",
+   "hits": []
+  },
+  "case_id": "voice-71f447ae10",
+  "cypher_attempts": [
+   {
+    "attempt": 1,
+    "query": "MATCH (r:Remitter)-[:SENT]->(t:Transfer)-[:TO]->(a:Account)-[:AT]->(b:Bank)\nWHERE t.ts >= datetime('2026-10-01T00:00:00Z')\nWITH r, count(DISTINCT b.code) AS banks\nWHERE banks > 3\nRETURN r.rmid AS rmid, r.name AS name, banks\nORDER BY banks DESC\nLIMIT 200",
+    "ok": true,
+    "status": "ok",
+    "error": null,
+    "repair": false
+   }
+  ],
+  "rows": 1,
+  "answer": "Naveed Abbasi sent to 4 banks this quarter.",
+  "highlight_ids": [
+   "RM-RC"
+  ],
+  "rows_data": [
+   {
+    "rmid": "RM-RC",
+    "name": "Naveed Abbasi",
+    "banks": 4
+   }
+  ],
+  "integrity": {
+   "step": "integrity",
+   "status": "ok",
+   "data": {
+    "verified": 1,
+    "total": 1,
+    "excluded_rows": 0,
+    "excluded_elements": [],
+    "epoch": 14,
+    "root": "0x9bd6ff529d28ba3deccbd81e505d5ea5ab8e1a8b2861d9cf1d25fbb4b249c3dd",
+    "note": ""
+   }
+  }
+ }
+}

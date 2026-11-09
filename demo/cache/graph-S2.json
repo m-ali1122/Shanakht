@@ -1,0 +1,114 @@
+{
+ "recorded_from": "live",
+ "events": [],
+ "result": {
+  "scenario": "S2",
+  "focus_ids": [
+   "RM-S2",
+   "PK36RAVI0000000000020001"
+  ],
+  "nodes": [
+   {
+    "data": {
+     "id": "RM-S2",
+     "label": "Rehmat Ali",
+     "kind": "remitter",
+     "bank": null,
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Remitter:RM-S2"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36RAVI0000000000020001",
+     "label": "RAVI ··0001",
+     "kind": "account",
+     "bank": "RAVI",
+     "hollow": true,
+     "focus": true,
+     "tampered": false,
+     "eid": "Account:PK36RAVI0000000000020001"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:165adfd08b39e02a871062f0071226d9839607c54ff177eb893e463c939ea155",
+     "label": "165adf",
+     "kind": "fingerprint",
+     "bank": "RAVI",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:RAVI:165adfd08b39e02a871062f0071226d9839607c54ff177eb893e463c939ea155",
+     "fpKind": "phone"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:24491e20c456f5ccd82aca0b1b7f9be5c18844d15bc9d1e6c7bd08012632ea94",
+     "label": "24491e",
+     "kind": "fingerprint",
+     "bank": "RAVI",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:RAVI:24491e20c456f5ccd82aca0b1b7f9be5c18844d15bc9d1e6c7bd08012632ea94",
+     "fpKind": "device"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:6d34f3d4c1401c15394f3bf7fda255e7ba92160444f292b317f9ac396461f397",
+     "label": "6d34f3",
+     "kind": "fingerprint",
+     "bank": "RAVI",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:RAVI:6d34f3d4c1401c15394f3bf7fda255e7ba92160444f292b317f9ac396461f397",
+     "fpKind": "cnic"
+    }
+   }
+  ],
+  "edges": [
+   {
+    "data": {
+     "id": "FP:PK36RAVI0000000000020001>fp:165adfd08b39e02a871062f0071226d9839607c54ff177eb893e463c939ea155",
+     "source": "PK36RAVI0000000000020001",
+     "target": "fp:165adfd08b39e02a871062f0071226d9839607c54ff177eb893e463c939ea155",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36RAVI0000000000020001>fp:24491e20c456f5ccd82aca0b1b7f9be5c18844d15bc9d1e6c7bd08012632ea94",
+     "source": "PK36RAVI0000000000020001",
+     "target": "fp:24491e20c456f5ccd82aca0b1b7f9be5c18844d15bc9d1e6c7bd08012632ea94",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36RAVI0000000000020001>fp:6d34f3d4c1401c15394f3bf7fda255e7ba92160444f292b317f9ac396461f397",
+     "source": "PK36RAVI0000000000020001",
+     "target": "fp:6d34f3d4c1401c15394f3bf7fda255e7ba92160444f292b317f9ac396461f397",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "SENT:RM-S2>PK36RAVI0000000000020001",
+     "source": "RM-S2",
+     "target": "PK36RAVI0000000000020001",
+     "rel": "SENT",
+     "label": "7"
+    }
+   }
+  ]
+ }
+}

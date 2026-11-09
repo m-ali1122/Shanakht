@@ -1,0 +1,650 @@
+{
+ "recorded_from": "live",
+ "events": [
+  {
+   "step": "start",
+   "status": "ok",
+   "data": {
+    "case_id": "case-5d1c842ede",
+    "trigger": {
+     "type": "ring_alert",
+     "ref_ids": [
+      "RM-S5"
+     ]
+    },
+    "max_tool_calls": 6
+   },
+   "ms": 2
+  },
+  {
+   "step": "model",
+   "status": "ok",
+   "data": {
+    "purpose": "case_agent",
+    "egress_sha256": "2ca0a13cb752034a198c01d367f6b8c7bc65fb5102ed1e8e14e1bb8d382c9e5c",
+    "tool_calls": [
+     "run_cypher"
+    ],
+    "ms": 2559
+   },
+   "ms": 2559
+  },
+  {
+   "step": "cypher",
+   "status": "ok",
+   "data": {
+    "attempt": 1,
+    "tool_call": 1,
+    "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account) RETURN a.iban AS iban, t.tid AS tid, t.ts AS ts ORDER BY t.ts DESC LIMIT 200",
+    "purpose": "Get transfers from remitter RM-S5",
+    "repair": false,
+    "repair_n": 0,
+    "row_count": 7,
+    "rows": [
+     {
+      "iban": "PK36MRGL0000000000050002",
+      "tid": "T000026",
+      "ts": "2026-10-16T02:12:00.000000000+00:00"
+     },
+     {
+      "iban": "PK36MRGL0000000000050001",
+      "tid": "T000025",
+      "ts": "2026-10-15T18:05:00.000000000+00:00"
+     },
+     {
+      "iban": "PK36INDS0000000000050005",
+      "tid": "T000024",
+      "ts": "2026-10-15T10:58:00.000000000+00:00"
+     },
+     {
+      "iban": "PK36RAVI0000000000050004",
+      "tid": "T000023",
+      "ts": "2026-10-15T03:51:00.000000000+00:00"
+     },
+     {
+      "iban": "PK36RAVI0000000000050003",
+      "tid": "T000022",
+      "ts": "2026-10-14T19:44:00.000000000+00:00"
+     },
+     {
+      "iban": "PK36MRGL0000000000050002",
+      "tid": "T000021",
+      "ts": "2026-10-14T13:37:00.000000000+00:00"
+     },
+     {
+      "iban": "PK36MRGL0000000000050001",
+      "tid": "T000020",
+      "ts": "2026-10-14T08:30:00.000000000+00:00"
+     }
+    ]
+   },
+   "ms": 163
+  },
+  {
+   "step": "integrity",
+   "status": "ok",
+   "data": {
+    "verified": 12,
+    "total": 12,
+    "excluded_rows": 0,
+    "excluded_elements": [],
+    "epoch": 16,
+    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+    "note": ""
+   },
+   "ms": 0
+  },
+  {
+   "step": "model",
+   "status": "ok",
+   "data": {
+    "purpose": "case_agent",
+    "egress_sha256": "a2978cc36ebf874a72d31d4ca4fc6b5849959817715ac24545534b116be7c7b9",
+    "tool_calls": [
+     "run_cypher"
+    ],
+    "ms": 1095
+   },
+   "ms": 1096
+  },
+  {
+   "step": "cypher",
+   "status": "ok",
+   "data": {
+    "attempt": 2,
+    "tool_call": 2,
+    "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(r) WHERE a.iban <> b.iban RETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\nLIMIT 200",
+    "purpose": "Find shared fingerprints among RM-S5 beneficiaries",
+    "repair": false,
+    "repair_n": 0,
+    "row_count": 8,
+    "rows": [
+     {
+      "a_iban": "PK36INDS0000000000050005",
+      "b_iban": "PK36RAVI0000000000050003",
+      "fp": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+     },
+     {
+      "a_iban": "PK36INDS0000000000050005",
+      "b_iban": "PK36RAVI0000000000050004",
+      "fp": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+     },
+     {
+      "a_iban": "PK36INDS0000000000050005",
+      "b_iban": "PK36RAVI0000000000050003",
+      "fp": "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb"
+     },
+     {
+      "a_iban": "PK36RAVI0000000000050003",
+      "b_iban": "PK36INDS0000000000050005",
+      "fp": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+     },
+     {
+      "a_iban": "PK36RAVI0000000000050003",
+      "b_iban": "PK36RAVI0000000000050004",
+      "fp": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+     },
+     {
+      "a_iban": "PK36RAVI0000000000050003",
+      "b_iban": "PK36INDS0000000000050005",
+      "fp": "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb"
+     },
+     {
+      "a_iban": "PK36RAVI0000000000050004",
+      "b_iban": "PK36INDS0000000000050005",
+      "fp": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+     },
+     {
+      "a_iban": "PK36RAVI0000000000050004",
+      "b_iban": "PK36RAVI0000000000050003",
+      "fp": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+     }
+    ]
+   },
+   "ms": 110
+  },
+  {
+   "step": "integrity",
+   "status": "ok",
+   "data": {
+    "verified": 6,
+    "total": 6,
+    "excluded_rows": 0,
+    "excluded_elements": [],
+    "epoch": 16,
+    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+    "note": ""
+   },
+   "ms": 0
+  },
+  {
+   "step": "model",
+   "status": "ok",
+   "data": {
+    "purpose": "case_agent",
+    "egress_sha256": "017b7d38acbf16c296a5c112794ee243d9d0134f017b44cbef57f74aa867827d",
+    "tool_calls": [
+     "get_registry_status"
+    ],
+    "ms": 2460
+   },
+   "ms": 2461
+  },
+  {
+   "step": "registry",
+   "status": "ok",
+   "data": {
+    "flagged": false
+   },
+   "ms": 8
+  },
+  {
+   "step": "model",
+   "status": "ok",
+   "data": {
+    "purpose": "case_agent",
+    "egress_sha256": "655a1b15b49de76174c14695918245c9533eacd4d3bd4ee1eb57c35ace09f945",
+    "tool_calls": [
+     "get_registry_status"
+    ],
+    "ms": 820
+   },
+   "ms": 820
+  },
+  {
+   "step": "registry",
+   "status": "ok",
+   "data": {
+    "flagged": false
+   },
+   "ms": 11
+  },
+  {
+   "step": "model",
+   "status": "ok",
+   "data": {
+    "purpose": "case_agent",
+    "egress_sha256": "e700825cfc8c8fcff6646c06ef501d7f49e05c8bfa717d08cc1836ed5b7cb4f8",
+    "tool_calls": [
+     "propose_action"
+    ],
+    "ms": 13740
+   },
+   "ms": 13740
+  },
+  {
+   "step": "propose_action",
+   "status": "ok",
+   "data": {
+    "action": "hold_and_publish",
+    "rationale": "RM-S5 sent three transfers to PK36INDS0000000000050005 (T000024, 2026-10-15T10:58), PK36RAVI0000000000050004 (T000023, 2026-10-15T03:51) and PK36RAVI0000000000050003 (T000022, 2026-10-14T19:44). All three accounts share Fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 (and PK36INDS0000000000050005/5 also share 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb). The transfers occurred within a two‑day window, forming a clustered ring of ≥3 beneficiaries. Both e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 and 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb are not flagged in the consortium registry. Hold the payment and publish the shared fingerprints to the registry."
+   },
+   "ms": 0
+  },
+  {
+   "step": "model",
+   "status": "ok",
+   "data": {
+    "purpose": "case_agent",
+    "egress_sha256": "1dfe540e669ad1d76b961eaae35957e8289f6a9dad4f7cb1c22c569acb27a4f4",
+    "tool_calls": [],
+    "ms": 23047
+   },
+   "ms": 23047
+  },
+  {
+   "step": "model",
+   "status": "ok",
+   "data": {
+    "purpose": "case_output",
+    "egress_sha256": "5c0a954df415d1de14d5940a1fae40fa34137b506b3195d7c3db60f950ad30bd",
+    "ms": 10974
+   },
+   "ms": 10975
+  },
+  {
+   "step": "validate",
+   "status": "ok",
+   "data": {
+    "schema": "CASE_OUTPUT"
+   },
+   "ms": 5
+  },
+  {
+   "step": "publish_list",
+   "status": "ok",
+   "data": {
+    "added": [
+     "374a6d3dc00a5058"
+    ],
+    "note": "all fingerprints shared by 2+ ring accounts"
+   },
+   "ms": 2158
+  },
+  {
+   "step": "evidence",
+   "status": "ok",
+   "data": {
+    "items": 3,
+    "stripped": []
+   },
+   "ms": 0
+  },
+  {
+   "step": "final",
+   "status": "ok",
+   "data": {
+    "trigger": "ring_alert",
+    "narrative": "Remitter RM‑S5 sent five transfers between 2026‑10‑14 and 2026‑10‑16 to four beneficiary accounts (PK36MRGL0000000000050002, PK36MRGL0000000000050001, PK36INDS0000000000050005, PK36RAVI0000000000050004, PK36RAVI0000000000050003). Three distinct beneficiaries (PK36INDS0000000000050005, PK36RAVI0000000000050004, PK36RAVI0000000000050003) received payments within a two‑day window and share Fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 (also 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb between PK36INDS0000000000050005 and PK36RAVI0000000000050003). The clustered timing and shared fingerprint form a ring of ≥3 beneficiaries, indicating elevated fraud risk.",
+    "narrative_ur": "Remitter RM‑S5 نے 2026‑10‑14 سے 2026‑10‑16 کے درمیان پانچ ٹرانسفرز کیں، جن میں PK36INDS0000000000050005، PK36RAVI0000000000050004 اور PK36RAVI0000000000050003 تین مختلف Beneficiary اکاؤنٹس ہیں جو دو دن کے اندر e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 فنگر پرنٹ شیئر کرتے ہیں۔ یہ کلسٹرڈ رِنگ ممکنہ فراڈ کا اشارہ دیتی ہے۔",
+    "evidence": [
+     {
+      "claim": "Transfers from RM‑S5 to beneficiaries within a short window",
+      "node_ids": [
+       "RM-S5",
+       "T000024",
+       "PK36INDS0000000000050005",
+       "T000023",
+       "PK36RAVI0000000000050004",
+       "T000022",
+       "PK36RAVI0000000000050003",
+       "T000021",
+       "PK36MRGL0000000000050002",
+       "T000020",
+       "PK36MRGL0000000000050001"
+      ]
+     },
+     {
+      "claim": "Shared fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 links three beneficiaries",
+      "node_ids": [
+       "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+       "PK36INDS0000000000050005",
+       "PK36RAVI0000000000050004",
+       "PK36RAVI0000000000050003"
+      ]
+     },
+     {
+      "claim": "Additional shared fingerprint 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb between PK36INDS0000000000050005 and PK36RAVI0000000000050003",
+      "node_ids": [
+       "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+       "PK36INDS0000000000050005",
+       "PK36RAVI0000000000050003"
+      ]
+     }
+    ],
+    "risk": "high",
+    "recommended_action": "hold_and_publish",
+    "fingerprints_to_publish": [
+     "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+    ],
+    "confidence": 0.92,
+    "open_questions": [
+     "Are the shared fingerprints genuine or spoofed?",
+     "What are the true identities behind PK36INDS0000000000050005, PK36RAVI0000000000050004, and PK36RAVI0000000000050003?",
+     "What is the source and purpose of the funds transferred?"
+    ],
+    "id": "case-5d1c842ede",
+    "case_id": "case-5d1c842ede",
+    "integrity": {
+     "verified": 25,
+     "total": 25,
+     "epoch": 16,
+     "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+     "block": 9,
+     "items": [
+      {
+       "id": "PK36INDS0000000000050005",
+       "element_id": "Account:PK36INDS0000000000050005",
+       "label": "Account",
+       "leaf": "0xb288e95438aa14",
+       "status": "verified"
+      },
+      {
+       "id": "PK36MRGL0000000000050001",
+       "element_id": "Account:PK36MRGL0000000000050001",
+       "label": "Account",
+       "leaf": "0xb2d628aa98c5d4",
+       "status": "verified"
+      },
+      {
+       "id": "PK36MRGL0000000000050002",
+       "element_id": "Account:PK36MRGL0000000000050002",
+       "label": "Account",
+       "leaf": "0x84fe76597a8cda",
+       "status": "verified"
+      },
+      {
+       "id": "PK36RAVI0000000000050003",
+       "element_id": "Account:PK36RAVI0000000000050003",
+       "label": "Account",
+       "leaf": "0x6b70ce4465d6f8",
+       "status": "verified"
+      },
+      {
+       "id": "PK36RAVI0000000000050004",
+       "element_id": "Account:PK36RAVI0000000000050004",
+       "label": "Account",
+       "leaf": "0x333b28f8212e62",
+       "status": "verified"
+      },
+      {
+       "id": "INDS",
+       "element_id": "Bank:INDS",
+       "label": "Bank",
+       "leaf": "0xd6e86cacf879b1",
+       "status": "verified"
+      },
+      {
+       "id": "MRGL",
+       "element_id": "Bank:MRGL",
+       "label": "Bank",
+       "leaf": "0xc36fb9dfd0b56e",
+       "status": "verified"
+      },
+      {
+       "id": "RAVI",
+       "element_id": "Bank:RAVI",
+       "label": "Bank",
+       "leaf": "0x6d24387cb700be",
+       "status": "verified"
+      },
+      {
+       "id": "2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489",
+       "element_id": "Device:2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489",
+       "label": "Device",
+       "leaf": "0x0b7eac110dd28b",
+       "status": "verified"
+      },
+      {
+       "id": "b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898",
+       "element_id": "Device:b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898",
+       "label": "Device",
+       "leaf": "0x26365888d0e186",
+       "status": "verified"
+      },
+      {
+       "id": "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+       "element_id": "Fingerprint:INDS:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+       "label": "Fingerprint",
+       "leaf": "0xba4cd70e33ca3f",
+       "status": "verified"
+      },
+      {
+       "id": "aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+       "element_id": "Fingerprint:INDS:aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+       "label": "Fingerprint",
+       "leaf": "0x258b9dc1d62020",
+       "status": "verified"
+      },
+      {
+       "id": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+       "element_id": "Fingerprint:INDS:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+       "label": "Fingerprint",
+       "leaf": "0xb1bd0db859b001",
+       "status": "verified"
+      },
+      {
+       "id": "23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+       "element_id": "Fingerprint:RAVI:23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+       "label": "Fingerprint",
+       "leaf": "0x86e14adda6e700",
+       "status": "verified"
+      },
+      {
+       "id": "58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+       "element_id": "Fingerprint:RAVI:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+       "label": "Fingerprint",
+       "leaf": "0x2e63284ba8cac5",
+       "status": "verified"
+      },
+      {
+       "id": "b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+       "element_id": "Fingerprint:RAVI:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+       "label": "Fingerprint",
+       "leaf": "0x5b3aa60db0edfb",
+       "status": "verified"
+      },
+      {
+       "id": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+       "element_id": "Phone:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+       "label": "Phone",
+       "leaf": "0xc5ed81b3e0bbcb",
+       "status": "verified"
+      },
+      {
+       "id": "RM-S5",
+       "element_id": "Remitter:RM-S5",
+       "label": "Remitter",
+       "leaf": "0x8cedd976f5c7d2",
+       "status": "verified"
+      },
+      {
+       "id": "T000020",
+       "element_id": "Transfer:T000020",
+       "label": "Transfer",
+       "leaf": "0x2056cd5d7d113f",
+       "status": "verified"
+      },
+      {
+       "id": "T000021",
+       "element_id": "Transfer:T000021",
+       "label": "Transfer",
+       "leaf": "0x1cb3ac0b79c30c",
+       "status": "verified"
+      },
+      {
+       "id": "T000022",
+       "element_id": "Transfer:T000022",
+       "label": "Transfer",
+       "leaf": "0x43ae5648589045",
+       "status": "verified"
+      },
+      {
+       "id": "T000023",
+       "element_id": "Transfer:T000023",
+       "label": "Transfer",
+       "leaf": "0xf2e6a6dd376c54",
+       "status": "verified"
+      },
+      {
+       "id": "T000024",
+       "element_id": "Transfer:T000024",
+       "label": "Transfer",
+       "leaf": "0xe652e0234a6783",
+       "status": "verified"
+      },
+      {
+       "id": "T000025",
+       "element_id": "Transfer:T000025",
+       "label": "Transfer",
+       "leaf": "0x4a6a698f53c796",
+       "status": "verified"
+      },
+      {
+       "id": "T000026",
+       "element_id": "Transfer:T000026",
+       "label": "Transfer",
+       "leaf": "0xbe5b396c1c1f06",
+       "status": "verified"
+      }
+     ]
+    },
+    "case": {
+     "trigger": "ring_alert",
+     "narrative": "Remitter RM‑S5 sent five transfers between 2026‑10‑14 and 2026‑10‑16 to four beneficiary accounts (PK36MRGL0000000000050002, PK36MRGL0000000000050001, PK36INDS0000000000050005, PK36RAVI0000000000050004, PK36RAVI0000000000050003). Three distinct beneficiaries (PK36INDS0000000000050005, PK36RAVI0000000000050004, PK36RAVI0000000000050003) received payments within a two‑day window and share Fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 (also 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb between PK36INDS0000000000050005 and PK36RAVI0000000000050003). The clustered timing and shared fingerprint form a ring of ≥3 beneficiaries, indicating elevated fraud risk.",
+     "narrative_ur": "Remitter RM‑S5 نے 2026‑10‑14 سے 2026‑10‑16 کے درمیان پانچ ٹرانسفرز کیں، جن میں PK36INDS0000000000050005، PK36RAVI0000000000050004 اور PK36RAVI0000000000050003 تین مختلف Beneficiary اکاؤنٹس ہیں جو دو دن کے اندر e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 فنگر پرنٹ شیئر کرتے ہیں۔ یہ کلسٹرڈ رِنگ ممکنہ فراڈ کا اشارہ دیتی ہے۔",
+     "evidence": [
+      {
+       "claim": "Transfers from RM‑S5 to beneficiaries within a short window",
+       "node_ids": [
+        "RM-S5",
+        "T000024",
+        "PK36INDS0000000000050005",
+        "T000023",
+        "PK36RAVI0000000000050004",
+        "T000022",
+        "PK36RAVI0000000000050003",
+        "T000021",
+        "PK36MRGL0000000000050002",
+        "T000020",
+        "PK36MRGL0000000000050001"
+       ]
+      },
+      {
+       "claim": "Shared fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 links three beneficiaries",
+       "node_ids": [
+        "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+        "PK36INDS0000000000050005",
+        "PK36RAVI0000000000050004",
+        "PK36RAVI0000000000050003"
+       ]
+      },
+      {
+       "claim": "Additional shared fingerprint 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb between PK36INDS0000000000050005 and PK36RAVI0000000000050003",
+       "node_ids": [
+        "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+        "PK36INDS0000000000050005",
+        "PK36RAVI0000000000050003"
+       ]
+      }
+     ],
+     "risk": "high",
+     "recommended_action": "hold_and_publish",
+     "fingerprints_to_publish": [
+      "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+      "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+     ],
+     "confidence": 0.92,
+     "open_questions": [
+      "Are the shared fingerprints genuine or spoofed?",
+      "What are the true identities behind PK36INDS0000000000050005, PK36RAVI0000000000050004, and PK36RAVI0000000000050003?",
+      "What is the source and purpose of the funds transferred?"
+     ]
+    },
+    "epoch": 16,
+    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+    "evidence_leaves": {
+     "Account:PK36MRGL0000000000050002": "0x84fe76597a8cda8be12c512db926161cee71bead0a64dc07ca429410d397b1e1",
+     "Transfer:T000026": "0xbe5b396c1c1f0623e1e1ea03d1a5cd46cb81c57f6d62ecaec0c5c6e1edcf7102",
+     "Account:PK36MRGL0000000000050001": "0xb2d628aa98c5d4dd3a1ebb9904407271f57e93150daa1d6cfc97f12889e19fdc",
+     "Transfer:T000025": "0x4a6a698f53c796040821494c7402778eb28b38d58f14404832829bdd2438700b",
+     "Account:PK36INDS0000000000050005": "0xb288e95438aa14171a10a650dda354b8c10ac753ae55bc9c608856042631d2a1",
+     "Transfer:T000024": "0xe652e0234a6783edb1920526079dd64ce016e945dfa7d57d4f7452646260ab09",
+     "Account:PK36RAVI0000000000050004": "0x333b28f8212e627366eba7d372a50a69c4b09d685dcb794ecb65613b5e1ef048",
+     "Transfer:T000023": "0xf2e6a6dd376c54922b03063e8a27d77bf69f7c8aaf4ea261797677fd0b565b1b",
+     "Account:PK36RAVI0000000000050003": "0x6b70ce4465d6f8274dc16b73c7fe3a9fb4a3cd28ebd13c399fd2e6e3553d5a91",
+     "Transfer:T000022": "0x43ae56485890455bfc6756670aa59b1066e6ec9ec8e68cdbf46ecea3e4dfec28",
+     "Transfer:T000021": "0x1cb3ac0b79c30c049ce08571364ac8279b7719195798236029c7cc292eef2ca9",
+     "Transfer:T000020": "0x2056cd5d7d113fd8fb27fd26f3b1af70f9f5240e2d35243aa7d52613ad95ab22",
+     "Fingerprint:INDS:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9": "0xb1bd0db859b001c8b703da76abddc6d0a1cc59bf62b125488af5977af35575c8",
+     "Phone:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9": "0xc5ed81b3e0bbcba43331291d07d82d70ef3528b77efd9df8a6d714821d5cec41",
+     "Fingerprint:INDS:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb": "0xba4cd70e33ca3f08ea61dff9028ebabae985d0bc5b27b5d15247303eaf8b9d6b",
+     "Bank:MRGL": "0xc36fb9dfd0b56e50e7b4f888811e5b5f231d46910963bcf39f1082221c1922aa",
+     "Device:2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489": "0x0b7eac110dd28b5beab1cb9aa567d0dd0ed286082801a99a3a4fb39e499039dd",
+     "Remitter:RM-S5": "0x8cedd976f5c7d241f71352b76fa6566848edc731015ed1ac9c479e1ae32cfe22",
+     "Device:b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898": "0x26365888d0e186539db75cf74401bb1b1b40ea6423b407d27a04844fbb124b9e",
+     "Bank:INDS": "0xd6e86cacf879b149323d8cea1e2adaa3795872169a98a858dae52e89185a11d3",
+     "Fingerprint:INDS:aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be": "0x258b9dc1d620202a7a6b73d61059e27db16b17cb91bd05c75f2c7a934673be51",
+     "Bank:RAVI": "0x6d24387cb700be70acae889f7bd2c9ea7a7dccf156328a606d86aa29103cb789",
+     "Fingerprint:RAVI:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031": "0x2e63284ba8cac542b846110daaa95f06e151de4fa3655c7e8e6ca98adea76350",
+     "Fingerprint:RAVI:23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d": "0x86e14adda6e700e73e90a8289936c6ac282abb3cbf723f193a7ade2a82693ec0",
+     "Fingerprint:RAVI:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a": "0x5b3aa60db0edfb4521a420b96066207ada92546b2f538bc80865875c38c939f9"
+    },
+    "excluded_elements": [],
+    "egress_hashes": [
+     "2ca0a13cb752034a198c01d367f6b8c7bc65fb5102ed1e8e14e1bb8d382c9e5c",
+     "a2978cc36ebf874a72d31d4ca4fc6b5849959817715ac24545534b116be7c7b9",
+     "017b7d38acbf16c296a5c112794ee243d9d0134f017b44cbef57f74aa867827d",
+     "655a1b15b49de76174c14695918245c9533eacd4d3bd4ee1eb57c35ace09f945",
+     "e700825cfc8c8fcff6646c06ef501d7f49e05c8bfa717d08cc1836ed5b7cb4f8",
+     "1dfe540e669ad1d76b961eaae35957e8289f6a9dad4f7cb1c22c569acb27a4f4",
+     "5c0a954df415d1de14d5940a1fae40fa34137b506b3195d7c3db60f950ad30bd"
+    ],
+    "mode": "llm",
+    "stripped_citations": [],
+    "cypher_attempts": [
+     {
+      "attempt": 1,
+      "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account) RETURN a.iban AS iban, t.tid AS tid, t.ts AS ts ORDER BY t.ts DESC LIMIT 200",
+      "ok": true,
+      "error": null
+     },
+     {
+      "attempt": 2,
+      "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(r) WHERE a.iban <> b.iban RETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\nLIMIT 200",
+      "ok": true,
+      "error": null
+     },
+     {
+      "attempt": 3,
+      "query": "MATCH (rm:Remitter {rmid:$rmid})-[:SENT]->(t:Transfer)-[:TO]->(a:Account) OPTIONAL MATCH (a)-[:HAS_FP]->(f:Fingerprint) OPTIONAL MATCH (a)<-[:HOLDS]-(:Record)-[:USES_PHONE|USES_DEVICE]->(x) RETURN rm.rmid AS rmid, a.iban AS iban, a.bank AS bank, count(DISTINCT t) AS transfers, sum(t.amount_pkr) AS pkr, min(t.ts) AS first_ts, max(t.ts) AS last_ts, collect(DISTINCT f.fp) + collect(DISTINCT x.h) AS fps\nLIMIT 200",
+      "ok": true,
+      "error": null
+     }
+    ]
+   },
+   "ms": 138
+  }
+ ]
+}

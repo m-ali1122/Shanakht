@@ -1,0 +1,66 @@
+{
+ "recorded_from": "live",
+ "events": [],
+ "result": {
+  "transcript": "Faisal Nawaz ne pichle mahine kitne logon ko paise bheje?",
+  "language": "ur",
+  "language_detection": {
+   "language": "ur",
+   "script": "roman",
+   "method": "keywords",
+   "hits": [
+    "bheje",
+    "kitne",
+    "ko",
+    "logon",
+    "mahine",
+    "ne",
+    "paise",
+    "pichle"
+   ]
+  },
+  "case_id": "voice-4260b6ee54",
+  "cypher_attempts": [
+   {
+    "attempt": 1,
+    "query": "MATCH (r:Remitter)-[:SENT]->(t:Transfer)-[:TO]->(a:Account)-[:AT]->(b:Bank)\nWHERE toLower(r.name) CONTAINS toLower('Faisal Nawaz')\n  AND t.ts >= datetime('2026-10-01T00:00:00Z') AND t.ts < datetime('2026-11-01T00:00:00Z')\nRETURN r.rmid AS rmid,\n       count(DISTINCT a.iban) AS beneficiaries,\n       count(DISTINCT b.code) AS banks,\n       collect(DISTINCT a.iban) AS ibans\nLIMIT 200",
+    "ok": true,
+    "status": "ok",
+    "error": null,
+    "repair": false
+   }
+  ],
+  "rows": 1,
+  "answer": "Faisal Nawaz نے پچھلے مہینے 5 لوگوں کو پیسے بھیجے اور یہ 3 بینکوں کے ذریعے ہوا۔ اس کے ساتھ 5 IBANs استعمال ہوئے۔",
+  "highlight_ids": [
+   "RM-S5"
+  ],
+  "rows_data": [
+   {
+    "rmid": "RM-S5",
+    "beneficiaries": 5,
+    "banks": 3,
+    "ibans": [
+     "PK36MRGL0000000000050002",
+     "PK36MRGL0000000000050001",
+     "PK36INDS0000000000050005",
+     "PK36RAVI0000000000050003",
+     "PK36RAVI0000000000050004"
+    ]
+   }
+  ],
+  "integrity": {
+   "step": "integrity",
+   "status": "ok",
+   "data": {
+    "verified": 6,
+    "total": 6,
+    "excluded_rows": 0,
+    "excluded_elements": [],
+    "epoch": 14,
+    "root": "0x9bd6ff529d28ba3deccbd81e505d5ea5ab8e1a8b2861d9cf1d25fbb4b249c3dd",
+    "note": ""
+   }
+  }
+ }
+}

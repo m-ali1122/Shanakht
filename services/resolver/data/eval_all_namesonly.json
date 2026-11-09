@@ -1,0 +1,37 @@
+{
+ "scope": "all",
+ "cnic": false,
+ "precision": 0.3739,
+ "recall": 0.9826,
+ "f1": 0.5417,
+ "test_records": 6091,
+ "true_pairs": 575,
+ "predicted_pairs": 1511,
+ "weights": {
+  "feature_order": [
+   "name_trans",
+   "name_ngram",
+   "idf_jaccard",
+   "given_agree",
+   "family_agree",
+   "patronymic_agree",
+   "urdu_agree",
+   "gender_agree",
+   "cnic_agree"
+  ],
+  "coef": [
+   0.30159737511987794,
+   -3.3294087140348085,
+   0.8145494691986088,
+   1.4245013204287476,
+   0.008712761884787812,
+   12.654182930683591,
+   18.61576247588888,
+   -1.3306877355553777,
+   -8.039894189195548
+  ],
+  "intercept": -19.788197920099265,
+  "auto_match": 0.675,
+  "link_threshold": 0.575
+ }
+}

@@ -1,0 +1,76 @@
+{
+ "recorded_from": "live",
+ "events": [],
+ "result": {
+  "transcript": "Show every account that shares a phone with Usman Ghani.",
+  "language": "en",
+  "language_detection": {
+   "language": "en",
+   "script": "latin",
+   "method": "keywords",
+   "hits": []
+  },
+  "case_id": "voice-8bfb36b1d6",
+  "cypher_attempts": [
+   {
+    "attempt": 1,
+    "query": "MATCH (p:Person) \nWHERE toLower(p.canonical_name) CONTAINS toLower('Usman Ghani')\nMATCH (r:Record)-[:RESOLVES_TO]->(p)\nOPTIONAL MATCH (r)-[:HOLDS]->(ownAcc:Account)\nMATCH (r)-[:USES_PHONE]->(ph:Phone)\nOPTIONAL MATCH (otherRec:Record)-[:USES_PHONE]->(ph)\nWHERE otherRec <> r\nOPTIONAL MATCH (otherRec)-[:HOLDS]->(localAcc:Account)\nOPTIONAL MATCH (ph)-[:SAME_AS]->(fp:Fingerprint)<-[:HAS_FP]-(partnerAcc:Account)\nWITH collect(DISTINCT localAcc) + collect(DISTINCT partnerAcc) AS acctList, ownAcc, p, r\nUNWIND acctList AS a\nWITH a, ownAcc, p, r\nWHERE a IS NOT NULL AND (ownAcc IS NULL OR a.iban <> ownAcc.iban)\nRETURN a.iban AS iban, a.bank AS bank, a.title_raw AS title_raw,\n       p.pid AS pid, r.rid AS rid\nLIMIT 200",
+    "ok": true,
+    "status": "ok",
+    "error": null,
+    "repair": false
+   }
+  ],
+  "rows": 4,
+  "answer": "There are 4 accounts sharing a phone with Usman Ghani: PK36MRGL0000000000050002, PK36RAVI0000000000050003, PK36RAVI0000000000050004 and PK36INDS0000000000050005, spanning 3 banks.",
+  "highlight_ids": [
+   "PK36MRGL0000000000050002",
+   "PK36RAVI0000000000050003",
+   "PK36RAVI0000000000050004",
+   "PK36INDS0000000000050005"
+  ],
+  "rows_data": [
+   {
+    "iban": "PK36MRGL0000000000050002",
+    "bank": "MRGL",
+    "title_raw": "M. USMAN",
+    "pid": "P-a9afb49ed6",
+    "rid": "R-MRGL-S5-1"
+   },
+   {
+    "iban": "PK36RAVI0000000000050003",
+    "bank": "RAVI",
+    "title_raw": null,
+    "pid": "P-a9afb49ed6",
+    "rid": "R-MRGL-S5-1"
+   },
+   {
+    "iban": "PK36RAVI0000000000050004",
+    "bank": "RAVI",
+    "title_raw": null,
+    "pid": "P-a9afb49ed6",
+    "rid": "R-MRGL-S5-1"
+   },
+   {
+    "iban": "PK36INDS0000000000050005",
+    "bank": "INDS",
+    "title_raw": null,
+    "pid": "P-a9afb49ed6",
+    "rid": "R-MRGL-S5-1"
+   }
+  ],
+  "integrity": {
+   "step": "integrity",
+   "status": "ok",
+   "data": {
+    "verified": 9,
+    "total": 9,
+    "excluded_rows": 0,
+    "excluded_elements": [],
+    "epoch": 14,
+    "root": "0x9bd6ff529d28ba3deccbd81e505d5ea5ab8e1a8b2861d9cf1d25fbb4b249c3dd",
+    "note": ""
+   }
+  }
+ }
+}

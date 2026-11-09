@@ -1,0 +1,17 @@
+:root {
+  --paper:      #F4EFE6;
+  --surface:    #FBF8F2;
+  --ink:        #1E1A16;
+  --ink-2:      #4A433B;
+  --muted:      #8A8074;
+  --rule:       #DDD3C4;
+  --accent:     #2F5D50;
+  --match:      #3D6B4F;
+  --close:      #B8892B;
+  --nomatch:    #B5543C;
+  --bank-mrgl:  #2F5D50;
+  --bank-ravi:  #6B5B8C;
+  --bank-chnb:  #3E6E8E;
+  --bank-inds:  #8C6A3E;
+  --radius:     6px;
+}

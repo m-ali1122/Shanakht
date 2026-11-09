@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+httpx
+python-dotenv
+cryptography
+openai
+neo4j
+web3
+sse-starlette
+jsonschema
+python-multipart
+pytest

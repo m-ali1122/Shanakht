@@ -1,0 +1,23 @@
+{
+  "name": "shanakht-chain",
+  "private": true,
+  "scripts": {
+    "node": "hardhat node",
+    "deploy": "hardhat run scripts/deploy.ts --network localhost",
+    "explorer": "tsx scripts/explorer.ts",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@types/node": "^22.10.0",
+    "hardhat": "^2.22.18",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.1.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "ethers": "^6.13.5"
+  }
+}

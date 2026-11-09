@@ -1,0 +1,114 @@
+{
+ "recorded_from": "live",
+ "events": [],
+ "result": {
+  "scenario": "S4",
+  "focus_ids": [
+   "RM-S4",
+   "PK36CHNB0000000000040001"
+  ],
+  "nodes": [
+   {
+    "data": {
+     "id": "RM-S4",
+     "label": "Shahid Awan",
+     "kind": "remitter",
+     "bank": null,
+     "hollow": false,
+     "focus": true,
+     "tampered": false,
+     "eid": "Remitter:RM-S4"
+    }
+   },
+   {
+    "data": {
+     "id": "PK36CHNB0000000000040001",
+     "label": "CHNB ··0001",
+     "kind": "account",
+     "bank": "CHNB",
+     "hollow": true,
+     "focus": true,
+     "tampered": false,
+     "eid": "Account:PK36CHNB0000000000040001"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:73f69d68a086ed9198646edd8d63a10a9cc30a756863618b42550656babd40ce",
+     "label": "73f69d",
+     "kind": "fingerprint",
+     "bank": "CHNB",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:CHNB:73f69d68a086ed9198646edd8d63a10a9cc30a756863618b42550656babd40ce",
+     "fpKind": "device"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:5cc2a39738a6fbcbbc2574b0c4165b36ec174052cdfb55bfec2ceb231f537138",
+     "label": "5cc2a3",
+     "kind": "fingerprint",
+     "bank": "CHNB",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:CHNB:5cc2a39738a6fbcbbc2574b0c4165b36ec174052cdfb55bfec2ceb231f537138",
+     "fpKind": "phone"
+    }
+   },
+   {
+    "data": {
+     "id": "fp:e9e46c81173ce7001c62fc11bf394c4df6d9309e0f0c85644167a708e5358645",
+     "label": "e9e46c",
+     "kind": "fingerprint",
+     "bank": "CHNB",
+     "hollow": true,
+     "focus": false,
+     "tampered": false,
+     "eid": "Fingerprint:CHNB:e9e46c81173ce7001c62fc11bf394c4df6d9309e0f0c85644167a708e5358645",
+     "fpKind": "cnic"
+    }
+   }
+  ],
+  "edges": [
+   {
+    "data": {
+     "id": "FP:PK36CHNB0000000000040001>fp:73f69d68a086ed9198646edd8d63a10a9cc30a756863618b42550656babd40ce",
+     "source": "PK36CHNB0000000000040001",
+     "target": "fp:73f69d68a086ed9198646edd8d63a10a9cc30a756863618b42550656babd40ce",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36CHNB0000000000040001>fp:5cc2a39738a6fbcbbc2574b0c4165b36ec174052cdfb55bfec2ceb231f537138",
+     "source": "PK36CHNB0000000000040001",
+     "target": "fp:5cc2a39738a6fbcbbc2574b0c4165b36ec174052cdfb55bfec2ceb231f537138",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "FP:PK36CHNB0000000000040001>fp:e9e46c81173ce7001c62fc11bf394c4df6d9309e0f0c85644167a708e5358645",
+     "source": "PK36CHNB0000000000040001",
+     "target": "fp:e9e46c81173ce7001c62fc11bf394c4df6d9309e0f0c85644167a708e5358645",
+     "rel": "FP",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "SENT:RM-S4>PK36CHNB0000000000040001",
+     "source": "RM-S4",
+     "target": "PK36CHNB0000000000040001",
+     "rel": "SENT",
+     "label": "3"
+    }
+   }
+  ]
+ }
+}

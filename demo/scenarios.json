@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "seed": 20261111,
+  "today": "2026-11-09",
+  "scenarios": [
+    {
+      "id": "S1",
+      "title": "Clean match",
+      "duration_s": 8,
+      "exchange_house": "THMS",
+      "remitter_id": "RM-S1",
+      "sender": "Kamran Butt",
+      "sender_country": "UK",
+      "typed_name": "Ayesha Siddiqui",
+      "iban": "PK36MRGL0000000000010001",
+      "bank": "MRGL",
+      "amount": {"pkr": 93750, "fx": 250.0, "currency": "GBP"},
+      "expected": {"title": "AYESHA SIDDIQUI", "band": "MATCH", "reasons": [], "action": "auto_pass"},
+      "focus_ids": ["RM-S1", "PK36MRGL0000000000010001", "R-MRGL-S1"]
+    },
+    {
+      "id": "S2",
+      "title": "Close match",
+      "exchange_house": "GULF",
+      "remitter_id": "RM-S2",
+      "sender": "Rehmat Ali",
+      "sender_country": "AE",
+      "typed_name": "Mohd Ali s/o Rehmat",
+      "iban": "PK36RAVI0000000000020001",
+      "bank": "RAVI",
+      "amount": {"pkr": 91200, "fx": 1200.0, "currency": "AED"},
+      "expected": {
+        "title": "MUHAMMAD ALI", "band": "CLOSE", "score": 0.91,
+        "reasons": ["INITIAL_EXPANDED", "VARIANT_SPELLING", "PATRONYMIC_DROPPED"],
+        "history": {"prior_transfers": 7, "months": 5},
+        "recommended_action": "proceed"
+      },
+      "case_trigger": {"type": "close_match", "ref_ids": ["RM-S2", "PK36RAVI0000000000020001"]},
+      "focus_ids": ["RM-S2", "PK36RAVI0000000000020001"]
+    },
+    {
+      "id": "S3",
+      "title": "Valid account number, wrong person",
+      "exchange_house": "NAJD",
+      "remitter_id": "RM-S3",
+      "sender": "Abdul Rehman Qureshi",
+      "sender_country": "SA",
+      "typed_name": "Zainab Bibi",
+      "iban": "PK36MRGL0000000000030021",
+      "intended_iban": "PK36MRGL0000000000030012",
+      "bank": "MRGL",
+      "amount": {"pkr": 111750, "fx": 1500.0, "currency": "SAR"},
+      "expected": {
+        "title": "TARIQ MEHMOOD", "band": "NO_MATCH", "reasons": ["DIFFERENT_PERSON"], "action": "hold",
+        "banner": "Account exists. Name does not belong to it. This payment would have reached a stranger."
+      },
+      "focus_ids": ["RM-S3", "PK36MRGL0000000000030021", "PK36MRGL0000000000030012"]
+    },
+    {
+      "id": "S4",
+      "title": "Urdu as the anchor between two English spellings",
+      "exchange_house": "HUDS",
+      "remitter_id": "RM-S4",
+      "sender": "Shahid Awan",
+      "sender_country": "US",
+      "typed_name": "Imraan Akram",
+      "iban": "PK36CHNB0000000000040001",
+      "bank": "CHNB",
+      "amount": {"pkr": 112000, "fx": 400.0, "currency": "USD"},
+      "expected": {
+        "title": "RAJA IMRAN AKRAM", "urdu_name": "راجہ عمران اکرم", "band": "CLOSE", "score": 0.88,
+        "reasons": ["SCRIPT_CONVERTED", "VARIANT_SPELLING", "TITLE_DROPPED"]
+      },
+      "kyc_lookup": {"endpoint": "/banks/CHNB/kyc-name", "iban": "PK36CHNB0000000000040001"},
+      "focus_ids": ["RM-S4", "PK36CHNB0000000000040001"]
+    },
+    {
+      "id": "S5",
+      "title": "Mule ring across banks",
+      "exchange_house": "GULF",
+      "remitter_id": "RM-S5",
+      "sender": "Faisal Nawaz",
+      "sender_country": "AE",
+      "case_trigger": {"type": "ring_alert", "ref_ids": ["RM-S5"]},
+      "ring": {
+        "beneficiaries": [
+          {"rid": "R-MRGL-S5-1", "bank": "MRGL", "iban": "PK36MRGL0000000000050001", "name": "Usman Ghani"},
+          {"rid": "R-MRGL-S5-2", "bank": "MRGL", "iban": "PK36MRGL0000000000050002", "name": "M. Usman"},
+          {"rid": "R-RAVI-S5-3", "bank": "RAVI", "iban": "PK36RAVI0000000000050003", "name": "Bilal Ahmed"},
+          {"rid": "R-RAVI-S5-4", "bank": "RAVI", "iban": "PK36RAVI0000000000050004", "name": "Bilal Ahmad"},
+          {"rid": "R-INDS-S5-5", "bank": "INDS", "iban": "PK36INDS0000000000050005", "name": "Hamza Khan"}
+        ],
+        "shared_phone": "0300-5550505",
+        "shared_device": "5e5e5e5e-0000-4000-8000-000000000005",
+        "device_shared_by": ["R-RAVI-S5-3", "R-INDS-S5-5"],
+        "window": {"start": "2026-10-14T08:30:00Z", "hours": 48},
+        "transfers": 7
+      },
+      "expected": {
+        "beneficiaries": 5, "banks": 3, "phones": 1,
+        "recommended_action": "hold_and_publish",
+        "publish_kinds": ["phone", "device"],
+        "integrity": {"evidence_items": 9}
+      },
+      "incoming_after_publish": {
+        "bank": "INDS",
+        "endpoint": "/banks/INDS/incoming",
+        "exchange_house": "GULF",
+        "remitter_id": "RM-S5",
+        "iban": "PK36INDS0000000000050006",
+        "rid": "R-INDS-S5-6",
+        "typed_name": "Hamza Kh.",
+        "amount": {"pkr": 174800, "fx": 2300.0, "currency": "AED"},
+        "expected": {"registry_check": "HIT", "matched_kind": "device"}
+      },
+      "focus_ids": ["RM-S5", "R-MRGL-S5-1", "R-MRGL-S5-2", "PK36RAVI0000000000050003",
+                    "PK36RAVI0000000000050004", "PK36INDS0000000000050005"]
+    },
+    {
+      "id": "S6",
+      "title": "Voice queries",
+      "voice_queries": [
+        {
+          "qid": "V1", "language": "ur", "audio": "demo/audio/v1-ur.wav",
+          "text": "Faisal Nawaz ne pichle mahine kitne logon ko paise bheje?",
+          "expected_answer": "پچھلے مہینے پانچ افراد، تین بینکوں میں۔",
+          "expected": {"people": 5, "banks": 3, "month": "2026-10"}
+        },
+        {
+          "qid": "V2", "language": "en", "audio": "demo/audio/v2-en.wav",
+          "text": "Show every account that shares a phone with Usman Ghani.",
+          "expected": {"phone_shared_with": ["R-MRGL-S5-2", "PK36RAVI0000000000050003", "PK36RAVI0000000000050004", "PK36INDS0000000000050005"]}
+        },
+        {
+          "qid": "V3", "language": "en", "audio": "demo/audio/v3-en.wav",
+          "text": "Which remitters sent to more than three banks this quarter?",
+          "expected": {"remitters": ["RM-RC"], "note": "unscripted ring C (6 beneficiaries, 4 banks, Nov 2026)"}
+        }
+      ]
+    }
+  ]
+}

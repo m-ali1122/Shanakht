@@ -1,0 +1,200 @@
+{
+ "recorded_from": "live",
+ "events": [
+  {
+   "step": "title_fetch",
+   "status": "ok",
+   "data": {
+    "bank": "MRGL",
+    "title": "AYESHA SIDDIQUI",
+    "urdu_name": "عائشہ صدیقی",
+    "status": "FOUND"
+   },
+   "ms": 2694
+  },
+  {
+   "step": "compare",
+   "status": "ok",
+   "data": {
+    "band": "MATCH",
+    "score": 1.0,
+    "reasons": [],
+    "alignment": [
+     {
+      "typed_token": "Ayesha",
+      "title_token": "AYESHA",
+      "relation": "exact",
+      "reason": null
+     },
+     {
+      "typed_token": "Siddiqui",
+      "title_token": "SIDDIQUI",
+      "relation": "exact",
+      "reason": null
+     }
+    ],
+    "typed_parsed": {
+     "raw": "Ayesha Siddiqui",
+     "script": "roman",
+     "titles": [],
+     "given": [
+      "ayesha"
+     ],
+     "family": [
+      "siddiqui"
+     ],
+     "patronymic": null,
+     "tokens_canonical": [
+      "ayesha",
+      "siddiqui"
+     ],
+     "transformations": []
+    },
+    "title_parsed": {
+     "raw": "AYESHA SIDDIQUI",
+     "script": "roman",
+     "titles": [],
+     "given": [
+      "ayesha"
+     ],
+     "family": [
+      "siddiqui"
+     ],
+     "patronymic": null,
+     "tokens_canonical": [
+      "ayesha",
+      "siddiqui"
+     ],
+     "transformations": []
+    },
+    "urdu_parsed": {
+     "raw": "عائشہ صدیقی",
+     "script": "urdu",
+     "titles": [],
+     "given": [
+      "ayesha"
+     ],
+     "family": [
+      "siddiqui"
+     ],
+     "patronymic": null,
+     "tokens_canonical": [
+      "ayesha",
+      "siddiqui"
+     ],
+     "transformations": [
+      "script_converted:عائشہ->ayesha",
+      "script_converted:صدیقی->siddiqui"
+     ]
+    }
+   },
+   "ms": 2291
+  },
+  {
+   "step": "history",
+   "status": "ok",
+   "data": {
+    "prior_transfers": 5,
+    "first": "2026-06-03",
+    "last": "2026-10-03",
+    "months": 4
+   },
+   "ms": 4
+  },
+  {
+   "step": "decision",
+   "status": "ok",
+   "data": {
+    "band": "MATCH",
+    "action": "auto_pass",
+    "banner": null,
+    "open_case": false
+   },
+   "ms": 0
+  },
+  {
+   "step": "phrase",
+   "status": "fallback",
+   "data": {
+    "en": "Ayesha Siddiqui matches the account title AYESHA SIDDIQUI.",
+    "ur": "Ayesha Siddiqui اکاؤنٹ ٹائٹل AYESHA SIDDIQUI سے مطابقت رکھتا ہے۔",
+    "source": "template"
+   },
+   "ms": 0
+  },
+  {
+   "step": "ledger",
+   "status": "ok",
+   "data": {
+    "anchored": true,
+    "decision_hash": "3236d5fd2e54a768ecabcf353f76152ad5e67da2e7e50a68d7acba043dd97848",
+    "tx": "0x8f74271f4c21bce4a1ed035914de3b5277548541083afedc8caaff6d3359e401",
+    "block": 10,
+    "id": 2,
+    "epoch": 7
+   },
+   "ms": 2094
+  },
+  {
+   "step": "final",
+   "status": "ok",
+   "data": {
+    "scenario": "S1",
+    "case_id": null,
+    "payee_check_id": "pc-84fd1e5b1c",
+    "bank": "MRGL",
+    "title": "AYESHA SIDDIQUI",
+    "urdu_name": "عائشہ صدیقی",
+    "typed_name": "Ayesha Siddiqui",
+    "band": "MATCH",
+    "score": 1.0,
+    "reasons": [],
+    "alignment": [
+     {
+      "typed_token": "Ayesha",
+      "title_token": "AYESHA",
+      "relation": "exact",
+      "reason": null
+     },
+     {
+      "typed_token": "Siddiqui",
+      "title_token": "SIDDIQUI",
+      "relation": "exact",
+      "reason": null
+     }
+    ],
+    "history": {
+     "prior_transfers": 5,
+     "first": "2026-06-03",
+     "last": "2026-10-03",
+     "months": 4
+    },
+    "decision": {
+     "action": "auto_pass",
+     "banner": null,
+     "open_case": false
+    },
+    "phrase": {
+     "en": "Ayesha Siddiqui matches the account title AYESHA SIDDIQUI.",
+     "ur": "Ayesha Siddiqui اکاؤنٹ ٹائٹل AYESHA SIDDIQUI سے مطابقت رکھتا ہے۔",
+     "source": "template"
+    },
+    "explain": {
+     "en": "Ayesha Siddiqui matches the account title AYESHA SIDDIQUI.",
+     "ur": "Ayesha Siddiqui اکاؤنٹ ٹائٹل AYESHA SIDDIQUI سے مطابقت رکھتا ہے۔"
+    },
+    "ledger": {
+     "anchored": true,
+     "decision_hash": "3236d5fd2e54a768ecabcf353f76152ad5e67da2e7e50a68d7acba043dd97848",
+     "tx": "0x8f74271f4c21bce4a1ed035914de3b5277548541083afedc8caaff6d3359e401",
+     "block": 10,
+     "id": 2,
+     "epoch": 7
+    },
+    "banner": null,
+    "case_trigger": null
+   },
+   "ms": 1
+  }
+ ]
+}
