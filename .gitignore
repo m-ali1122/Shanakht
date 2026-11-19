@@ -20,3 +20,11 @@ services/agent/state/
 # large model weights (copy from TaxNet: backend/models/pak-name-matcher-v1)
 services/resolver/models/
 .next-mock/
+
+# pitch video working files (raw footage, intermediates, voice recordings)
+docs/video/raw/
+docs/video/work/
+docs/video/voice/
+docs/video/my_voice/
+docs/video/*.m4a
+docs/video/*.log

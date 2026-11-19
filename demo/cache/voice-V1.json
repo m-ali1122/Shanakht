@@ -19,11 +19,11 @@
     "pichle"
    ]
   },
-  "case_id": "voice-c58854f00a",
+  "case_id": "voice-e9f1d24c1f",
   "cypher_attempts": [
    {
     "attempt": 1,
-    "query": "MATCH (r:Remitter)-[:SENT]->(t:Transfer)-[:TO]->(a:Account)-[:AT]->(b:Bank)\nWHERE toLower(r.name) CONTAINS toLower('Faisal Nawaz')\n  AND t.ts >= datetime('2026-10-01T00:00:00Z')\n  AND t.ts < datetime('2026-11-01T00:00:00Z')\nRETURN r.rmid AS rmid,\n       count(DISTINCT a.iban) AS beneficiaries,\n       count(DISTINCT b.code) AS banks,\n       collect(DISTINCT a.iban) AS ibans\nLIMIT 200",
+    "query": "MATCH (r:Remitter)-[:SENT]->(t:Transfer)-[:TO]->(a:Account)-[:AT]->(b:Bank)\nWHERE toLower(r.name) CONTAINS toLower('Faisal Nawaz')\n  AND t.ts >= datetime('2026-10-01T00:00:00Z')\n  AND t.ts < datetime('2026-11-01T00:00:00Z')\nRETURN r.rmid AS rmid,\n       count(DISTINCT a.iban) AS beneficiaries,\n       count(DISTINCT b.code) AS banks,\n       sum(t.amount_pkr) AS total_pkr,\n       collect(DISTINCT a.iban) AS ibans\nLIMIT 200",
     "ok": true,
     "status": "ok",
     "error": null,
@@ -40,6 +40,7 @@
     "rmid": "RM-S5",
     "beneficiaries": 5,
     "banks": 3,
+    "total_pkr": 1204000,
     "ibans": [
      "PK36MRGL0000000000050002",
      "PK36MRGL0000000000050001",
@@ -57,12 +58,12 @@
     "total": 6,
     "excluded_rows": 0,
     "excluded_elements": [],
-    "epoch": 26,
-    "root": "0xc3a448e4d59edf6b4b2c31b7e5098d590093547917c13a4087c2b4c1622c983f",
+    "epoch": 43,
+    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
     "note": ""
    }
   },
   "qid": "V1"
  },
- "ms": 19043
+ "ms": 22617
 }

@@ -113,11 +113,11 @@ export function MicLevel({ bars = 5, height = 16 }: { bars?: number; height?: nu
   );
 }
 
-/** The mic itself. `big` is the ask surface's button; the small one sits in the status line. */
+/** The mic itself. `big` is the ask surface's button; the small one sits in the top bar. */
 export function MicButton({ big = false }: { big?: boolean }) {
   const mic = useStore((s) => s.mic);
   const listening = mic === "listening";
-  const size = big ? "h-14 w-14" : "h-7 w-7";
+  const size = big ? "h-12 w-12" : "h-8 w-8";
   const icon = big ? 22 : 14;
   return (
     <button
@@ -125,8 +125,8 @@ export function MicButton({ big = false }: { big?: boolean }) {
       aria-pressed={listening}
       aria-label={listening ? "Stop listening (V)" : "Ask by voice (V)"}
       title={listening ? "Stop listening (V)" : "Ask by voice (V)"}
-      className={`flex shrink-0 items-center justify-center rounded-full border transition-colors duration-150 ${size} ${
-        listening ? "border-main bg-main text-white ring-4 ring-main-soft" : "border-rule bg-surface-2 text-fg-2 hover:border-main hover:text-fg"
+      className={`flex shrink-0 items-center justify-center rounded-[4px] transition-colors duration-150 ${size} ${
+        listening ? "bg-main text-white" : big ? "bg-main-soft text-main-ink hover:bg-main hover:text-white" : "text-fg-2 hover:bg-surface-2 hover:text-fg"
       }`}
     >
       {mic === "thinking" ? <Loader2 size={icon} className="animate-spin" /> : listening ? <Square size={icon - 4} fill="currentColor" /> : <Mic size={icon} strokeWidth={1.75} />}

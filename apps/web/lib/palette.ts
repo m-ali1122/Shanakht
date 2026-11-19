@@ -1,24 +1,31 @@
-// 3D palette: plain hex mirroring styles/tokens.css, so three.js materials can use it.
-// The console is dark; these values are tuned for a near-black stage.
+// Canvas palette: plain hex mirroring styles/tokens.css (console v3, light), so the 2D graph
+// canvas can draw with it. Tuned for a white stage: every mark is readable on #FFFFFF.
 
 export const MAIN = "#3452FF";
-export const MAIN_BRIGHT = "#6E84FF"; // cobalt lifted for lines/text on dark
-export const ACCENT = "#B8F04A"; // lime: focus halo, the one thing to look at
-export const MATCH = "#0EA371";
-export const CLOSE = "#F59E0B";
-export const NOMATCH = "#E5484D";
+export const MAIN_INK = "#2A41D6";
+export const MAIN_BRIGHT = MAIN; // kept for older imports
+export const MAIN_SOFT = "#EEF1FF";
+export const ACCENT = "#B8F04A"; // lime: focus halo fill only, never text
+export const ACCENT_EDGE = "#7FB71A"; // lime darkened for a visible ring stroke on white
+export const MATCH = "#087A54";
+export const CLOSE = "#9A5B00";
+export const NOMATCH = "#C22E33";
 
-export const STAGE = "#0A0C14";
-export const FG = "#EEF0F6";
-export const FG2 = "#B4B9CF";
-export const MUTED = "#8A90AA";
-export const DIM = "#2A2F44";
+export const STAGE = "#FFFFFF";
+export const FG = "#0B0E1A";
+export const FG2 = "#3A4058";
+export const MUTED = "#6B7190";
+export const RULE = "#E6E8EE";
+export const SURFACE_2 = "#F5F6F8";
+export const DIM = "#D9DCE4"; // faded node fill
+export const LINK = "#CDD1DB"; // resting link
+export const LINK_DIM = "#ECEEF2";
 
 export const BANK: Record<string, string> = {
   MRGL: "#3452FF",
-  RAVI: "#8B5CF6",
-  CHNB: "#0EA5B7",
-  INDS: "#D97706",
+  RAVI: "#7C4DDB",
+  CHNB: "#0B8FA3",
+  INDS: "#C26A05",
 };
 export const BANK_NAME: Record<string, string> = {
   MRGL: "Margalla (host)",
@@ -26,20 +33,20 @@ export const BANK_NAME: Record<string, string> = {
   CHNB: "Chenab Bank",
   INDS: "Indus Bank",
 };
-export const NO_BANK = "#5C627C";
+export const NO_BANK = "#8A90A6";
 
 export type Kind = "remitter" | "account" | "record" | "person" | "phone" | "device" | "fingerprint" | "decision";
 export const KINDS: Kind[] = ["remitter", "account", "record", "person", "phone", "device", "fingerprint", "decision"];
 
 export const KIND_COLOR: Record<Kind, string> = {
-  remitter: "#6E84FF",
-  account: "#38BDF8",
-  record: "#C9CEDF",
-  person: "#F2F4FA",
-  phone: "#F0A35E",
-  device: "#E879A8",
-  fingerprint: "#2DD4BF",
-  decision: "#B8F04A",
+  remitter: "#3452FF",
+  account: "#0B8FA3",
+  record: "#9AA0B4",
+  person: "#0B0E1A",
+  phone: "#D97706",
+  device: "#C2417A",
+  fingerprint: "#0E9F8E",
+  decision: "#6B7190",
 };
 export const KIND_LABEL: Record<Kind, string> = {
   remitter: "Sender",
@@ -53,13 +60,13 @@ export const KIND_LABEL: Record<Kind, string> = {
 };
 
 export const REL_COLOR: Record<string, string> = {
-  SENT: "#7C8CFF",
-  HOLDS: "#5E6788",
-  RESOLVES_TO: "#A9B0CC",
-  USES_PHONE: "#F0A35E",
-  USES_DEVICE: "#E879A8",
-  HAS_FP: "#2DD4BF",
-  SAME_AS: "#FACC15",
+  SENT: "#3452FF",
+  HOLDS: "#8A90A6",
+  RESOLVES_TO: "#5B6180",
+  USES_PHONE: "#D97706",
+  USES_DEVICE: "#C2417A",
+  HAS_FP: "#0E9F8E",
+  SAME_AS: "#B58900",
 };
 export const REL_LABEL: Record<string, string> = {
   SENT: "Sent money",
@@ -70,19 +77,25 @@ export const REL_LABEL: Record<string, string> = {
   HAS_FP: "Partner fingerprint",
   SAME_AS: "Fingerprint match",
 };
-export const REL_DEFAULT = "#4A5170";
+export const REL_DEFAULT = "#8A90A6";
 export const relColor = (rel: string) => REL_COLOR[rel] ?? REL_DEFAULT;
 export const relLabel = (rel: string) =>
   REL_LABEL[rel] ?? rel.toLowerCase().replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase());
 
 export const SCENARIO_COLOR: Record<string, string> = {
-  S1: "#0EA371",
-  S2: "#F59E0B",
-  S3: "#E5484D",
-  S4: "#0EA5B7",
-  S5: "#F43F5E",
-  S6: "#8B5CF6",
+  S1: "#087A54",
+  S2: "#9A5B00",
+  S3: "#C22E33",
+  S4: "#0B8FA3",
+  S5: "#D6336C",
+  S6: "#7C4DDB",
 };
-export const SCENARIO_NONE = "#3A405A";
+export const SCENARIO_NONE = "#C3C7D2";
 
 export const bankColor = (b?: string | null) => (b && BANK[b]) || NO_BANK;
+
+/** "#RRGGBB" + alpha -> rgba() */
+export function hexA(hex: string, a: number) {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
+}

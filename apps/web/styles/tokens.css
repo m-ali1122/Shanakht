@@ -1,49 +1,52 @@
-/* Shanakht — "Indus Night" palette.
+/* Shanakht — console v3: light, unboxed (docs/CONSOLE_V3.md).
    Four brand roles: main (cobalt), background, foreground, accent (lime).
-   The console is dark, in the same family as the pitch page (--night-*).
-   Text tokens are checked for AA (4.5:1) on --bg, --surface and --surface-2. */
+   The console is light; the pitch page keeps its own night set (--night-*), --main, --accent,
+   the status fills and the bank colours, whose values are unchanged.
+   Text tokens are AA (4.5:1) on --bg and --surface-2. */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
   /* brand roles */
-  --main:       #3452FF;   /* cobalt: primary actions, selection (fills, never small text) */
-  --main-ink:   #93A3FF;   /* main as text on dark surfaces (AA: 7.4:1 on --surface) */
-  --main-soft:  #18204A;   /* tinted fill behind main */
-  --accent:     #B8F04A;   /* lime: focus highlight fill only */
+  --main:       #3452FF;   /* cobalt: primary actions, selection, stage fills */
+  --main-ink:   #2A41D6;   /* main as text on white (6.6:1) */
+  --main-soft:  #EEF1FF;   /* tinted fill behind main */
+  --accent:     #B8F04A;   /* lime: fill only (focus halo, current stage marker), never text */
   --accent-ink: #0B0E1A;   /* text placed on accent */
 
-  /* dark surfaces (console) */
-  --bg:         #0A0C14;
-  --surface:    #11141F;
-  --surface-2:  #191D2B;
-  --fg:         #EEF0F6;   /* 16:1 on --surface */
-  --fg-2:       #B6BCD2;   /* 9.6:1 */
-  --muted:      #8A90AA;   /* 5.6:1 on --surface, 5.1:1 on --surface-2 */
-  --rule:       #252A3B;
+  /* light surfaces (console) */
+  --bg:         #FFFFFF;
+  --surface:    #FFFFFF;
+  --surface-2:  #F5F6F8;   /* hover / selected rows and inputs only */
+  --fg:         #0B0E1A;   /* 19:1 */
+  --fg-2:       #3A4058;   /* 10:1 */
+  --muted:      #6B7190;   /* 4.9:1 on white, 4.6:1 on --surface-2 */
+  --rule:       #E6E8EE;
 
-  /* status (semantic, not brand): fills, plus *-ink for text on dark */
+  /* status (semantic, not brand): fills, plus *-ink for text on white */
   --match:      #0EA371;
   --close:      #F59E0B;
   --nomatch:    #E5484D;
-  --match-ink:  #4ADE9B;
-  --close-ink:  #F7BE5A;
-  --nomatch-ink:#FF8589;
+  --match-ink:  #087A54;   /* 5.4:1 */
+  --close-ink:  #9A5B00;   /* 5.5:1 */
+  --nomatch-ink:#C22E33;   /* 5.3:1 */
 
-  /* partner banks: distinct, calm hues (also used by the pitch page; unchanged) */
+  /* partner banks (also used by the pitch page; unchanged) */
   --bank-mrgl:  #3452FF;
   --bank-ravi:  #8B5CF6;
   --bank-chnb:  #0EA5B7;
   --bank-inds:  #D97706;
 
-  /* night set (pitch page) */
+  /* night set (pitch page; unchanged) */
   --night-bg:   #0A0C14;
   --night-bg-2: #11141F;
   --night-fg:   #EEF0F6;
   --night-muted:#8A90AA;
   --night-rule: #1F2333;
 
-  --radius:     10px;
-  --radius-sm:  6px;
+  --radius:     4px;   /* controls only */
+  --radius-sm:  4px;
+  --topbar-h:   52px;  /* 0 in immersive / fullscreen; drawers sit below it */
+  --demobar-h:  48px;  /* 0 in immersive; drawers stop above it */
 
   /* legacy aliases so untouched components keep rendering */
   --paper:      var(--bg);

@@ -6,13 +6,16 @@ import { api, MOCK } from "./api";
 import { caseForPayee } from "./mock";
 
 type Phase = "idle" | "running" | "done" | "error";
-/** Console workspaces (docs/CONSOLE_V2.md). */
+/** Console workspaces. Ids are stable (URLs use them); the tab labels are VIEW_LABEL (docs/CONSOLE_V3.md). */
 export type View = "inbound" | "investigate" | "graph" | "audit";
 export const VIEWS: View[] = ["inbound", "investigate", "graph", "audit"];
+export const VIEW_LABEL: Record<View, string> = { inbound: "Check", investigate: "Investigate", graph: "Graph", audit: "Ledger" };
 type CaseStatus = "idle" | "running" | "ready" | "approving" | "approved" | "rejected";
 
 interface State {
   view: View;
+  /** Immersive: the shell hides its top bar and demo bar (GRAPH sets this with its fullscreen toggle). */
+  immersive: boolean;
   scenarioIdx: number; // 0..5
   stepPtr: number;
   graph: GraphElements | null;
@@ -51,6 +54,7 @@ interface State {
   busy: boolean;
 
   setView: (v: View) => void;
+  setImmersive: (on: boolean) => void;
   init: () => Promise<void>;
   setScenario: (idx: number) => Promise<void>;
   next: () => Promise<void>;
@@ -101,7 +105,7 @@ function liveRingIds(g: GraphElements | null): string[] {
   return [...liveFocus(g), ...S5_RING, ...ids];
 }
 /** Count phone/device identifiers (by hash, merging ph:/dv:/fp: twins) linked to 2+ ring accounts, from the graph payload. */
-function sharedIdentifiers(g: GraphElements | null): { phones: number; devices: number } {
+export function sharedIdentifiers(g: GraphElements | null): { phones: number; devices: number } {
   if (!g) return { phones: 0, devices: 0 };
   const nodes = new Map(g.nodes.map((n) => [n.data.id, n.data]));
   const adj = new Map<string, Set<string>>();
@@ -196,6 +200,7 @@ export const useStore = create<State>((set, get) => {
   const goto = (view: View) => { if (get().view !== view) set({ view }); };
   return {
   view: "inbound" as View,
+  immersive: false,
   scenarioIdx: 0,
   graph: null,
   focus: SCENARIOS[0].focus,
@@ -213,6 +218,7 @@ export const useStore = create<State>((set, get) => {
   ...blank,
 
   setView(view) { set({ view }); },
+  setImmersive(immersive) { set({ immersive }); },
 
   async init() {
     try {

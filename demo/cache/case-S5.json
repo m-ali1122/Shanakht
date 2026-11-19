@@ -5,7 +5,7 @@
    "step": "start",
    "status": "ok",
    "data": {
-    "case_id": "case-edec5fbdd0",
+    "case_id": "case-50fbd5e983",
     "trigger": {
      "type": "ring_alert",
      "ref_ids": [
@@ -30,9 +30,9 @@
     "tool_calls": [
      "run_cypher"
     ],
-    "ms": 5830
+    "ms": 8658
    },
-   "ms": 5884
+   "ms": 8672
   },
   {
    "step": "cypher",
@@ -40,8 +40,8 @@
    "data": {
     "attempt": 1,
     "tool_call": 1,
-    "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account) WHERE a.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] RETURN a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr\nLIMIT 200",
-    "purpose": "Transfer history summary for RM-S5 to listed accounts",
+    "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account)\nWHERE a.iban IN [$ACCT_1, $ACCT_2, $ACCT_3, $ACCT_4, $ACCT_5]\nRETURN a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT t.ts.year + '-' + t.ts.month) AS distinct_months, sum(t.amount_pkr) AS total_pkr\nLIMIT 200",
+    "purpose": "Get transfer history for remitter RM-S5 to each of the five accounts",
     "repair": false,
     "repair_n": 0,
     "row_count": 5,
@@ -88,7 +88,7 @@
      }
     ]
    },
-   "ms": 3186
+   "ms": 5639
   },
   {
    "step": "integrity",
@@ -98,8 +98,8 @@
     "total": 5,
     "excluded_rows": 0,
     "excluded_elements": [],
-    "epoch": 26,
-    "root": "0xc3a448e4d59edf6b4b2c31b7e5098d590093547917c13a4087c2b4c1622c983f",
+    "epoch": 39,
+    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
     "note": ""
    },
    "ms": 0
@@ -109,13 +109,13 @@
    "status": "ok",
    "data": {
     "purpose": "case_agent",
-    "egress_sha256": "1c5d165f02a896d3daef9e7ad1d85922c539ff5a90f25f98d82ac7accf562591",
+    "egress_sha256": "fe3fa35ed7fcbae255ae1808d485c716f4d6a6fa5289e65123d2a44c4c04037a",
     "tool_calls": [
      "run_cypher"
     ],
-    "ms": 1767
+    "ms": 8079
    },
-   "ms": 1770
+   "ms": 8083
   },
   {
    "step": "cypher",
@@ -123,8 +123,8 @@
    "data": {
     "attempt": 2,
     "tool_call": 2,
-    "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(r) WHERE a.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] AND b.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] AND a <> b RETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\nLIMIT 200",
-    "purpose": "Find shared fingerprints among RM-S5 beneficiaries",
+    "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(r)\nWHERE a.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] AND b.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] AND a <> b\nRETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\nLIMIT 200",
+    "purpose": "Find shared fingerprints among RM-S5 beneficiaries PK36MRGL0000000000050001-5",
     "repair": false,
     "repair_n": 0,
     "row_count": 8,
@@ -171,7 +171,7 @@
      }
     ]
    },
-   "ms": 2966
+   "ms": 3707
   },
   {
    "step": "integrity",
@@ -181,8 +181,8 @@
     "total": 6,
     "excluded_rows": 0,
     "excluded_elements": [],
-    "epoch": 26,
-    "root": "0xc3a448e4d59edf6b4b2c31b7e5098d590093547917c13a4087c2b4c1622c983f",
+    "epoch": 39,
+    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
     "note": ""
    },
    "ms": 0
@@ -192,43 +192,88 @@
    "status": "ok",
    "data": {
     "purpose": "case_agent",
-    "egress_sha256": "5227a75321dc62303a8e025a07062839334dcfeb917cf4a12da88383bdcaeb2f",
+    "egress_sha256": "b7e2f105294aa69310214e6e4ad8563c225e4aeb9a6c8978226f9455c7787345",
     "tool_calls": [
-     "propose_action"
+     "get_registry_status"
     ],
-    "ms": 1951
+    "ms": 1572
    },
-   "ms": 1957
+   "ms": 1574
   },
   {
-   "step": "propose_action",
+   "step": "registry",
    "status": "ok",
    "data": {
-    "action": "hold_and_publish",
-    "rationale": "RM‑S5 sent 7 transfers to five beneficiaries between 2026‑10‑14 and 2026‑10‑16. Accounts PK36RAVI0000000000050003, PK36RAVI0000000000050004 and PK36INDS0000000000050005 share Fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 (and PK36RAVI0000000000050003‑PK36INDS0000000000050005 also share 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb), forming a cluster of ≥3 beneficiaries linked by a common fingerprint within a short window. This meets the ring‑signal criteria; hold the current payment and publish the involved fingerprints to the consortium registry."
+    "flagged": true
    },
-   "ms": 2
+   "ms": 97
   },
   {
    "step": "model",
    "status": "ok",
    "data": {
     "purpose": "case_agent",
-    "egress_sha256": "d2f04a39860e98c7f5e3e453a20dfc079fe839f1fa40aed60fe148e07f154669",
-    "tool_calls": [],
-    "ms": 17814
+    "egress_sha256": "ab711251c1fcbe087e0423298547d68b8e436bcc1e97278207b4f9648b2a2945",
+    "tool_calls": [
+     "run_cypher"
+    ],
+    "ms": 1224
    },
-   "ms": 17816
+   "ms": 1225
+  },
+  {
+   "step": "cypher",
+   "status": "ok",
+   "data": {
+    "attempt": 3,
+    "tool_call": 4,
+    "query": "MATCH (f:Fingerprint {fp:'374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb'}) RETURN f.fp AS fp\nLIMIT 200",
+    "purpose": "Check if 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb is flagged",
+    "repair": false,
+    "repair_n": 0,
+    "row_count": 1,
+    "rows": [
+     {
+      "fp": "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb"
+     }
+    ]
+   },
+   "ms": 441
+  },
+  {
+   "step": "integrity",
+   "status": "ok",
+   "data": {
+    "verified": 1,
+    "total": 1,
+    "excluded_rows": 0,
+    "excluded_elements": [],
+    "epoch": 39,
+    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+    "note": ""
+   },
+   "ms": 0
+  },
+  {
+   "step": "model",
+   "status": "ok",
+   "data": {
+    "purpose": "case_agent",
+    "egress_sha256": "860e6ad86724dc703e9d2fa57ba9795ed806a917bcac1c4d06fa62f120d02dd5",
+    "tool_calls": [],
+    "ms": 36007
+   },
+   "ms": 36010
   },
   {
    "step": "model",
    "status": "ok",
    "data": {
     "purpose": "case_output",
-    "egress_sha256": "d3e84ec07813d2ad13f8d872a7a8ab0d9be5c42ff5fd3801b70a6d2230600fcd",
-    "ms": 20744
+    "egress_sha256": "07d26dcacc219fb191cffda45ccb050973739c9ffa691906ede66c2f36e2dbd9",
+    "ms": 35021
    },
-   "ms": 20746
+   "ms": 35022
   },
   {
    "step": "validate",
@@ -236,7 +281,7 @@
    "data": {
     "schema": "CASE_OUTPUT"
    },
-   "ms": 46
+   "ms": 38
   },
   {
    "step": "publish_list",
@@ -247,27 +292,27 @@
     ],
     "note": "all fingerprints shared by 2+ ring accounts"
    },
-   "ms": 3936
+   "ms": 3135
   },
   {
    "step": "evidence",
    "status": "ok",
    "data": {
-    "items": 2,
+    "items": 3,
     "stripped": []
    },
-   "ms": 3
+   "ms": 0
   },
   {
    "step": "final",
    "status": "ok",
    "data": {
     "trigger": "ring_alert",
-    "narrative": "Remitter RM-S5 made seven transfers to five distinct beneficiary accounts between 2026-10-14 and 2026-10-16. Accounts PK36RAVI0000000000050003, PK36RAVI0000000000050004 and PK36INDS0000000000050005 are linked by shared fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9, forming a cluster of three beneficiaries within a short time window, satisfying the ring‑signal criteria.",
-    "narrative_ur": "",
+    "narrative": "RM-S5 sent five transfers to PK36MRGL0000000000050001‑5 between 14‑16 Oct 2026. Accounts PK36RAVI0000000000050003, PK36RAVI0000000000050004 and PK36INDS0000000000050005 share fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9, forming a ring of three beneficiaries within a short window. 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb is also present but links only two accounts. The pattern indicates coordinated activity.",
+    "narrative_ur": "RM-S5 نے 14‑16 اکتوبر 2026 کے درمیان PK36MRGL0000000000050001‑5 کو پانچ ٹرانسفر بھیجے۔ PK36RAVI0000000000050003، PK36RAVI0000000000050004 اور PK36INDS0000000000050005 ایک ہی فنگر پرنٹ e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 شیئر کرتے ہیں، جو مختصر مدت میں تینbeneficiaries کا رِنگ بناتا ہے۔ 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb بھی موجود ہے مگر صرف دو اکاؤنٹس کو جوڑتا ہے۔ یہ نمونہ مربوط سرگرمی کی نشاندہی کرتا ہے۔",
     "evidence": [
      {
-      "claim": "Transfer history shows 7 transfers to 5 beneficiaries in a 3‑day window",
+      "claim": "Recent transfers to five beneficiaries within 3 days",
       "node_ids": [
        "PK36MRGL0000000000050001",
        "PK36MRGL0000000000050002",
@@ -277,31 +322,41 @@
       ]
      },
      {
-      "claim": "Fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 is shared by beneficiaries PK36RAVI0000000000050003, PK36RAVI0000000000050004 and PK36INDS0000000000050005",
+      "claim": "Fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 links PK36RAVI0000000000050003, PK36RAVI0000000000050004, PK36INDS0000000000050005",
       "node_ids": [
+       "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
        "PK36RAVI0000000000050003",
        "PK36RAVI0000000000050004",
-       "PK36INDS0000000000050005",
-       "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+       "PK36INDS0000000000050005"
+      ]
+     },
+     {
+      "claim": "Fingerprint 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb is flagged in registry",
+      "node_ids": [
+       "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb"
       ]
      }
     ],
-    "risk": "medium",
+    "risk": "high",
     "recommended_action": "hold_and_publish",
     "fingerprints_to_publish": [
      "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
      "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
     ],
     "confidence": 0.85,
-    "open_questions": [],
-    "id": "case-edec5fbdd0",
-    "case_id": "case-edec5fbdd0",
+    "open_questions": [
+     "Is the remitter RM-S5 a known legitimate sender?",
+     "What is the source of funds for these transfers?",
+     "Are the beneficiary accounts linked to any sanctioned entities?"
+    ],
+    "id": "case-50fbd5e983",
+    "case_id": "case-50fbd5e983",
     "integrity": {
      "verified": 18,
      "total": 18,
-     "epoch": 26,
-     "root": "0xc3a448e4d59edf6b4b2c31b7e5098d590093547917c13a4087c2b4c1622c983f",
-     "block": 4,
+     "epoch": 39,
+     "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+     "block": 12,
      "items": [
       {
        "id": "PK36INDS0000000000050005",
@@ -433,11 +488,11 @@
     },
     "case": {
      "trigger": "ring_alert",
-     "narrative": "Remitter RM-S5 made seven transfers to five distinct beneficiary accounts between 2026-10-14 and 2026-10-16. Accounts PK36RAVI0000000000050003, PK36RAVI0000000000050004 and PK36INDS0000000000050005 are linked by shared fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9, forming a cluster of three beneficiaries within a short time window, satisfying the ring‑signal criteria.",
-     "narrative_ur": "",
+     "narrative": "RM-S5 sent five transfers to PK36MRGL0000000000050001‑5 between 14‑16 Oct 2026. Accounts PK36RAVI0000000000050003, PK36RAVI0000000000050004 and PK36INDS0000000000050005 share fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9, forming a ring of three beneficiaries within a short window. 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb is also present but links only two accounts. The pattern indicates coordinated activity.",
+     "narrative_ur": "RM-S5 نے 14‑16 اکتوبر 2026 کے درمیان PK36MRGL0000000000050001‑5 کو پانچ ٹرانسفر بھیجے۔ PK36RAVI0000000000050003، PK36RAVI0000000000050004 اور PK36INDS0000000000050005 ایک ہی فنگر پرنٹ e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 شیئر کرتے ہیں، جو مختصر مدت میں تینbeneficiaries کا رِنگ بناتا ہے۔ 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb بھی موجود ہے مگر صرف دو اکاؤنٹس کو جوڑتا ہے۔ یہ نمونہ مربوط سرگرمی کی نشاندہی کرتا ہے۔",
      "evidence": [
       {
-       "claim": "Transfer history shows 7 transfers to 5 beneficiaries in a 3‑day window",
+       "claim": "Recent transfers to five beneficiaries within 3 days",
        "node_ids": [
         "PK36MRGL0000000000050001",
         "PK36MRGL0000000000050002",
@@ -447,26 +502,36 @@
        ]
       },
       {
-       "claim": "Fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 is shared by beneficiaries PK36RAVI0000000000050003, PK36RAVI0000000000050004 and PK36INDS0000000000050005",
+       "claim": "Fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 links PK36RAVI0000000000050003, PK36RAVI0000000000050004, PK36INDS0000000000050005",
        "node_ids": [
+        "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
         "PK36RAVI0000000000050003",
         "PK36RAVI0000000000050004",
-        "PK36INDS0000000000050005",
-        "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+        "PK36INDS0000000000050005"
+       ]
+      },
+      {
+       "claim": "Fingerprint 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb is flagged in registry",
+       "node_ids": [
+        "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb"
        ]
       }
      ],
-     "risk": "medium",
+     "risk": "high",
      "recommended_action": "hold_and_publish",
      "fingerprints_to_publish": [
       "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
       "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
      ],
      "confidence": 0.85,
-     "open_questions": []
+     "open_questions": [
+      "Is the remitter RM-S5 a known legitimate sender?",
+      "What is the source of funds for these transfers?",
+      "Are the beneficiary accounts linked to any sanctioned entities?"
+     ]
     },
-    "epoch": 26,
-    "root": "0xc3a448e4d59edf6b4b2c31b7e5098d590093547917c13a4087c2b4c1622c983f",
+    "epoch": 39,
+    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
     "evidence_leaves": {
      "Account:PK36INDS0000000000050005": "0xb288e95438aa14171a10a650dda354b8c10ac753ae55bc9c608856042631d2a1",
      "Account:PK36MRGL0000000000050001": "0xb2d628aa98c5d4dd3a1ebb9904407271f57e93150daa1d6cfc97f12889e19fdc",
@@ -490,35 +555,42 @@
     "excluded_elements": [],
     "egress_hashes": [
      "a1dc48cebe54e4f73f9d983a8bcaea170fc018d5fe351f0b896fb68ffe60b385",
-     "1c5d165f02a896d3daef9e7ad1d85922c539ff5a90f25f98d82ac7accf562591",
-     "5227a75321dc62303a8e025a07062839334dcfeb917cf4a12da88383bdcaeb2f",
-     "d2f04a39860e98c7f5e3e453a20dfc079fe839f1fa40aed60fe148e07f154669",
-     "d3e84ec07813d2ad13f8d872a7a8ab0d9be5c42ff5fd3801b70a6d2230600fcd"
+     "fe3fa35ed7fcbae255ae1808d485c716f4d6a6fa5289e65123d2a44c4c04037a",
+     "b7e2f105294aa69310214e6e4ad8563c225e4aeb9a6c8978226f9455c7787345",
+     "ab711251c1fcbe087e0423298547d68b8e436bcc1e97278207b4f9648b2a2945",
+     "860e6ad86724dc703e9d2fa57ba9795ed806a917bcac1c4d06fa62f120d02dd5",
+     "07d26dcacc219fb191cffda45ccb050973739c9ffa691906ede66c2f36e2dbd9"
     ],
     "mode": "llm",
     "stripped_citations": [],
     "cypher_attempts": [
      {
       "attempt": 1,
-      "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account) WHERE a.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] RETURN a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr\nLIMIT 200",
+      "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account)\nWHERE a.iban IN [$ACCT_1, $ACCT_2, $ACCT_3, $ACCT_4, $ACCT_5]\nRETURN a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT t.ts.year + '-' + t.ts.month) AS distinct_months, sum(t.amount_pkr) AS total_pkr\nLIMIT 200",
       "ok": true,
       "error": null
      },
      {
       "attempt": 2,
-      "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(r) WHERE a.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] AND b.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] AND a <> b RETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\nLIMIT 200",
+      "query": "MATCH (r:Remitter {rmid:'RM-S5'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(r)\nWHERE a.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] AND b.iban IN [$ACCT_1,$ACCT_2,$ACCT_3,$ACCT_4,$ACCT_5] AND a <> b\nRETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\nLIMIT 200",
       "ok": true,
       "error": null
      },
      {
       "attempt": 3,
+      "query": "MATCH (f:Fingerprint {fp:'374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb'}) RETURN f.fp AS fp\nLIMIT 200",
+      "ok": true,
+      "error": null
+     },
+     {
+      "attempt": 4,
       "query": "MATCH (rm:Remitter {rmid:$rmid})-[:SENT]->(t:Transfer)-[:TO]->(a:Account) OPTIONAL MATCH (a)-[:HAS_FP]->(f:Fingerprint) OPTIONAL MATCH (a)<-[:HOLDS]-(:Record)-[:USES_PHONE|USES_DEVICE]->(x) RETURN rm.rmid AS rmid, a.iban AS iban, a.bank AS bank, count(DISTINCT t) AS transfers, sum(t.amount_pkr) AS pkr, min(t.ts) AS first_ts, max(t.ts) AS last_ts, collect(DISTINCT f.fp) + collect(DISTINCT x.h) AS fps\nLIMIT 200",
       "ok": true,
       "error": null
      }
     ]
    },
-   "ms": 597
+   "ms": 537
   }
  ]
 }

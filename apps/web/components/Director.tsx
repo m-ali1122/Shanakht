@@ -5,7 +5,7 @@ import { MOCK } from "@/lib/api";
 import { micToggle } from "@/components/shell/mic";
 import { useUI } from "@/components/shell/ui";
 
-/** Demo-director keys (spec 6.3), plus the workspace chord: G then I / V / G / A. */
+/** Demo-director keys (spec 6.3), plus the tab chord: G then C / I / G / L. */
 async function playClip() {
   const st = useStore.getState();
   const i = st.voiceIdx;
@@ -27,7 +27,9 @@ function isTyping(t: EventTarget | null) {
   return el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.isContentEditable;
 }
 
-const CHORD: Record<string, View> = { i: "inbound", v: "investigate", g: "graph", a: "audit" };
+// Tabs: Check · Investigate · Graph · Ledger -> G then C / I / G / L.
+// v2 letters V (investigate) and A (audit) still work; v2's I (inbound) now means Investigate.
+const CHORD: Record<string, View> = { c: "inbound", i: "investigate", g: "graph", l: "audit", v: "investigate", a: "audit" };
 let chordTimer: ReturnType<typeof setTimeout> | null = null;
 
 export default function Director() {

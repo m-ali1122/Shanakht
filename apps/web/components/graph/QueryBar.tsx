@@ -78,16 +78,16 @@ export default function QueryBar({ data }: { data: GData }) {
   );
 
   return (
-    <div className="pointer-events-auto w-[min(720px,calc(100vw-120px))]">
-      <div className="flex h-11 items-center gap-1 rounded-[var(--radius)] border border-rule bg-surface/95 pl-1 pr-1.5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.8)] backdrop-blur-md focus-within:border-main/70">
-        <div className="flex shrink-0 rounded-[var(--radius-sm)] bg-surface-2 p-0.5" role="tablist" aria-label="Query mode">
+    <div className="pointer-events-auto relative w-[min(560px,calc(100vw-32px))]">
+      <div className="flex h-10 items-center gap-1 rounded-[4px] border border-rule bg-bg pl-1 pr-1.5 focus-within:border-main">
+        <div className="flex shrink-0 gap-0.5" role="tablist" aria-label="Query mode">
           {MODES.map((m) => (
             <button
               key={m.key}
               role="tab"
               aria-selected={mode === m.key}
               onClick={() => { setMode(m.key); setOpen(true); if (m.key !== "patterns") setTimeout(() => input.current?.focus(), 0); }}
-              className={`flex h-8 items-center gap-1.5 rounded-[5px] px-2.5 text-[13px] font-medium ${mode === m.key ? "bg-surface text-fg shadow-sm" : "text-fg-2 hover:text-fg"}`}
+              className={`flex h-8 items-center gap-1.5 rounded-[3px] px-2 text-[13px] ${mode === m.key ? "bg-main-soft font-medium text-main-ink" : "text-fg-2 hover:bg-surface-2 hover:text-fg"}`}
             >
               {m.icon}
               {m.label}
@@ -102,26 +102,27 @@ export default function QueryBar({ data }: { data: GData }) {
             onFocus={() => setOpen(true)}
             onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); submit(); } if (e.key === "Escape") setOpen(false); }}
             placeholder={MODES.find((m) => m.key === mode)!.ph}
-            className="h-9 min-w-0 flex-1 bg-transparent px-2.5 text-[14px] text-fg outline-none placeholder:text-muted"
+            className="h-9 min-w-0 flex-1 border-l border-rule bg-transparent px-2.5 text-[14px] text-fg outline-none placeholder:text-muted"
             aria-label={mode === "find" ? "Find an entity" : "Ask the graph"}
           />
         ) : (
-          <div className="min-w-0 flex-1 truncate px-2.5 text-[13px] text-fg-2">{active ? active.title : "Pick a detector below"}</div>
+          <div className="min-w-0 flex-1 truncate border-l border-rule px-2.5 text-[13px] text-fg-2">{active ? active.title : "Pick a detector below"}</div>
         )}
         {busy ? <Loader2 size={15} className="mr-1 animate-spin text-muted" /> : mode !== "patterns" && text ? (
-          <kbd className="mr-1 flex items-center gap-1 rounded border border-rule px-1.5 py-0.5 text-[11px] text-muted"><CornerDownLeft size={11} /></kbd>
+          <kbd className="mr-1 flex items-center gap-1 rounded-[3px] border border-rule px-1.5 py-0.5 text-[11px] text-muted"><CornerDownLeft size={11} /></kbd>
         ) : null}
         {highlight && (
-          <span className="flex shrink-0 items-center gap-1 rounded-full bg-accent/15 py-0.5 pl-2 pr-1 text-[12px] text-fg">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-            {highlight.label}
-            <button onClick={reset} className="rounded-full p-0.5 text-muted hover:text-fg" aria-label="Clear highlight"><X size={12} /></button>
+          <span className="flex h-7 max-w-[180px] shrink-0 items-center gap-1.5 rounded-[3px] bg-surface-2 pl-2 pr-0.5 text-[12px] text-fg" title={highlight.label}>
+            <span className="h-2 w-2 shrink-0 rounded-full bg-accent" />
+            <span className="truncate">
+            {highlight.label}</span>
+            <button onClick={reset} className="grid h-6 w-6 shrink-0 place-items-center rounded-[3px] text-muted hover:bg-rule hover:text-fg" aria-label="Clear highlight"><X size={12} /></button>
           </span>
         )}
       </div>
 
       {panel && (
-        <div className="mt-1.5 max-h-[52vh] overflow-hidden rounded-[var(--radius)] border border-rule bg-surface/97 shadow-[0_24px_48px_-24px_rgba(0,0,0,0.9)] backdrop-blur-md">
+        <div className="absolute left-0 right-0 top-[calc(100%+4px)] z-40 max-h-[56vh] overflow-hidden rounded-[4px] border border-rule bg-bg">
           <div className="flex items-center justify-end px-2 pt-1.5">
             <button onClick={() => setOpen(false)} className="rounded p-1 text-muted hover:text-fg" aria-label="Close results"><X size={13} /></button>
           </div>
@@ -132,12 +133,12 @@ export default function QueryBar({ data }: { data: GData }) {
               <ul>
                 {hits.map((h) => (
                   <li key={h.id}>
-                    <button onClick={() => pick(h.id)} className="flex w-full items-center gap-2.5 rounded-[var(--radius-sm)] px-2 py-1.5 text-left hover:bg-surface-2">
+                    <button onClick={() => pick(h.id)} className="flex h-9 w-full items-center gap-2.5 rounded-[3px] px-2 text-left hover:bg-surface-2">
                       <KindGlyph kind={h.kind} />
                       <span className="min-w-0 flex-1 truncate text-[13.5px] text-fg">{h.label}</span>
                       <span className="shrink-0 text-[12px] text-muted">{KIND_LABEL[h.kind as Kind] ?? h.kind}</span>
                       {h.bank && <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: BANK[h.bank] ?? "#5C627C" }} title={h.bank} />}
-                      <span className="w-[150px] shrink-0 truncate text-right font-mono text-[11.5px] text-muted">{h.id}</span>
+                      <span className="w-[120px] shrink-0 truncate text-right font-mono text-[11.5px] text-muted">{h.id}</span>
                     </button>
                   </li>
                 ))}
@@ -161,7 +162,7 @@ export default function QueryBar({ data }: { data: GData }) {
                 {answer.cypher && (
                   <details className="group">
                     <summary className="cursor-pointer list-none text-[12px] text-fg-2 hover:text-fg">Show the query</summary>
-                    <pre className="scroll-thin mt-1 max-h-32 overflow-auto whitespace-pre-wrap break-words rounded-[var(--radius-sm)] bg-surface-2 px-2 py-1.5 font-mono text-[11.5px] text-fg-2">{answer.cypher}</pre>
+                    <pre className="scroll-thin mt-1 max-h-32 overflow-auto whitespace-pre-wrap break-words rounded-[3px] bg-surface-2 px-2 py-1.5 font-mono text-[11.5px] text-fg-2">{answer.cypher}</pre>
                   </details>
                 )}
               </div>
@@ -169,16 +170,19 @@ export default function QueryBar({ data }: { data: GData }) {
 
             {mode === "patterns" && (
               <div className="space-y-2">
-                <ul className="grid grid-cols-1 gap-1 sm:grid-cols-2">
+                <ul>
                   {(patterns.length ? patterns : []).map((p) => (
                     <li key={p.key}>
                       <button
                         onClick={() => runPattern(p.key)}
                         aria-pressed={active?.key === p.key}
-                        className={`w-full rounded-[var(--radius-sm)] border px-2.5 py-2 text-left transition-colors ${active?.key === p.key ? "border-accent/60 bg-accent/10" : "border-rule hover:border-main/60"}`}
+                        className={`flex w-full gap-2.5 rounded-[3px] px-2 py-2 text-left transition-colors ${active?.key === p.key ? "bg-main-soft" : "hover:bg-surface-2"}`}
                       >
-                        <div className="text-[13px] font-medium text-fg">{p.title}</div>
-                        <div className="text-[12px] leading-snug text-muted">{p.description}</div>
+                        <span className={`mt-[5px] h-2 w-2 shrink-0 rounded-full ${active?.key === p.key ? "bg-accent" : "bg-rule"}`} />
+                        <span className="min-w-0">
+                          <span className={`block text-[13px] font-medium ${active?.key === p.key ? "text-main-ink" : "text-fg"}`}>{p.title}</span>
+                          <span className="block text-[12.5px] leading-snug text-muted">{p.description}</span>
+                        </span>
                       </button>
                     </li>
                   ))}
@@ -197,7 +201,7 @@ export default function QueryBar({ data }: { data: GData }) {
                           <li key={i}>
                             <button
                               onClick={() => setHighlight({ nodes: m, links: [], label: `${active.title} ${i + 1}` })}
-                              className="flex w-full items-baseline gap-2 rounded-[var(--radius-sm)] px-1 py-1 text-left text-[12.5px] hover:bg-surface-2"
+                              className="flex w-full items-baseline gap-2 rounded-[3px] px-1 py-1 text-left text-[12.5px] hover:bg-surface-2"
                             >
                               <span className="w-5 shrink-0 font-mono text-[11px] text-muted">{i + 1}</span>
                               <span className="min-w-0 flex-1 truncate text-fg-2">{lab.slice(0, 6).join(" · ")}{lab.length > 6 ? ` +${lab.length - 6}` : ""}</span>

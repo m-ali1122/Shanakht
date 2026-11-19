@@ -10,7 +10,7 @@
     "urdu_name": "محمد علی",
     "status": "FOUND"
    },
-   "ms": 4658
+   "ms": 4848
   },
   {
    "step": "compare",
@@ -104,7 +104,7 @@
      ]
     }
    },
-   "ms": 4220
+   "ms": 4160
   },
   {
    "step": "history",
@@ -115,7 +115,7 @@
     "last": "2026-11-01",
     "months": 5
    },
-   "ms": 46
+   "ms": 31
   },
   {
    "step": "decision",
@@ -134,26 +134,26 @@
     },
     "note": "7 prior transfers"
    },
-   "ms": 1
+   "ms": 2
   },
   {
    "step": "phrase",
    "status": "ok",
    "data": {
-    "en": "The name matches with initial expanded and patronymic dropped.",
-    "ur": "نام میں ابتدائی توسیع اور خاندانی نام حذف ہوا ہے۔",
+    "en": "Match found with initial expanded and patronymic dropped.",
+    "ur": "مطابقت ملتی ہے ابتدائی توسیع اور خاندانی نام حذف کے ساتھ۔",
     "source": "llm",
     "egress_sha256": "e3d0db31ab4bb78c8bd3fd2c610bff377d019967241fca6cf11c94766a4ac78b"
    },
-   "ms": 13517
+   "ms": 12733
   },
   {
    "step": "final",
    "status": "ok",
    "data": {
     "scenario": "S2",
-    "case_id": "case-e0bdfd1096",
-    "payee_check_id": "pc-e0bdfd1096",
+    "case_id": "case-b6eb56b67d",
+    "payee_check_id": "pc-b6eb56b67d",
     "bank": "RAVI",
     "title": "MUHAMMAD ALI",
     "urdu_name": "محمد علی",
@@ -205,14 +205,14 @@
      "note": "7 prior transfers"
     },
     "phrase": {
-     "en": "The name matches with initial expanded and patronymic dropped.",
-     "ur": "نام میں ابتدائی توسیع اور خاندانی نام حذف ہوا ہے۔",
+     "en": "Match found with initial expanded and patronymic dropped.",
+     "ur": "مطابقت ملتی ہے ابتدائی توسیع اور خاندانی نام حذف کے ساتھ۔",
      "source": "llm",
      "egress_sha256": "e3d0db31ab4bb78c8bd3fd2c610bff377d019967241fca6cf11c94766a4ac78b"
     },
     "explain": {
-     "en": "The name matches with initial expanded and patronymic dropped.",
-     "ur": "نام میں ابتدائی توسیع اور خاندانی نام حذف ہوا ہے۔"
+     "en": "Match found with initial expanded and patronymic dropped.",
+     "ur": "مطابقت ملتی ہے ابتدائی توسیع اور خاندانی نام حذف کے ساتھ۔"
     },
     "ledger": null,
     "banner": null,
@@ -224,7 +224,7 @@
      ]
     }
    },
-   "ms": 2
+   "ms": 13
   }
  ]
 }

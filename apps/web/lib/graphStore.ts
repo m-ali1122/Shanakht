@@ -20,9 +20,10 @@ export type Filters = {
   hiddenRels: string[];
   minScore: number;
   hidePartnerFp: boolean;
-  onlyScenario: boolean;
+  /** case neighbourhoods to bring forward (empty = all); entities outside them fade, they do not vanish */
+  cases: string[];
 };
-export const DEFAULT_FILTERS: Filters = { hiddenKinds: [], hiddenBanks: [], hiddenRels: [], minScore: 0, hidePartnerFp: false, onlyScenario: false };
+export const DEFAULT_FILTERS: Filters = { hiddenKinds: [], hiddenBanks: [], hiddenRels: [], minScore: 0, hidePartnerFp: false, cases: [] };
 
 type Highlight = { nodes: string[]; links: string[]; label: string } | null;
 
