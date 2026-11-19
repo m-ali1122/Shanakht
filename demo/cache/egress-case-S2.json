@@ -1,0 +1,553 @@
+{
+ "recorded_from": "live",
+ "ms": 2,
+ "result": {
+  "case_id": "case-f00d9b92b5",
+  "items": [
+   {
+    "id": 232,
+    "case_id": "case-f00d9b92b5",
+    "ts": 1794239222.1870496,
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "sha256": "9281636da33c18db76b4ac5d92fcd189ac66e8754280bf07fb9dd851a35cd1b1",
+    "payload": {
+     "provider": "groq",
+     "request": {
+      "messages": [
+       {
+        "content": "You are a case investigator for a Pakistani bank's remittance operations team. You never act on your own; you gather evidence and recommend, and a human analyst approves or rejects.\n\nYou have read-only access to an identity graph through run_cypher, plus get_registry_status and propose_action. Records from partner banks appear only as Fingerprint nodes; you cannot see their names or raw identifiers, and you must not speculate about them.\n\nMethod:\n1. State what triggered the case in one line.\n2. Gather the minimum evidence needed: transfer history, shared phone or device fingerprints, timing, number of banks involved, registry status.\n3. If a query fails, read the error and fix the query. Do not guess results.\n4. Stop after at most 6 tool calls.\n5. Recommend exactly one action: proceed, hold, or hold_and_publish (hold and publish the ring's fingerprints to the consortium registry). Use hold_and_publish only when at least three beneficiaries are linked by a shared fingerprint and the transfer timing is clustered.\n\nReading fingerprints correctly: the consortium data holds many ordinary fingerprint overlaps (families share phones, branches share devices), so \"this account has fingerprints\" or \"other accounts share a fingerprint with it\" is background noise and is NOT a ring signal. A ring signal exists only when several beneficiary accounts that were paid by the SAME remitter within a short window are linked to each other through a shared fingerprint. Always scope fingerprint queries to that remitter's own beneficiaries (remitter ids such as RM-S2 are written inline as string literals; only ACCT_n tokens are $parameters), for example: MATCH (:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(:Remitter {rmid:'<rmid from the trigger>'}) WHERE a <> b RETURN DISTINCT a.iban, b.iban, f.fp. Aggregate queries must still RETURN the plain id columns (rmid, iban) next to the counts, because only ids that appear in result rows can be cited as evidence. Never query fingerprints across the whole graph and never report counts of unscoped fingerprint matches as evidence.\n\nFor a close_match trigger (a payee name only approximately matches the account title): the question is whether this remitter already pays this account regularly. Query the transfer history from that remitter to that account (count, first and last date, number of distinct months, total), for example: MATCH (r:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr (Transfer.ts is a datetime, so use .year/.month, not substring), then run one remitter-scoped ring check as above. If the history shows repeat transfers over several months (at least 3 transfers across at least 3 distinct months) and the scoped ring check finds no beneficiary linked by a shared fingerprint, recommend proceed with low risk; a name variant alone is not grounds for holding. If there is no history, say so and recommend hold.\n\nEvery evidence item must cite node IDs that appeared in your tool results. If evidence is thin, say so and recommend hold, not proceed. Keep the narrative under 90 words. No speculation about anyone's intent; describe patterns only. \"hold\" means holding this payment for review; never recommend freezing or blocking an account, which requires legal authority and verification under SBP instructions.\n\nAll identifiers reach you as tokens (PERSON_n, ACCT_n, CNIC_n, PHONE_n, DEV_n, FP_n), and query results arrive tokenized and aggregated. Use tokens as given, pass them as query parameters, and never ask for or guess real values.\n\nOutput must match CASE_OUTPUT.\n\nGraph schema:\nNode labels and the properties that actually exist in the graph:\n(:Bank {code, name})                                   // code in MRGL, RAVI, CHNB, INDS\n(:Account {iban, bank, title_raw, title_script})       // title_raw only on accounts that have a local Record\n(:Record {rid, bank, raw_name, urdu_name, script, cnic_syn, phone, device})   // one per customer record at the home bank (MRGL)\n(:Person {pid, canonical_name})                        // resolved entity\n(:Remitter {rmid, name, country})                      // the sender abroad\n(:ExchangeHouse {code, name, country})                 // GULF, THMS, NAJD, HUDS\n(:Transfer {tid, amount_pkr, amount_fx, currency, ts, typed_name, band})      // ts is a ZONED DATETIME\n(:Phone {h}) (:Device {h})                             // h = HMAC fingerprint of a record's phone / device\n(:Fingerprint {fp, kind, bank, batch_id, signer})      // opaque, from partner banks; kind in phone, device, cnic\n(:Decision {did, hash, band, action, approver, ts, tx})\n\nRelationships (direction matters):\n(Record)-[:HOLDS]->(Account)-[:AT]->(Bank)\n(Record)-[:RESOLVES_TO {score}]->(Person)\n(Record)-[:USES_PHONE]->(Phone)   (Record)-[:USES_DEVICE]->(Device)\n(Remitter)-[:SENT]->(Transfer)-[:TO]->(Account)\n(Transfer)-[:VIA]->(ExchangeHouse)\n(Phone)-[:SAME_AS]->(Fingerprint)   (Device)-[:SAME_AS]->(Fingerprint)    // cross-bank link without raw data\n(Account)-[:HAS_FP]->(Fingerprint)                     // accounts at partner banks (RAVI, CHNB, INDS) have NO Record; they reach phones/devices only through Fingerprint\n(Decision)-[:ABOUT]->(Transfer|Person)\n\nNotes: only MRGL accounts have a Record, a Person and a title_raw. Partner-bank accounts are identified by iban and bank only. A beneficiary is an Account: count \"people\" or \"beneficiaries\" as DISTINCT Account.iban, not Person.",
+        "role": "system"
+       },
+       {
+        "content": "Case trigger: close_match. References: id RM-S2; account ACCT_1 (query parameter $ACCT_1). Today is 2026-11-09. Transfer.ts values are ISO-8601 datetimes. Investigate and recommend.",
+        "role": "user"
+       }
+      ],
+      "model": "openai/gpt-oss-120b",
+      "temperature": 0,
+      "tools": [
+       {
+        "function": {
+         "description": "Run one read-only Cypher query (Neo4j 5). LIMIT 200 is forced; 3 s timeout. Use $TOKEN parameters (e.g. $ACCT_1) for identifiers. Results come back tokenized and aggregated.",
+         "name": "run_cypher",
+         "parameters": {
+          "properties": {
+           "purpose": {
+            "type": "string"
+           },
+           "query": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "query"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       },
+       {
+        "function": {
+         "description": "Check whether a fingerprint token (FP_n) is flagged on the consortium MuleRegistry.",
+         "name": "get_registry_status",
+         "parameters": {
+          "properties": {
+           "fp": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "fp"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       },
+       {
+        "function": {
+         "description": "Record the action you recommend. Does not execute anything.",
+         "name": "propose_action",
+         "parameters": {
+          "properties": {
+           "action": {
+            "enum": [
+             "proceed",
+             "hold",
+             "hold_and_publish"
+            ]
+           },
+           "rationale": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "action",
+           "rationale"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       }
+      ]
+     }
+    },
+    "prompt_tokens": 1664,
+    "completion_tokens": 364,
+    "substitutions": 0,
+    "blocked": false,
+    "reason": null,
+    "purpose": "case_agent"
+   },
+   {
+    "id": 233,
+    "case_id": "case-f00d9b92b5",
+    "ts": 1794239225.5037196,
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "sha256": "9fd5db9db58ef022311c4624a5cf414477e4f30ac72d2cf1777095cba3af86ba",
+    "payload": {
+     "provider": "groq",
+     "request": {
+      "messages": [
+       {
+        "content": "You are a case investigator for a Pakistani bank's remittance operations team. You never act on your own; you gather evidence and recommend, and a human analyst approves or rejects.\n\nYou have read-only access to an identity graph through run_cypher, plus get_registry_status and propose_action. Records from partner banks appear only as Fingerprint nodes; you cannot see their names or raw identifiers, and you must not speculate about them.\n\nMethod:\n1. State what triggered the case in one line.\n2. Gather the minimum evidence needed: transfer history, shared phone or device fingerprints, timing, number of banks involved, registry status.\n3. If a query fails, read the error and fix the query. Do not guess results.\n4. Stop after at most 6 tool calls.\n5. Recommend exactly one action: proceed, hold, or hold_and_publish (hold and publish the ring's fingerprints to the consortium registry). Use hold_and_publish only when at least three beneficiaries are linked by a shared fingerprint and the transfer timing is clustered.\n\nReading fingerprints correctly: the consortium data holds many ordinary fingerprint overlaps (families share phones, branches share devices), so \"this account has fingerprints\" or \"other accounts share a fingerprint with it\" is background noise and is NOT a ring signal. A ring signal exists only when several beneficiary accounts that were paid by the SAME remitter within a short window are linked to each other through a shared fingerprint. Always scope fingerprint queries to that remitter's own beneficiaries (remitter ids such as RM-S2 are written inline as string literals; only ACCT_n tokens are $parameters), for example: MATCH (:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(:Remitter {rmid:'<rmid from the trigger>'}) WHERE a <> b RETURN DISTINCT a.iban, b.iban, f.fp. Aggregate queries must still RETURN the plain id columns (rmid, iban) next to the counts, because only ids that appear in result rows can be cited as evidence. Never query fingerprints across the whole graph and never report counts of unscoped fingerprint matches as evidence.\n\nFor a close_match trigger (a payee name only approximately matches the account title): the question is whether this remitter already pays this account regularly. Query the transfer history from that remitter to that account (count, first and last date, number of distinct months, total), for example: MATCH (r:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr (Transfer.ts is a datetime, so use .year/.month, not substring), then run one remitter-scoped ring check as above. If the history shows repeat transfers over several months (at least 3 transfers across at least 3 distinct months) and the scoped ring check finds no beneficiary linked by a shared fingerprint, recommend proceed with low risk; a name variant alone is not grounds for holding. If there is no history, say so and recommend hold.\n\nEvery evidence item must cite node IDs that appeared in your tool results. If evidence is thin, say so and recommend hold, not proceed. Keep the narrative under 90 words. No speculation about anyone's intent; describe patterns only. \"hold\" means holding this payment for review; never recommend freezing or blocking an account, which requires legal authority and verification under SBP instructions.\n\nAll identifiers reach you as tokens (PERSON_n, ACCT_n, CNIC_n, PHONE_n, DEV_n, FP_n), and query results arrive tokenized and aggregated. Use tokens as given, pass them as query parameters, and never ask for or guess real values.\n\nOutput must match CASE_OUTPUT.\n\nGraph schema:\nNode labels and the properties that actually exist in the graph:\n(:Bank {code, name})                                   // code in MRGL, RAVI, CHNB, INDS\n(:Account {iban, bank, title_raw, title_script})       // title_raw only on accounts that have a local Record\n(:Record {rid, bank, raw_name, urdu_name, script, cnic_syn, phone, device})   // one per customer record at the home bank (MRGL)\n(:Person {pid, canonical_name})                        // resolved entity\n(:Remitter {rmid, name, country})                      // the sender abroad\n(:ExchangeHouse {code, name, country})                 // GULF, THMS, NAJD, HUDS\n(:Transfer {tid, amount_pkr, amount_fx, currency, ts, typed_name, band})      // ts is a ZONED DATETIME\n(:Phone {h}) (:Device {h})                             // h = HMAC fingerprint of a record's phone / device\n(:Fingerprint {fp, kind, bank, batch_id, signer})      // opaque, from partner banks; kind in phone, device, cnic\n(:Decision {did, hash, band, action, approver, ts, tx})\n\nRelationships (direction matters):\n(Record)-[:HOLDS]->(Account)-[:AT]->(Bank)\n(Record)-[:RESOLVES_TO {score}]->(Person)\n(Record)-[:USES_PHONE]->(Phone)   (Record)-[:USES_DEVICE]->(Device)\n(Remitter)-[:SENT]->(Transfer)-[:TO]->(Account)\n(Transfer)-[:VIA]->(ExchangeHouse)\n(Phone)-[:SAME_AS]->(Fingerprint)   (Device)-[:SAME_AS]->(Fingerprint)    // cross-bank link without raw data\n(Account)-[:HAS_FP]->(Fingerprint)                     // accounts at partner banks (RAVI, CHNB, INDS) have NO Record; they reach phones/devices only through Fingerprint\n(Decision)-[:ABOUT]->(Transfer|Person)\n\nNotes: only MRGL accounts have a Record, a Person and a title_raw. Partner-bank accounts are identified by iban and bank only. A beneficiary is an Account: count \"people\" or \"beneficiaries\" as DISTINCT Account.iban, not Person.",
+        "role": "system"
+       },
+       {
+        "content": "Case trigger: close_match. References: id RM-S2; account ACCT_1 (query parameter $ACCT_1). Today is 2026-11-09. Transfer.ts values are ISO-8601 datetimes. Investigate and recommend.",
+        "role": "user"
+       },
+       {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+         {
+          "function": {
+           "arguments": "{\"purpose\": \"transfer history for RM-S2 to ACCT_1\", \"query\": \"MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr\"}",
+           "name": "run_cypher"
+          },
+          "id": "fc_005c673f-db74-427e-8510-f66a12dacd00",
+          "type": "function"
+         }
+        ]
+       },
+       {
+        "content": "{\"row_count\": 1, \"columns\": [\"rmid\", \"iban\", \"transfers\", \"first_ts\", \"last_ts\", \"distinct_months\", \"total_pkr\"], \"rows\": [{\"rmid\": \"RM-S2\", \"iban\": \"ACCT_1\", \"transfers\": 7, \"first_ts\": \"2026-06-02T14:05:00.000000000+00:00\", \"last_ts\": \"2026-11-01T14:11:00.000000000+00:00\", \"distinct_months\": 6, \"total_pkr\": 611800}], \"truncated\": false, \"integrity_note\": null}",
+        "role": "tool",
+        "tool_call_id": "fc_005c673f-db74-427e-8510-f66a12dacd00"
+       }
+      ],
+      "model": "openai/gpt-oss-120b",
+      "temperature": 0,
+      "tools": [
+       {
+        "function": {
+         "description": "Run one read-only Cypher query (Neo4j 5). LIMIT 200 is forced; 3 s timeout. Use $TOKEN parameters (e.g. $ACCT_1) for identifiers. Results come back tokenized and aggregated.",
+         "name": "run_cypher",
+         "parameters": {
+          "properties": {
+           "purpose": {
+            "type": "string"
+           },
+           "query": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "query"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       },
+       {
+        "function": {
+         "description": "Check whether a fingerprint token (FP_n) is flagged on the consortium MuleRegistry.",
+         "name": "get_registry_status",
+         "parameters": {
+          "properties": {
+           "fp": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "fp"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       },
+       {
+        "function": {
+         "description": "Record the action you recommend. Does not execute anything.",
+         "name": "propose_action",
+         "parameters": {
+          "properties": {
+           "action": {
+            "enum": [
+             "proceed",
+             "hold",
+             "hold_and_publish"
+            ]
+           },
+           "rationale": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "action",
+           "rationale"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       }
+      ]
+     }
+    },
+    "prompt_tokens": 1967,
+    "completion_tokens": 369,
+    "substitutions": 0,
+    "blocked": false,
+    "reason": null,
+    "purpose": "case_agent"
+   },
+   {
+    "id": 234,
+    "case_id": "case-f00d9b92b5",
+    "ts": 1794239227.3998847,
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "sha256": "9f60789fb4312c385fb5b99cf5cebfce214e6de640381095f6c710a7d7d65fbf",
+    "payload": {
+     "provider": "groq",
+     "request": {
+      "messages": [
+       {
+        "content": "You are a case investigator for a Pakistani bank's remittance operations team. You never act on your own; you gather evidence and recommend, and a human analyst approves or rejects.\n\nYou have read-only access to an identity graph through run_cypher, plus get_registry_status and propose_action. Records from partner banks appear only as Fingerprint nodes; you cannot see their names or raw identifiers, and you must not speculate about them.\n\nMethod:\n1. State what triggered the case in one line.\n2. Gather the minimum evidence needed: transfer history, shared phone or device fingerprints, timing, number of banks involved, registry status.\n3. If a query fails, read the error and fix the query. Do not guess results.\n4. Stop after at most 6 tool calls.\n5. Recommend exactly one action: proceed, hold, or hold_and_publish (hold and publish the ring's fingerprints to the consortium registry). Use hold_and_publish only when at least three beneficiaries are linked by a shared fingerprint and the transfer timing is clustered.\n\nReading fingerprints correctly: the consortium data holds many ordinary fingerprint overlaps (families share phones, branches share devices), so \"this account has fingerprints\" or \"other accounts share a fingerprint with it\" is background noise and is NOT a ring signal. A ring signal exists only when several beneficiary accounts that were paid by the SAME remitter within a short window are linked to each other through a shared fingerprint. Always scope fingerprint queries to that remitter's own beneficiaries (remitter ids such as RM-S2 are written inline as string literals; only ACCT_n tokens are $parameters), for example: MATCH (:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(:Remitter {rmid:'<rmid from the trigger>'}) WHERE a <> b RETURN DISTINCT a.iban, b.iban, f.fp. Aggregate queries must still RETURN the plain id columns (rmid, iban) next to the counts, because only ids that appear in result rows can be cited as evidence. Never query fingerprints across the whole graph and never report counts of unscoped fingerprint matches as evidence.\n\nFor a close_match trigger (a payee name only approximately matches the account title): the question is whether this remitter already pays this account regularly. Query the transfer history from that remitter to that account (count, first and last date, number of distinct months, total), for example: MATCH (r:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr (Transfer.ts is a datetime, so use .year/.month, not substring), then run one remitter-scoped ring check as above. If the history shows repeat transfers over several months (at least 3 transfers across at least 3 distinct months) and the scoped ring check finds no beneficiary linked by a shared fingerprint, recommend proceed with low risk; a name variant alone is not grounds for holding. If there is no history, say so and recommend hold.\n\nEvery evidence item must cite node IDs that appeared in your tool results. If evidence is thin, say so and recommend hold, not proceed. Keep the narrative under 90 words. No speculation about anyone's intent; describe patterns only. \"hold\" means holding this payment for review; never recommend freezing or blocking an account, which requires legal authority and verification under SBP instructions.\n\nAll identifiers reach you as tokens (PERSON_n, ACCT_n, CNIC_n, PHONE_n, DEV_n, FP_n), and query results arrive tokenized and aggregated. Use tokens as given, pass them as query parameters, and never ask for or guess real values.\n\nOutput must match CASE_OUTPUT.\n\nGraph schema:\nNode labels and the properties that actually exist in the graph:\n(:Bank {code, name})                                   // code in MRGL, RAVI, CHNB, INDS\n(:Account {iban, bank, title_raw, title_script})       // title_raw only on accounts that have a local Record\n(:Record {rid, bank, raw_name, urdu_name, script, cnic_syn, phone, device})   // one per customer record at the home bank (MRGL)\n(:Person {pid, canonical_name})                        // resolved entity\n(:Remitter {rmid, name, country})                      // the sender abroad\n(:ExchangeHouse {code, name, country})                 // GULF, THMS, NAJD, HUDS\n(:Transfer {tid, amount_pkr, amount_fx, currency, ts, typed_name, band})      // ts is a ZONED DATETIME\n(:Phone {h}) (:Device {h})                             // h = HMAC fingerprint of a record's phone / device\n(:Fingerprint {fp, kind, bank, batch_id, signer})      // opaque, from partner banks; kind in phone, device, cnic\n(:Decision {did, hash, band, action, approver, ts, tx})\n\nRelationships (direction matters):\n(Record)-[:HOLDS]->(Account)-[:AT]->(Bank)\n(Record)-[:RESOLVES_TO {score}]->(Person)\n(Record)-[:USES_PHONE]->(Phone)   (Record)-[:USES_DEVICE]->(Device)\n(Remitter)-[:SENT]->(Transfer)-[:TO]->(Account)\n(Transfer)-[:VIA]->(ExchangeHouse)\n(Phone)-[:SAME_AS]->(Fingerprint)   (Device)-[:SAME_AS]->(Fingerprint)    // cross-bank link without raw data\n(Account)-[:HAS_FP]->(Fingerprint)                     // accounts at partner banks (RAVI, CHNB, INDS) have NO Record; they reach phones/devices only through Fingerprint\n(Decision)-[:ABOUT]->(Transfer|Person)\n\nNotes: only MRGL accounts have a Record, a Person and a title_raw. Partner-bank accounts are identified by iban and bank only. A beneficiary is an Account: count \"people\" or \"beneficiaries\" as DISTINCT Account.iban, not Person.",
+        "role": "system"
+       },
+       {
+        "content": "Case trigger: close_match. References: id RM-S2; account ACCT_1 (query parameter $ACCT_1). Today is 2026-11-09. Transfer.ts values are ISO-8601 datetimes. Investigate and recommend.",
+        "role": "user"
+       },
+       {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+         {
+          "function": {
+           "arguments": "{\"purpose\": \"transfer history for RM-S2 to ACCT_1\", \"query\": \"MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr\"}",
+           "name": "run_cypher"
+          },
+          "id": "fc_005c673f-db74-427e-8510-f66a12dacd00",
+          "type": "function"
+         }
+        ]
+       },
+       {
+        "content": "{\"row_count\": 1, \"columns\": [\"rmid\", \"iban\", \"transfers\", \"first_ts\", \"last_ts\", \"distinct_months\", \"total_pkr\"], \"rows\": [{\"rmid\": \"RM-S2\", \"iban\": \"ACCT_1\", \"transfers\": 7, \"first_ts\": \"2026-06-02T14:05:00.000000000+00:00\", \"last_ts\": \"2026-11-01T14:11:00.000000000+00:00\", \"distinct_months\": 6, \"total_pkr\": 611800}], \"truncated\": false, \"integrity_note\": null}",
+        "role": "tool",
+        "tool_call_id": "fc_005c673f-db74-427e-8510-f66a12dacd00"
+       },
+       {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+         {
+          "function": {
+           "arguments": "{\"purpose\": \"ring check for RM-S2 beneficiaries sharing fingerprint with ACCT_1\", \"query\": \"MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(:Transfer)-[:TO]->(a:Account {iban:$ACCT_1})-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)\\nWHERE (r)-[:SENT]->(:Transfer)-[:TO]->(b)\\nRETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\"}",
+           "name": "run_cypher"
+          },
+          "id": "fc_9597fbfc-5484-47f1-a33a-90aa2d74c4f4",
+          "type": "function"
+         }
+        ]
+       },
+       {
+        "content": "{\"row_count\": 0, \"columns\": [], \"rows\": [], \"truncated\": false, \"integrity_note\": null}",
+        "role": "tool",
+        "tool_call_id": "fc_9597fbfc-5484-47f1-a33a-90aa2d74c4f4"
+       }
+      ],
+      "model": "openai/gpt-oss-120b",
+      "temperature": 0,
+      "tools": [
+       {
+        "function": {
+         "description": "Run one read-only Cypher query (Neo4j 5). LIMIT 200 is forced; 3 s timeout. Use $TOKEN parameters (e.g. $ACCT_1) for identifiers. Results come back tokenized and aggregated.",
+         "name": "run_cypher",
+         "parameters": {
+          "properties": {
+           "purpose": {
+            "type": "string"
+           },
+           "query": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "query"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       },
+       {
+        "function": {
+         "description": "Check whether a fingerprint token (FP_n) is flagged on the consortium MuleRegistry.",
+         "name": "get_registry_status",
+         "parameters": {
+          "properties": {
+           "fp": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "fp"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       },
+       {
+        "function": {
+         "description": "Record the action you recommend. Does not execute anything.",
+         "name": "propose_action",
+         "parameters": {
+          "properties": {
+           "action": {
+            "enum": [
+             "proceed",
+             "hold",
+             "hold_and_publish"
+            ]
+           },
+           "rationale": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "action",
+           "rationale"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       }
+      ]
+     }
+    },
+    "prompt_tokens": 2141,
+    "completion_tokens": 289,
+    "substitutions": 0,
+    "blocked": false,
+    "reason": null,
+    "purpose": "case_agent"
+   },
+   {
+    "id": 236,
+    "case_id": "case-f00d9b92b5",
+    "ts": 1794239229.1717749,
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "sha256": "2efb9ae840fd61bac392907502aad2f852ceee946b4110eec7b42fb88b08d6e1",
+    "payload": {
+     "provider": "groq",
+     "request": {
+      "messages": [
+       {
+        "content": "You are a case investigator for a Pakistani bank's remittance operations team. You never act on your own; you gather evidence and recommend, and a human analyst approves or rejects.\n\nYou have read-only access to an identity graph through run_cypher, plus get_registry_status and propose_action. Records from partner banks appear only as Fingerprint nodes; you cannot see their names or raw identifiers, and you must not speculate about them.\n\nMethod:\n1. State what triggered the case in one line.\n2. Gather the minimum evidence needed: transfer history, shared phone or device fingerprints, timing, number of banks involved, registry status.\n3. If a query fails, read the error and fix the query. Do not guess results.\n4. Stop after at most 6 tool calls.\n5. Recommend exactly one action: proceed, hold, or hold_and_publish (hold and publish the ring's fingerprints to the consortium registry). Use hold_and_publish only when at least three beneficiaries are linked by a shared fingerprint and the transfer timing is clustered.\n\nReading fingerprints correctly: the consortium data holds many ordinary fingerprint overlaps (families share phones, branches share devices), so \"this account has fingerprints\" or \"other accounts share a fingerprint with it\" is background noise and is NOT a ring signal. A ring signal exists only when several beneficiary accounts that were paid by the SAME remitter within a short window are linked to each other through a shared fingerprint. Always scope fingerprint queries to that remitter's own beneficiaries (remitter ids such as RM-S2 are written inline as string literals; only ACCT_n tokens are $parameters), for example: MATCH (:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(:Remitter {rmid:'<rmid from the trigger>'}) WHERE a <> b RETURN DISTINCT a.iban, b.iban, f.fp. Aggregate queries must still RETURN the plain id columns (rmid, iban) next to the counts, because only ids that appear in result rows can be cited as evidence. Never query fingerprints across the whole graph and never report counts of unscoped fingerprint matches as evidence.\n\nFor a close_match trigger (a payee name only approximately matches the account title): the question is whether this remitter already pays this account regularly. Query the transfer history from that remitter to that account (count, first and last date, number of distinct months, total), for example: MATCH (r:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr (Transfer.ts is a datetime, so use .year/.month, not substring), then run one remitter-scoped ring check as above. If the history shows repeat transfers over several months (at least 3 transfers across at least 3 distinct months) and the scoped ring check finds no beneficiary linked by a shared fingerprint, recommend proceed with low risk; a name variant alone is not grounds for holding. If there is no history, say so and recommend hold.\n\nEvery evidence item must cite node IDs that appeared in your tool results. If evidence is thin, say so and recommend hold, not proceed. Keep the narrative under 90 words. No speculation about anyone's intent; describe patterns only. \"hold\" means holding this payment for review; never recommend freezing or blocking an account, which requires legal authority and verification under SBP instructions.\n\nAll identifiers reach you as tokens (PERSON_n, ACCT_n, CNIC_n, PHONE_n, DEV_n, FP_n), and query results arrive tokenized and aggregated. Use tokens as given, pass them as query parameters, and never ask for or guess real values.\n\nOutput must match CASE_OUTPUT.\n\nGraph schema:\nNode labels and the properties that actually exist in the graph:\n(:Bank {code, name})                                   // code in MRGL, RAVI, CHNB, INDS\n(:Account {iban, bank, title_raw, title_script})       // title_raw only on accounts that have a local Record\n(:Record {rid, bank, raw_name, urdu_name, script, cnic_syn, phone, device})   // one per customer record at the home bank (MRGL)\n(:Person {pid, canonical_name})                        // resolved entity\n(:Remitter {rmid, name, country})                      // the sender abroad\n(:ExchangeHouse {code, name, country})                 // GULF, THMS, NAJD, HUDS\n(:Transfer {tid, amount_pkr, amount_fx, currency, ts, typed_name, band})      // ts is a ZONED DATETIME\n(:Phone {h}) (:Device {h})                             // h = HMAC fingerprint of a record's phone / device\n(:Fingerprint {fp, kind, bank, batch_id, signer})      // opaque, from partner banks; kind in phone, device, cnic\n(:Decision {did, hash, band, action, approver, ts, tx})\n\nRelationships (direction matters):\n(Record)-[:HOLDS]->(Account)-[:AT]->(Bank)\n(Record)-[:RESOLVES_TO {score}]->(Person)\n(Record)-[:USES_PHONE]->(Phone)   (Record)-[:USES_DEVICE]->(Device)\n(Remitter)-[:SENT]->(Transfer)-[:TO]->(Account)\n(Transfer)-[:VIA]->(ExchangeHouse)\n(Phone)-[:SAME_AS]->(Fingerprint)   (Device)-[:SAME_AS]->(Fingerprint)    // cross-bank link without raw data\n(Account)-[:HAS_FP]->(Fingerprint)                     // accounts at partner banks (RAVI, CHNB, INDS) have NO Record; they reach phones/devices only through Fingerprint\n(Decision)-[:ABOUT]->(Transfer|Person)\n\nNotes: only MRGL accounts have a Record, a Person and a title_raw. Partner-bank accounts are identified by iban and bank only. A beneficiary is an Account: count \"people\" or \"beneficiaries\" as DISTINCT Account.iban, not Person.",
+        "role": "system"
+       },
+       {
+        "content": "Case trigger: close_match. References: id RM-S2; account ACCT_1 (query parameter $ACCT_1). Today is 2026-11-09. Transfer.ts values are ISO-8601 datetimes. Investigate and recommend.",
+        "role": "user"
+       },
+       {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+         {
+          "function": {
+           "arguments": "{\"purpose\": \"transfer history for RM-S2 to ACCT_1\", \"query\": \"MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr\"}",
+           "name": "run_cypher"
+          },
+          "id": "fc_005c673f-db74-427e-8510-f66a12dacd00",
+          "type": "function"
+         }
+        ]
+       },
+       {
+        "content": "{\"row_count\": 1, \"columns\": [\"rmid\", \"iban\", \"transfers\", \"first_ts\", \"last_ts\", \"distinct_months\", \"total_pkr\"], \"rows\": [{\"rmid\": \"RM-S2\", \"iban\": \"ACCT_1\", \"transfers\": 7, \"first_ts\": \"2026-06-02T14:05:00.000000000+00:00\", \"last_ts\": \"2026-11-01T14:11:00.000000000+00:00\", \"distinct_months\": 6, \"total_pkr\": 611800}], \"truncated\": false, \"integrity_note\": null}",
+        "role": "tool",
+        "tool_call_id": "fc_005c673f-db74-427e-8510-f66a12dacd00"
+       },
+       {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+         {
+          "function": {
+           "arguments": "{\"purpose\": \"ring check for RM-S2 beneficiaries sharing fingerprint with ACCT_1\", \"query\": \"MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(:Transfer)-[:TO]->(a:Account {iban:$ACCT_1})-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)\\nWHERE (r)-[:SENT]->(:Transfer)-[:TO]->(b)\\nRETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\"}",
+           "name": "run_cypher"
+          },
+          "id": "fc_9597fbfc-5484-47f1-a33a-90aa2d74c4f4",
+          "type": "function"
+         }
+        ]
+       },
+       {
+        "content": "{\"row_count\": 0, \"columns\": [], \"rows\": [], \"truncated\": false, \"integrity_note\": null}",
+        "role": "tool",
+        "tool_call_id": "fc_9597fbfc-5484-47f1-a33a-90aa2d74c4f4"
+       },
+       {
+        "content": null,
+        "role": "assistant",
+        "tool_calls": [
+         {
+          "function": {
+           "arguments": "{\"action\": \"proceed\", \"rationale\": \"Remitter RM-S2 has a history of 7 transfers to ACCT_1 over 6 months, satisfying repeat transfer criteria. No other beneficiary of RM-S2 shares a fingerprint with ACCT_1, so no ring signal. Low risk; proceed.\"}",
+           "name": "propose_action"
+          },
+          "id": "fc_d61cb997-e043-4202-ac8a-7b038727f923",
+          "type": "function"
+         }
+        ]
+       },
+       {
+        "content": "{\"recorded\": true}",
+        "role": "tool",
+        "tool_call_id": "fc_d61cb997-e043-4202-ac8a-7b038727f923"
+       }
+      ],
+      "model": "openai/gpt-oss-120b",
+      "temperature": 0,
+      "tools": [
+       {
+        "function": {
+         "description": "Run one read-only Cypher query (Neo4j 5). LIMIT 200 is forced; 3 s timeout. Use $TOKEN parameters (e.g. $ACCT_1) for identifiers. Results come back tokenized and aggregated.",
+         "name": "run_cypher",
+         "parameters": {
+          "properties": {
+           "purpose": {
+            "type": "string"
+           },
+           "query": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "query"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       },
+       {
+        "function": {
+         "description": "Check whether a fingerprint token (FP_n) is flagged on the consortium MuleRegistry.",
+         "name": "get_registry_status",
+         "parameters": {
+          "properties": {
+           "fp": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "fp"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       },
+       {
+        "function": {
+         "description": "Record the action you recommend. Does not execute anything.",
+         "name": "propose_action",
+         "parameters": {
+          "properties": {
+           "action": {
+            "enum": [
+             "proceed",
+             "hold",
+             "hold_and_publish"
+            ]
+           },
+           "rationale": {
+            "type": "string"
+           }
+          },
+          "required": [
+           "action",
+           "rationale"
+          ],
+          "type": "object"
+         }
+        },
+        "type": "function"
+       }
+      ]
+     }
+    },
+    "prompt_tokens": 2235,
+    "completion_tokens": 92,
+    "substitutions": 0,
+    "blocked": false,
+    "reason": null,
+    "purpose": "case_agent"
+   },
+   {
+    "id": 237,
+    "case_id": "case-f00d9b92b5",
+    "ts": 1794239234.3015316,
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "sha256": "71babf0417cf44b0b289e0562c32fc494d9563b444c9382739a7951664a75f6d",
+    "payload": {
+     "provider": "groq",
+     "request": {
+      "messages": [
+       {
+        "content": "You are a case investigator for a Pakistani bank's remittance operations team. You never act on your own; you gather evidence and recommend, and a human analyst approves or rejects.\n\nYou have read-only access to an identity graph through run_cypher, plus get_registry_status and propose_action. Records from partner banks appear only as Fingerprint nodes; you cannot see their names or raw identifiers, and you must not speculate about them.\n\nMethod:\n1. State what triggered the case in one line.\n2. Gather the minimum evidence needed: transfer history, shared phone or device fingerprints, timing, number of banks involved, registry status.\n3. If a query fails, read the error and fix the query. Do not guess results.\n4. Stop after at most 6 tool calls.\n5. Recommend exactly one action: proceed, hold, or hold_and_publish (hold and publish the ring's fingerprints to the consortium registry). Use hold_and_publish only when at least three beneficiaries are linked by a shared fingerprint and the transfer timing is clustered.\n\nReading fingerprints correctly: the consortium data holds many ordinary fingerprint overlaps (families share phones, branches share devices), so \"this account has fingerprints\" or \"other accounts share a fingerprint with it\" is background noise and is NOT a ring signal. A ring signal exists only when several beneficiary accounts that were paid by the SAME remitter within a short window are linked to each other through a shared fingerprint. Always scope fingerprint queries to that remitter's own beneficiaries (remitter ids such as RM-S2 are written inline as string literals; only ACCT_n tokens are $parameters), for example: MATCH (:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(:Remitter {rmid:'<rmid from the trigger>'}) WHERE a <> b RETURN DISTINCT a.iban, b.iban, f.fp. Aggregate queries must still RETURN the plain id columns (rmid, iban) next to the counts, because only ids that appear in result rows can be cited as evidence. Never query fingerprints across the whole graph and never report counts of unscoped fingerprint matches as evidence.\n\nFor a close_match trigger (a payee name only approximately matches the account title): the question is whether this remitter already pays this account regularly. Query the transfer history from that remitter to that account (count, first and last date, number of distinct months, total), for example: MATCH (r:Remitter {rmid:'<rmid from the trigger>'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr (Transfer.ts is a datetime, so use .year/.month, not substring), then run one remitter-scoped ring check as above. If the history shows repeat transfers over several months (at least 3 transfers across at least 3 distinct months) and the scoped ring check finds no beneficiary linked by a shared fingerprint, recommend proceed with low risk; a name variant alone is not grounds for holding. If there is no history, say so and recommend hold.\n\nEvery evidence item must cite node IDs that appeared in your tool results. If evidence is thin, say so and recommend hold, not proceed. Keep the narrative under 90 words. No speculation about anyone's intent; describe patterns only. \"hold\" means holding this payment for review; never recommend freezing or blocking an account, which requires legal authority and verification under SBP instructions.\n\nAll identifiers reach you as tokens (PERSON_n, ACCT_n, CNIC_n, PHONE_n, DEV_n, FP_n), and query results arrive tokenized and aggregated. Use tokens as given, pass them as query parameters, and never ask for or guess real values.\n\nOutput must match CASE_OUTPUT.\n\nGraph schema:\nNode labels and the properties that actually exist in the graph:\n(:Bank {code, name})                                   // code in MRGL, RAVI, CHNB, INDS\n(:Account {iban, bank, title_raw, title_script})       // title_raw only on accounts that have a local Record\n(:Record {rid, bank, raw_name, urdu_name, script, cnic_syn, phone, device})   // one per customer record at the home bank (MRGL)\n(:Person {pid, canonical_name})                        // resolved entity\n(:Remitter {rmid, name, country})                      // the sender abroad\n(:ExchangeHouse {code, name, country})                 // GULF, THMS, NAJD, HUDS\n(:Transfer {tid, amount_pkr, amount_fx, currency, ts, typed_name, band})      // ts is a ZONED DATETIME\n(:Phone {h}) (:Device {h})                             // h = HMAC fingerprint of a record's phone / device\n(:Fingerprint {fp, kind, bank, batch_id, signer})      // opaque, from partner banks; kind in phone, device, cnic\n(:Decision {did, hash, band, action, approver, ts, tx})\n\nRelationships (direction matters):\n(Record)-[:HOLDS]->(Account)-[:AT]->(Bank)\n(Record)-[:RESOLVES_TO {score}]->(Person)\n(Record)-[:USES_PHONE]->(Phone)   (Record)-[:USES_DEVICE]->(Device)\n(Remitter)-[:SENT]->(Transfer)-[:TO]->(Account)\n(Transfer)-[:VIA]->(ExchangeHouse)\n(Phone)-[:SAME_AS]->(Fingerprint)   (Device)-[:SAME_AS]->(Fingerprint)    // cross-bank link without raw data\n(Account)-[:HAS_FP]->(Fingerprint)                     // accounts at partner banks (RAVI, CHNB, INDS) have NO Record; they reach phones/devices only through Fingerprint\n(Decision)-[:ABOUT]->(Transfer|Person)\n\nNotes: only MRGL accounts have a Record, a Person and a title_raw. Partner-bank accounts are identified by iban and bank only. A beneficiary is an Account: count \"people\" or \"beneficiaries\" as DISTINCT Account.iban, not Person.",
+        "role": "system"
+       },
+       {
+        "content": "Case trigger: close_match. References: id RM-S2; account ACCT_1 (query parameter $ACCT_1). Today is 2026-11-09. Transfer.ts values are ISO-8601 datetimes. Investigate and recommend.",
+        "role": "user"
+       },
+       {
+        "content": "Produce the final case now as JSON matching CASE_OUTPUT (keys: trigger, narrative, narrative_ur, evidence [{claim,node_ids}], risk, recommended_action, fingerprints_to_publish, confidence, open_questions). Cite only ids that appear in the results below.\n\nTool results so far:\n[{\"purpose\": \"transfer history for RM-S2 to ACCT_1\", \"result\": {\"row_count\": 1, \"columns\": [\"rmid\", \"iban\", \"transfers\", \"first_ts\", \"last_ts\", \"distinct_months\", \"total_pkr\"], \"rows\": [{\"rmid\": \"RM-S2\", \"iban\": \"ACCT_1\", \"transfers\": 7, \"first_ts\": \"2026-06-02T14:05:00.000000000+00:00\", \"last_ts\": \"2026-11-01T14:11:00.000000000+00:00\", \"distinct_months\": 6, \"total_pkr\": 611800}], \"truncated\": false, \"integrity_note\": null}}, {\"purpose\": \"ring check for RM-S2 beneficiaries sharing fingerprint with ACCT_1\", \"result\": {\"row_count\": 0, \"columns\": [], \"rows\": [], \"truncated\": false, \"integrity_note\": null}}]\n\nYour proposed action: {\"action\": \"proceed\", \"rationale\": \"Remitter RM-S2 has a history of 7 transfers to ACCT_1 over 6 months, satisfying repeat transfer criteria. No other beneficiary of RM-S2 shares a fingerprint with ACCT_1, so no ring signal. Low risk; proceed.\"}",
+        "role": "user"
+       }
+      ],
+      "model": "openai/gpt-oss-120b",
+      "response_format": {
+       "type": "json_object"
+      },
+      "temperature": 0
+     }
+    },
+    "prompt_tokens": 1868,
+    "completion_tokens": 460,
+    "substitutions": 4,
+    "blocked": false,
+    "reason": null,
+    "purpose": "case_output"
+   }
+  ]
+ }
+}

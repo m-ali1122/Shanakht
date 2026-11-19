@@ -2,11 +2,27 @@
 @import "../styles/tokens.css";
 
 @theme inline {
+  --color-main: var(--main);
+  --color-main-ink: var(--main-ink);
+  --color-main-soft: var(--main-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-surface-2: var(--surface-2);
+  --color-match-ink: var(--match-ink);
+  --color-night-bg: var(--night-bg);
+  --color-night-bg-2: var(--night-bg-2);
+  --color-night-fg: var(--night-fg);
+  --color-night-muted: var(--night-muted);
+  --color-night-rule: var(--night-rule);
   --color-paper: var(--paper);
   --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-muted: var(--muted);
+  --color-close-ink: var(--close-ink);
+  --color-nomatch-ink: var(--nomatch-ink);
   --color-rule: var(--rule);
   --color-accent: var(--accent);
   --color-match: var(--match);
@@ -16,9 +32,10 @@
   --color-bank-ravi: var(--bank-ravi);
   --color-bank-chnb: var(--bank-chnb);
   --color-bank-inds: var(--bank-inds);
-  --font-serif: var(--font-newsreader), Georgia, serif;
-  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
-  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+  --font-serif: var(--font-geist), system-ui, sans-serif; /* legacy class name; display face is Geist now */
+  --font-display: var(--font-geist), system-ui, sans-serif;
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --font-urdu: var(--font-nastaliq), "Noto Nastaliq Urdu", serif;
   --radius-ds: var(--radius);
 }
@@ -28,39 +45,54 @@ html, body {
 }
 
 body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-geist), system-ui, sans-serif;
   font-size: 14px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  overflow: hidden;
+  font-feature-settings: "cv11", "ss01";
 }
 
-/* Section label: small uppercase, tracked, muted */
+/* Section label: small, medium weight, muted. Sentence case, no tracking. */
 .label {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 16px;
   color: var(--muted);
   font-weight: 500;
 }
 
+@layer components {
+/* Panel: dark surface, hairline border. (Kept for components still being retired.) */
+.console-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+
+kbd.key {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 16px;
+  padding: 0 5px;
+  border-radius: 4px;
+  border: 1px solid var(--rule);
+  background: var(--surface-2);
+  color: var(--fg-2);
+}
+}
+
 .urdu {
-  font-family: var(--font-urdu);
+  font-family: var(--font-nastaliq), "Noto Nastaliq Urdu", serif;
   direction: rtl;
   line-height: 2.2;
   unicode-bidi: isolate;
 }
 
 .mono {
-  font-family: var(--font-mono);
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
   font-size: 12px;
 }
-
-.band-tint-MATCH   { background: color-mix(in srgb, var(--match) 12%, var(--surface)); border-left: 3px solid var(--match); }
-.band-tint-CLOSE   { background: color-mix(in srgb, var(--close) 12%, var(--surface)); border-left: 3px solid var(--close); }
-.band-tint-NO_MATCH{ background: color-mix(in srgb, var(--nomatch) 12%, var(--surface)); border-left: 3px solid var(--nomatch); }
-.band-tint-RING    { background: color-mix(in srgb, var(--nomatch) 12%, var(--surface)); border-left: 3px solid var(--nomatch); }
 
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -81,9 +113,27 @@ body {
 
 @keyframes chip-flash {
   0%   { background: var(--surface); }
-  30%  { background: color-mix(in srgb, var(--nomatch) 22%, var(--surface)); }
+  30%  { background: color-mix(in srgb, var(--nomatch) 28%, var(--surface)); border-color: var(--nomatch); }
   100% { background: var(--surface); }
 }
 .chip-flash { animation: chip-flash 1600ms ease-out 1; }
 
-.scroll-thin { scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }
+/* Verdict stamp landing on the name crossing. */
+@keyframes stamp-in {
+  0%   { opacity: 0; transform: rotate(-4deg) scale(1.25); }
+  60%  { opacity: 1; transform: rotate(-4deg) scale(0.97); }
+  100% { opacity: 1; transform: rotate(-4deg) scale(1); }
+}
+.stamp-in { animation: stamp-in 320ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+/* Alignment lines between token columns draw in. */
+@keyframes draw-in {
+  from { stroke-dashoffset: var(--len, 200); }
+  to   { stroke-dashoffset: 0; }
+}
+
+.scroll-thin { scrollbar-gutter: stable; scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-in, .line-in, .stamp-in, .chip-flash { animation: none !important; }
+}

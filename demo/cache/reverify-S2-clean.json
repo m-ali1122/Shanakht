@@ -1,0 +1,90 @@
+{
+ "recorded_from": "live",
+ "events": [
+  {
+   "step": "integrity",
+   "status": "ok",
+   "data": {
+    "verified": 2,
+    "total": 2,
+    "epoch": 17,
+    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+    "block": 10,
+    "items": [
+     {
+      "id": "PK36RAVI0000000000020001",
+      "element_id": "Account:PK36RAVI0000000000020001",
+      "label": "Account",
+      "leaf": "0xdef18f491a14b0",
+      "status": "verified"
+     },
+     {
+      "id": "RM-S2",
+      "element_id": "Remitter:RM-S2",
+      "label": "Remitter",
+      "leaf": "0x668a724a38dc6c",
+      "status": "verified"
+     }
+    ],
+    "text": "2 of 2 evidence items verified against epoch 17"
+   },
+   "ms": 16
+  },
+  {
+   "step": "final",
+   "status": "ok",
+   "data": {
+    "trigger": "close_match",
+    "narrative": "Remitter RM-S2 has made 7 transfers to beneficiary PK36RAVI0000000000020001 across six distinct months, indicating a regular payment pattern. A scoped ring check found no other RM‑S2 beneficiary linked to PK36RAVI0000000000020001 by a shared fingerprint, so no ring signal is present. The activity is consistent with low‑risk behavior.",
+    "narrative_ur": "",
+    "evidence": [
+     {
+      "claim": "7 transfers to PK36RAVI0000000000020001 over 6 months",
+      "node_ids": [
+       "RM-S2",
+       "PK36RAVI0000000000020001"
+      ]
+     },
+     {
+      "claim": "No other beneficiary of RM-S2 shares a fingerprint with PK36RAVI0000000000020001",
+      "node_ids": [
+       "RM-S2",
+       "PK36RAVI0000000000020001"
+      ]
+     }
+    ],
+    "risk": "low",
+    "recommended_action": "proceed",
+    "fingerprints_to_publish": [],
+    "confidence": 0.92,
+    "open_questions": [],
+    "id": "case-f00d9b92b5",
+    "case_id": "case-f00d9b92b5",
+    "integrity": {
+     "verified": 2,
+     "total": 2,
+     "epoch": 17,
+     "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+     "block": 10,
+     "items": [
+      {
+       "id": "PK36RAVI0000000000020001",
+       "element_id": "Account:PK36RAVI0000000000020001",
+       "label": "Account",
+       "leaf": "0xdef18f491a14b0",
+       "status": "verified"
+      },
+      {
+       "id": "RM-S2",
+       "element_id": "Remitter:RM-S2",
+       "label": "Remitter",
+       "leaf": "0x668a724a38dc6c",
+       "status": "verified"
+      }
+     ]
+    }
+   },
+   "ms": 0
+  }
+ ]
+}

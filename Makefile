@@ -1,7 +1,7 @@
 # Unix-ish Makefile. On Windows use scripts/dev.ps1 (same targets).
 PY ?= .venv/Scripts/python.exe
 
-.PHONY: up seed seed-graph dev reset test
+.PHONY: up seed seed-graph dev reset test record-cache
 
 up:
 	docker compose up -d neo4j
@@ -27,4 +27,8 @@ reset:
 	curl -s -X POST http://localhost:8103/demo/reset
 
 test:
-	$(PY) -m pytest services/agent/tests -q
+	$(PY) -m pytest services/agent/tests services/resolver/tests services/banks/tests data/neo4j/tests data/generator/tests -q
+
+# Re-record demo/cache against the live (online) stack: about 10 min, calls the LLM. Agent must not be in DEMO_OFFLINE.
+record-cache:
+	$(PY) scripts/record_cache.py

@@ -1,0 +1,29 @@
+{
+ "recorded_from": "live",
+ "ms": 8202,
+ "result": {
+  "registry_check": "HIT",
+  "fingerprint": "374a6d3dc00a5058",
+  "kind": "device",
+  "bank": "INDS",
+  "block": {
+   "id": 19,
+   "kind": "registry_hit",
+   "hash": "0x374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+   "tx": "",
+   "bank": "INDS",
+   "fp": "374a6d3dc00a5058",
+   "fpKind": "device",
+   "ts": "2026-11-09T18:26:34Z",
+   "detail": {
+    "event": "MuleRegistry.isFlagged",
+    "result": "HIT"
+   }
+  },
+  "fingerprints": {
+   "phone": "5fc70f6e11e3180c",
+   "device": "374a6d3dc00a5058",
+   "cnic": "aed3a90279422058"
+  }
+ }
+}

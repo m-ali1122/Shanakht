@@ -14,6 +14,7 @@ from pydantic import BaseModel
 
 import config
 import graphdb
+import offline
 import sse
 from gateway import GatewayBlocked, get_gateway, parse_json
 from prompts import PAYEE_EXPLAIN
@@ -238,4 +239,7 @@ def run_payee(req: PayeeReq):
 @router.post("/payee-check")
 def payee_check(req: PayeeReq):
     sc = scenario_for(req.iban)
-    return sse.stream(lambda: run_payee(req), f"payee-{sc}" if sc else None)
+    def on_replay(events):
+        fin = events[-1]["data"] if events else {}
+        offline.note_egress(fin.get("payee_check_id"), f"egress-payee-{sc}")
+    return sse.stream(lambda: run_payee(req), f"payee-{sc}" if sc else None, on_replay=on_replay)

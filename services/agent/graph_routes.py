@@ -158,6 +158,11 @@ def graph_neighborhood(ids: str, depth: int = 1):
 @router.get("/ledger/blocks")
 def ledger_blocks(limit: int = 20):
     import ledger
+    import offline
+    if offline.enabled():
+        hit = offline.replay(f"ledger-{offline.STATE['ledger']}") or offline.replay("ledger-base")
+        if hit is not None:
+            return hit
     try:
         return ledger.blocks(limit)
     except Exception as e:
@@ -168,8 +173,13 @@ def ledger_blocks(limit: int = 20):
 def banks_incoming(code: str, payload: dict):
     """Proxy to the banks service; adds which fingerprint kind hit the registry."""
     from chain_client import get_chain
+    import offline
+    if offline.enabled():
+        hit = offline.replay(f"incoming-{code.upper()}-{payload.get('iban')}")
+        if hit:
+            return hit
     try:
-        r = httpx.post(f"{config.BANKS_URL}/banks/{code.upper()}/incoming", json=payload, timeout=8).json()
+        r = httpx.post(f"{config.BANKS_URL}/banks/{code.upper()}/incoming", json=payload, timeout=30).json()
     except Exception as e:
         raise HTTPException(502, f"banks service unavailable: {e}")
     kind, fp = None, None

@@ -19,3 +19,4 @@ services/agent/state/
 
 # large model weights (copy from TaxNet: backend/models/pak-name-matcher-v1)
 services/resolver/models/
+.next-mock/

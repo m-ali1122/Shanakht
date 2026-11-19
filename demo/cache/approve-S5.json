@@ -1,0 +1,95 @@
+{
+ "recorded_from": "live",
+ "ms": 129483,
+ "result": {
+  "blocks": [
+   {
+    "id": 15,
+    "kind": "decision",
+    "hash": "0xf930fe4404dbfe2dbf911ed10ae39056c09c48e1d30115e2aee94871773f71e5",
+    "tx": "0x6e48129289ff8327bc2852ac2e794f79faa960ca236850d876a2bdbcc8461253",
+    "band": "RING",
+    "action": "hold_and_publish",
+    "approver": "analyst-02",
+    "epoch": 18,
+    "ts": "2026-11-09T18:26:22Z",
+    "detail": {
+     "event": "DecisionLog.Anchored",
+     "decision_id": 4,
+     "case": "case-c7ee084af2"
+    }
+   },
+   {
+    "id": 16,
+    "kind": "publish",
+    "hash": "0x374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+    "tx": "0x5273074b0ee9fb28c1034a7bdf95d912e4ad5a6d163f20c15d10caf818a68de8",
+    "bank": "MRGL",
+    "fp": "374a6d3dc00a5058",
+    "fpKind": "device",
+    "ts": "2026-11-09T18:26:22Z",
+    "detail": {
+     "event": "MuleRegistry.Published"
+    }
+   },
+   {
+    "id": 17,
+    "kind": "publish",
+    "hash": "0xe7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+    "tx": "0x4b9c75f3e7df098b94dd86cf67a9468b93305c2aded0198a79a08077257ee1c6",
+    "bank": "MRGL",
+    "fp": "e7edcb403e8aea60",
+    "fpKind": "phone",
+    "ts": "2026-11-09T18:26:22Z",
+    "detail": {
+     "event": "MuleRegistry.Published"
+    }
+   },
+   {
+    "id": 19,
+    "kind": "commit",
+    "hash": "0x282d0bedfb38d28e7cbb5dcea5817fb8fc10e7cfbb610e4fc96a5a11fdd4e0d3",
+    "tx": "0x9f7188133d823ce7925c02a150842aaf143007d80f00d499498869b1a0ec2a67",
+    "epoch": 19,
+    "ts": "2026-11-09T18:26:22Z",
+    "detail": {
+     "event": "GraphRootLog.Committed"
+    }
+   }
+  ],
+  "case_id": "case-c7ee084af2",
+  "status": "approved",
+  "decision_id": 4,
+  "decision_hash": "f930fe4404dbfe2dbf911ed10ae39056c09c48e1d30115e2aee94871773f71e5",
+  "anchor_tx": "0x6e48129289ff8327bc2852ac2e794f79faa960ca236850d876a2bdbcc8461253",
+  "anchor_block": 15,
+  "published": [
+   {
+    "fp": "374a6d3dc00a5058",
+    "tx": "0x5273074b0ee9fb28c1034a7bdf95d912e4ad5a6d163f20c15d10caf818a68de8",
+    "block": 16,
+    "kind": "device"
+   },
+   {
+    "fp": "e7edcb403e8aea60",
+    "tx": "0x4b9c75f3e7df098b94dd86cf67a9468b93305c2aded0198a79a08077257ee1c6",
+    "block": 17,
+    "kind": "phone"
+   }
+  ],
+  "epoch_anchored": 18,
+  "graph_root": "0x5adb6d5c71ee95cd961778ee2c1731d35d1da3d8bf3df382c050b4ca65161b50",
+  "new_epoch": {
+   "epoch": 19,
+   "root": "0x282d0bedfb38d28e7cbb5dcea5817fb8fc10e7cfbb610e4fc96a5a11fdd4e0d3",
+   "node_count": 70303,
+   "edge_count": 112507,
+   "leaves": 182810,
+   "tx": "0x9f7188133d823ce7925c02a150842aaf143007d80f00d499498869b1a0ec2a67",
+   "block": 19,
+   "root_source": "chain",
+   "ms": 125924
+  },
+  "verified": "25 of 25 evidence items verified against epoch 18"
+ }
+}

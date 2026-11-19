@@ -1,0 +1,56 @@
+{
+ "recorded_from": "live",
+ "ms": 34088,
+ "result": {
+  "blocks": [
+   {
+    "id": 13,
+    "kind": "decision",
+    "hash": "0x8fe27dc4f78093329fa7737a3f9da8397c7fc3ae780e7bd5e22f9dda5bc9ec92",
+    "tx": "0xa9b3859db1a1aaf91af0f3ef8d3f5b9083cb3db8ba6b53fa382c5d85c97f586c",
+    "band": "CLOSE",
+    "action": "proceed",
+    "approver": "analyst-02",
+    "epoch": 17,
+    "ts": "2026-11-09T15:48:04Z",
+    "detail": {
+     "event": "DecisionLog.Anchored",
+     "decision_id": 3,
+     "case": "case-f00d9b92b5"
+    }
+   },
+   {
+    "id": 14,
+    "kind": "commit",
+    "hash": "0x5adb6d5c71ee95cd961778ee2c1731d35d1da3d8bf3df382c050b4ca65161b50",
+    "tx": "0xad97afa4c6d0ecfe5d124775d4f986c0fee96283181fbc94345e691acd4a01e7",
+    "epoch": 18,
+    "ts": "2026-11-09T15:48:04Z",
+    "detail": {
+     "event": "GraphRootLog.Committed"
+    }
+   }
+  ],
+  "case_id": "case-f00d9b92b5",
+  "status": "approved",
+  "decision_id": 3,
+  "decision_hash": "8fe27dc4f78093329fa7737a3f9da8397c7fc3ae780e7bd5e22f9dda5bc9ec92",
+  "anchor_tx": "0xa9b3859db1a1aaf91af0f3ef8d3f5b9083cb3db8ba6b53fa382c5d85c97f586c",
+  "anchor_block": 13,
+  "published": [],
+  "epoch_anchored": 17,
+  "graph_root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+  "new_epoch": {
+   "epoch": 18,
+   "root": "0x5adb6d5c71ee95cd961778ee2c1731d35d1da3d8bf3df382c050b4ca65161b50",
+   "node_count": 70302,
+   "edge_count": 112506,
+   "leaves": 182808,
+   "tx": "0xad97afa4c6d0ecfe5d124775d4f986c0fee96283181fbc94345e691acd4a01e7",
+   "block": 14,
+   "root_source": "chain",
+   "ms": 33700
+  },
+  "verified": "2 of 2 evidence items verified against epoch 17"
+ }
+}

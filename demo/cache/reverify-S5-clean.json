@@ -1,0 +1,435 @@
+{
+ "recorded_from": "live",
+ "events": [
+  {
+   "step": "integrity",
+   "status": "ok",
+   "data": {
+    "verified": 25,
+    "total": 25,
+    "epoch": 18,
+    "root": "0x5adb6d5c71ee95cd961778ee2c1731d35d1da3d8bf3df382c050b4ca65161b50",
+    "block": 14,
+    "items": [
+     {
+      "id": "PK36INDS0000000000050005",
+      "element_id": "Account:PK36INDS0000000000050005",
+      "label": "Account",
+      "leaf": "0xb288e95438aa14",
+      "status": "verified"
+     },
+     {
+      "id": "PK36MRGL0000000000050001",
+      "element_id": "Account:PK36MRGL0000000000050001",
+      "label": "Account",
+      "leaf": "0xb2d628aa98c5d4",
+      "status": "verified"
+     },
+     {
+      "id": "PK36MRGL0000000000050002",
+      "element_id": "Account:PK36MRGL0000000000050002",
+      "label": "Account",
+      "leaf": "0x84fe76597a8cda",
+      "status": "verified"
+     },
+     {
+      "id": "PK36RAVI0000000000050003",
+      "element_id": "Account:PK36RAVI0000000000050003",
+      "label": "Account",
+      "leaf": "0x6b70ce4465d6f8",
+      "status": "verified"
+     },
+     {
+      "id": "PK36RAVI0000000000050004",
+      "element_id": "Account:PK36RAVI0000000000050004",
+      "label": "Account",
+      "leaf": "0x333b28f8212e62",
+      "status": "verified"
+     },
+     {
+      "id": "INDS",
+      "element_id": "Bank:INDS",
+      "label": "Bank",
+      "leaf": "0xd6e86cacf879b1",
+      "status": "verified"
+     },
+     {
+      "id": "MRGL",
+      "element_id": "Bank:MRGL",
+      "label": "Bank",
+      "leaf": "0xc36fb9dfd0b56e",
+      "status": "verified"
+     },
+     {
+      "id": "RAVI",
+      "element_id": "Bank:RAVI",
+      "label": "Bank",
+      "leaf": "0x6d24387cb700be",
+      "status": "verified"
+     },
+     {
+      "id": "2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489",
+      "element_id": "Device:2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489",
+      "label": "Device",
+      "leaf": "0x0b7eac110dd28b",
+      "status": "verified"
+     },
+     {
+      "id": "b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898",
+      "element_id": "Device:b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898",
+      "label": "Device",
+      "leaf": "0x26365888d0e186",
+      "status": "verified"
+     },
+     {
+      "id": "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+      "element_id": "Fingerprint:INDS:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+      "label": "Fingerprint",
+      "leaf": "0xba4cd70e33ca3f",
+      "status": "verified"
+     },
+     {
+      "id": "aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+      "element_id": "Fingerprint:INDS:aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+      "label": "Fingerprint",
+      "leaf": "0x258b9dc1d62020",
+      "status": "verified"
+     },
+     {
+      "id": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+      "element_id": "Fingerprint:INDS:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+      "label": "Fingerprint",
+      "leaf": "0xb1bd0db859b001",
+      "status": "verified"
+     },
+     {
+      "id": "23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+      "element_id": "Fingerprint:RAVI:23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+      "label": "Fingerprint",
+      "leaf": "0x86e14adda6e700",
+      "status": "verified"
+     },
+     {
+      "id": "58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+      "element_id": "Fingerprint:RAVI:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+      "label": "Fingerprint",
+      "leaf": "0x2e63284ba8cac5",
+      "status": "verified"
+     },
+     {
+      "id": "b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+      "element_id": "Fingerprint:RAVI:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+      "label": "Fingerprint",
+      "leaf": "0x5b3aa60db0edfb",
+      "status": "verified"
+     },
+     {
+      "id": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+      "element_id": "Phone:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+      "label": "Phone",
+      "leaf": "0xc5ed81b3e0bbcb",
+      "status": "verified"
+     },
+     {
+      "id": "RM-S5",
+      "element_id": "Remitter:RM-S5",
+      "label": "Remitter",
+      "leaf": "0x8cedd976f5c7d2",
+      "status": "verified"
+     },
+     {
+      "id": "T000020",
+      "element_id": "Transfer:T000020",
+      "label": "Transfer",
+      "leaf": "0x2056cd5d7d113f",
+      "status": "verified"
+     },
+     {
+      "id": "T000021",
+      "element_id": "Transfer:T000021",
+      "label": "Transfer",
+      "leaf": "0x1cb3ac0b79c30c",
+      "status": "verified"
+     },
+     {
+      "id": "T000022",
+      "element_id": "Transfer:T000022",
+      "label": "Transfer",
+      "leaf": "0x43ae5648589045",
+      "status": "verified"
+     },
+     {
+      "id": "T000023",
+      "element_id": "Transfer:T000023",
+      "label": "Transfer",
+      "leaf": "0xf2e6a6dd376c54",
+      "status": "verified"
+     },
+     {
+      "id": "T000024",
+      "element_id": "Transfer:T000024",
+      "label": "Transfer",
+      "leaf": "0xe652e0234a6783",
+      "status": "verified"
+     },
+     {
+      "id": "T000025",
+      "element_id": "Transfer:T000025",
+      "label": "Transfer",
+      "leaf": "0x4a6a698f53c796",
+      "status": "verified"
+     },
+     {
+      "id": "T000026",
+      "element_id": "Transfer:T000026",
+      "label": "Transfer",
+      "leaf": "0xbe5b396c1c1f06",
+      "status": "verified"
+     }
+    ],
+    "text": "25 of 25 evidence items verified against epoch 18"
+   },
+   "ms": 875
+  },
+  {
+   "step": "final",
+   "status": "ok",
+   "data": {
+    "trigger": "ring_alert",
+    "narrative": "RM‑S5 sent seven transfers between 14‑Oct‑2026 and 16‑Oct‑2026. Three beneficiaries (PK36INDS0000000000050005, PK36RAVI0000000000050004, PK36RAVI0000000000050003) received payments within two days and are linked by shared fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 (and PK36INDS0000000000050005‑PK36RAVI0000000000050003 also share 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb). The pattern meets ring‑alert criteria, so the payment should be held and the fingerprints published for consortium review.",
+    "narrative_ur": "RM‑S5 نے 14‑اکتوبر‑2026 سے 16‑اکتوبر‑2026 کے درمیان سات ٹرانسفر کیے۔ تین فائدہ اٹھانے والے (PK36INDS0000000000050005, PK36RAVI0000000000050004, PK36RAVI0000000000050003) دو دن کے اندر ادائیگی حاصل کر چکے ہیں اور مشترکہ فنگرپرنٹ e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 (اور PK36INDS0000000000050005‑PK36RAVI0000000000050003 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb بھی) کے ذریعے جڑے ہیں۔ یہ پیٹرن رنگ‑الارٹ معیار پر پورا اترتا ہے، اس لیے ادائیگی کو روک کر فنگرپرنٹس کو شائع کرنا چاہیے۔",
+    "evidence": [
+     {
+      "claim": "Transfers to PK36INDS0000000000050005, PK36RAVI0000000000050004, PK36RAVI0000000000050003 between 2026-10-14 and 2026-10-15",
+      "node_ids": [
+       "RM-S5",
+       "PK36INDS0000000000050005",
+       "T000024",
+       "2026-10-15T10:58:00.000000000+00:00",
+       "PK36RAVI0000000000050004",
+       "T000023",
+       "2026-10-15T03:51:00.000000000+00:00",
+       "PK36RAVI0000000000050003",
+       "T000022",
+       "2026-10-14T19:44:00.000000000+00:00"
+      ]
+     },
+     {
+      "claim": "Accounts PK36INDS0000000000050005, PK36RAVI0000000000050004, PK36RAVI0000000000050003 share fingerprint e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+      "node_ids": [
+       "PK36INDS0000000000050005",
+       "PK36RAVI0000000000050004",
+       "PK36RAVI0000000000050003",
+       "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+      ]
+     },
+     {
+      "claim": "Accounts PK36INDS0000000000050005 and PK36RAVI0000000000050003 share fingerprint 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+      "node_ids": [
+       "PK36INDS0000000000050005",
+       "PK36RAVI0000000000050003",
+       "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb"
+      ]
+     }
+    ],
+    "risk": "high",
+    "recommended_action": "hold_and_publish",
+    "fingerprints_to_publish": [
+     "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+     "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9"
+    ],
+    "confidence": 0.95,
+    "open_questions": [
+     "Is there any existing registry flag or prior alert on e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9 or 374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb?"
+    ],
+    "id": "case-c7ee084af2",
+    "case_id": "case-c7ee084af2",
+    "integrity": {
+     "verified": 25,
+     "total": 25,
+     "epoch": 18,
+     "root": "0x5adb6d5c71ee95cd961778ee2c1731d35d1da3d8bf3df382c050b4ca65161b50",
+     "block": 14,
+     "items": [
+      {
+       "id": "PK36INDS0000000000050005",
+       "element_id": "Account:PK36INDS0000000000050005",
+       "label": "Account",
+       "leaf": "0xb288e95438aa14",
+       "status": "verified"
+      },
+      {
+       "id": "PK36MRGL0000000000050001",
+       "element_id": "Account:PK36MRGL0000000000050001",
+       "label": "Account",
+       "leaf": "0xb2d628aa98c5d4",
+       "status": "verified"
+      },
+      {
+       "id": "PK36MRGL0000000000050002",
+       "element_id": "Account:PK36MRGL0000000000050002",
+       "label": "Account",
+       "leaf": "0x84fe76597a8cda",
+       "status": "verified"
+      },
+      {
+       "id": "PK36RAVI0000000000050003",
+       "element_id": "Account:PK36RAVI0000000000050003",
+       "label": "Account",
+       "leaf": "0x6b70ce4465d6f8",
+       "status": "verified"
+      },
+      {
+       "id": "PK36RAVI0000000000050004",
+       "element_id": "Account:PK36RAVI0000000000050004",
+       "label": "Account",
+       "leaf": "0x333b28f8212e62",
+       "status": "verified"
+      },
+      {
+       "id": "INDS",
+       "element_id": "Bank:INDS",
+       "label": "Bank",
+       "leaf": "0xd6e86cacf879b1",
+       "status": "verified"
+      },
+      {
+       "id": "MRGL",
+       "element_id": "Bank:MRGL",
+       "label": "Bank",
+       "leaf": "0xc36fb9dfd0b56e",
+       "status": "verified"
+      },
+      {
+       "id": "RAVI",
+       "element_id": "Bank:RAVI",
+       "label": "Bank",
+       "leaf": "0x6d24387cb700be",
+       "status": "verified"
+      },
+      {
+       "id": "2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489",
+       "element_id": "Device:2555ca6b86128d5dae0ec6e584acf50c79149cac8908734e9cb634f812b3d489",
+       "label": "Device",
+       "leaf": "0x0b7eac110dd28b",
+       "status": "verified"
+      },
+      {
+       "id": "b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898",
+       "element_id": "Device:b9add98c32baab988724409cdc8a8f40e879a615328ecb160b73506092b94898",
+       "label": "Device",
+       "leaf": "0x26365888d0e186",
+       "status": "verified"
+      },
+      {
+       "id": "374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+       "element_id": "Fingerprint:INDS:374a6d3dc00a5058b8d53651e619e812148623bbbca00200fdbbf350b66b4afb",
+       "label": "Fingerprint",
+       "leaf": "0xba4cd70e33ca3f",
+       "status": "verified"
+      },
+      {
+       "id": "aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+       "element_id": "Fingerprint:INDS:aa55e3b72c3a7acbc678022a2b530fe4b9934ccce3d7d22789ec0f8e4c5ac1be",
+       "label": "Fingerprint",
+       "leaf": "0x258b9dc1d62020",
+       "status": "verified"
+      },
+      {
+       "id": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+       "element_id": "Fingerprint:INDS:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+       "label": "Fingerprint",
+       "leaf": "0xb1bd0db859b001",
+       "status": "verified"
+      },
+      {
+       "id": "23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+       "element_id": "Fingerprint:RAVI:23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
+       "label": "Fingerprint",
+       "leaf": "0x86e14adda6e700",
+       "status": "verified"
+      },
+      {
+       "id": "58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+       "element_id": "Fingerprint:RAVI:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
+       "label": "Fingerprint",
+       "leaf": "0x2e63284ba8cac5",
+       "status": "verified"
+      },
+      {
+       "id": "b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+       "element_id": "Fingerprint:RAVI:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
+       "label": "Fingerprint",
+       "leaf": "0x5b3aa60db0edfb",
+       "status": "verified"
+      },
+      {
+       "id": "e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+       "element_id": "Phone:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
+       "label": "Phone",
+       "leaf": "0xc5ed81b3e0bbcb",
+       "status": "verified"
+      },
+      {
+       "id": "RM-S5",
+       "element_id": "Remitter:RM-S5",
+       "label": "Remitter",
+       "leaf": "0x8cedd976f5c7d2",
+       "status": "verified"
+      },
+      {
+       "id": "T000020",
+       "element_id": "Transfer:T000020",
+       "label": "Transfer",
+       "leaf": "0x2056cd5d7d113f",
+       "status": "verified"
+      },
+      {
+       "id": "T000021",
+       "element_id": "Transfer:T000021",
+       "label": "Transfer",
+       "leaf": "0x1cb3ac0b79c30c",
+       "status": "verified"
+      },
+      {
+       "id": "T000022",
+       "element_id": "Transfer:T000022",
+       "label": "Transfer",
+       "leaf": "0x43ae5648589045",
+       "status": "verified"
+      },
+      {
+       "id": "T000023",
+       "element_id": "Transfer:T000023",
+       "label": "Transfer",
+       "leaf": "0xf2e6a6dd376c54",
+       "status": "verified"
+      },
+      {
+       "id": "T000024",
+       "element_id": "Transfer:T000024",
+       "label": "Transfer",
+       "leaf": "0xe652e0234a6783",
+       "status": "verified"
+      },
+      {
+       "id": "T000025",
+       "element_id": "Transfer:T000025",
+       "label": "Transfer",
+       "leaf": "0x4a6a698f53c796",
+       "status": "verified"
+      },
+      {
+       "id": "T000026",
+       "element_id": "Transfer:T000026",
+       "label": "Transfer",
+       "leaf": "0xbe5b396c1c1f06",
+       "status": "verified"
+      }
+     ]
+    }
+   },
+   "ms": 4
+  }
+ ]
+}

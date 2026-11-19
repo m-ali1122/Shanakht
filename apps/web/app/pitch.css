@@ -1,0 +1,53 @@
+/* Pitch page only. Dark, so the page chrome follows. */
+html:has(.pitch),
+body:has(.pitch) {
+  background: var(--night-bg);
+  color-scheme: dark;
+}
+
+.pitch {
+  color: var(--night-fg);
+  font-size: 16px;
+}
+
+/* Keeps type readable over the 3D field: darker on the text side. */
+.pitch-scrim {
+  background:
+    linear-gradient(180deg, rgba(10, 12, 20, 0.7) 0%, rgba(10, 12, 20, 0) 18%, rgba(10, 12, 20, 0) 82%, rgba(10, 12, 20, 0.75) 100%),
+    rgba(10, 12, 20, 0.45);
+}
+@media (min-width: 900px) {
+  .pitch-scrim {
+    background:
+      linear-gradient(180deg, rgba(10, 12, 20, 0.6) 0%, rgba(10, 12, 20, 0) 16%, rgba(10, 12, 20, 0) 84%, rgba(10, 12, 20, 0.7) 100%),
+      linear-gradient(90deg, rgba(10, 12, 20, 0.88) 0%, rgba(10, 12, 20, 0.6) 34%, rgba(10, 12, 20, 0) 62%);
+  }
+}
+
+.pitch-canvas {
+  animation: pitch-fade 1.6s ease-out both;
+}
+@keyframes pitch-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.pitch-card {
+  background: color-mix(in srgb, var(--night-bg-2) 78%, transparent);
+  border: 1px solid var(--night-rule);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pitch-canvas { animation: none; }
+}

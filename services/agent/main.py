@@ -12,7 +12,7 @@ import config  # noqa: E402
 from gateway.routes import router as gateway_router  # noqa: E402
 from integrity.routes import router as integrity_router  # noqa: E402
 
-import case_agent, demo_reset, graph_routes, payee, voice  # noqa: E402
+import case_agent, demo_reset, graph_explore, graph_routes, payee, voice  # noqa: E402
 
 
 @asynccontextmanager
@@ -26,7 +26,8 @@ app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:3000", "http
                    allow_methods=["*"], allow_headers=["*"])
 app.include_router(gateway_router)
 app.include_router(integrity_router)
-for _r in (payee.router, case_agent.router, voice.router, graph_routes.router, demo_reset.router):
+for _r in (payee.router, case_agent.router, voice.router, graph_routes.router, graph_explore.router,
+           demo_reset.router):
     app.include_router(_r)
 
 

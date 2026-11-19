@@ -9,12 +9,19 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@react-three/drei": "^10.0.6",
+    "@react-three/fiber": "^9.1.2",
     "cytoscape": "^3.33.1",
     "cytoscape-fcose": "^2.2.0",
+    "lenis": "^1.1.20",
     "lucide-react": "^0.544.0",
+    "motion": "^12.4.7",
     "next": "15.5.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-force-graph-3d": "^1.26.1",
+    "three": "^0.187.0",
+    "three-spritetext": "^1.9.3",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
@@ -24,6 +31,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.187.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
     "tailwindcss": "^4",

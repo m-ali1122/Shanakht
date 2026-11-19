@@ -170,18 +170,6 @@
    },
    {
     "data": {
-     "id": "D-1",
-     "label": "decision D-1",
-     "kind": "decision",
-     "bank": null,
-     "hollow": false,
-     "focus": false,
-     "tampered": false,
-     "eid": "Decision:D-1"
-    }
-   },
-   {
-    "data": {
      "id": "fp:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
      "label": "58bae7",
      "kind": "fingerprint",
@@ -346,24 +334,6 @@
    },
    {
     "data": {
-     "id": "ABOUT:D-1>RM-S5",
-     "source": "D-1",
-     "target": "RM-S5",
-     "rel": "ABOUT",
-     "label": null
-    }
-   },
-   {
-    "data": {
-     "id": "ABOUT:D-1>PK36RAVI0000000000050003",
-     "source": "D-1",
-     "target": "PK36RAVI0000000000050003",
-     "rel": "ABOUT",
-     "label": null
-    }
-   },
-   {
-    "data": {
      "id": "FP:PK36RAVI0000000000050003>fp:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
      "source": "PK36RAVI0000000000050003",
      "target": "fp:58bae77f1c13b8eaef1c64f2d90cacf34cbb28cb55d4a1babd781cecf3414031",
@@ -391,15 +361,6 @@
    },
    {
     "data": {
-     "id": "ABOUT:D-1>PK36RAVI0000000000050004",
-     "source": "D-1",
-     "target": "PK36RAVI0000000000050004",
-     "rel": "ABOUT",
-     "label": null
-    }
-   },
-   {
-    "data": {
      "id": "FP:PK36RAVI0000000000050004>fp:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
      "source": "PK36RAVI0000000000050004",
      "target": "fp:b8956ef600952536bed938d4a96db0e46f062f2763cf3f4a2c9dff70cc0d237a",
@@ -422,15 +383,6 @@
      "source": "PK36RAVI0000000000050004",
      "target": "fp:23ac203eea586b456a52f2a8a3320119713eb113e4b9d99c16c911a31dac3b6d",
      "rel": "FP",
-     "label": null
-    }
-   },
-   {
-    "data": {
-     "id": "ABOUT:D-1>PK36INDS0000000000050005",
-     "source": "D-1",
-     "target": "PK36INDS0000000000050005",
-     "rel": "ABOUT",
      "label": null
     }
    },
@@ -512,24 +464,6 @@
      "source": "ph:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
      "target": "fp:e7edcb403e8aea601aae7dc03eae497a1ca5b19708f8084942d52de46da79ed9",
      "rel": "SAME_AS",
-     "label": null
-    }
-   },
-   {
-    "data": {
-     "id": "ABOUT:D-1>PK36MRGL0000000000050001",
-     "source": "D-1",
-     "target": "PK36MRGL0000000000050001",
-     "rel": "ABOUT",
-     "label": null
-    }
-   },
-   {
-    "data": {
-     "id": "ABOUT:D-1>PK36MRGL0000000000050002",
-     "source": "D-1",
-     "target": "PK36MRGL0000000000050002",
-     "rel": "ABOUT",
      "label": null
     }
    },

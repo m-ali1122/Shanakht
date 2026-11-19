@@ -1,0 +1,12 @@
+{
+ "recorded_from": "live",
+ "ms": 7,
+ "result": {
+  "identifiers_sent_to_model": 0,
+  "tokens_substituted": 535,
+  "calls": 261,
+  "blocked": 0,
+  "provider": "groq",
+  "model": "openai/gpt-oss-120b"
+ }
+}

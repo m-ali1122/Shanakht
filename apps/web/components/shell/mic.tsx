@@ -1,15 +1,14 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { Mic, Loader2 } from "lucide-react";
+import { Mic, Loader2, Square } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { MOCK } from "@/lib/api";
 
 /**
- * Mic: idle = outline circle; listening = filled accent circle + level meter.
- * Real mode records webm via MediaRecorder and posts to /voice.
+ * Mic controller. Real mode records webm via MediaRecorder and posts to /voice.
  * Mock mode simulates the level meter and answers the current scripted query.
  */
-export function useMicController() {
+function useMicController() {
   const recRef = useRef<MediaRecorder | null>(null);
   const chunks = useRef<Blob[]>([]);
   const raf = useRef<number | null>(null);
@@ -85,34 +84,52 @@ export function useMicController() {
   return { toggle };
 }
 
-let controller: { toggle: () => void } | null = null;
-export const micToggle = () => controller?.toggle();
+// Kept on globalThis so the director key keeps working across dev hot reloads.
+const G = globalThis as unknown as { __shanakhtMic?: { toggle: () => void } };
+export const micToggle = () => G.__shanakhtMic?.toggle();
 
-export default function MicButton() {
+/** Always mounted by the console so V works in every workspace. Renders nothing. */
+export function MicHost() {
+  const c = useMicController();
+  G.__shanakhtMic = c;
+  return null;
+}
+
+/** Level bars, driven by the store. */
+export function MicLevel({ bars = 5, height = 16 }: { bars?: number; height?: number }) {
   const mic = useStore((s) => s.mic);
   const level = useStore((s) => s.level);
-  const c = useMicController();
-  controller = c;
-  const listening = mic === "listening";
+  const k = [0.6, 1, 0.8, 0.5, 0.9, 0.7, 1, 0.55, 0.85];
   return (
-    <div className="flex items-center gap-2">
-      <div className="flex h-4 w-10 items-center gap-[2px]" aria-hidden>
-        {listening &&
-          [0.6, 1, 0.8, 0.5, 0.9].map((k, i) => (
-            <span key={i} className="w-[3px] rounded-sm bg-accent transition-[height] duration-75" style={{ height: `${Math.max(2, level * k * 16)}px` }} />
-          ))}
-      </div>
-      <button
-        onClick={c.toggle}
-        aria-pressed={listening}
-        aria-label={listening ? "Stop listening" : "Ask by voice (V)"}
-        title="Ask by voice (V)"
-        className={`flex h-9 w-9 items-center justify-center rounded-full border transition-colors duration-150 ${
-          listening ? "border-accent bg-accent text-surface" : "border-ink-2 text-ink-2 hover:border-accent hover:text-accent"
-        }`}
-      >
-        {mic === "thinking" ? <Loader2 size={16} className="animate-spin" /> : <Mic size={16} strokeWidth={1.75} />}
-      </button>
+    <div className="flex items-center gap-[3px]" style={{ height }} aria-hidden>
+      {Array.from({ length: bars }, (_, i) => (
+        <span
+          key={i}
+          className={`w-[3px] rounded-sm transition-[height] duration-75 ${mic === "listening" ? "bg-main-ink" : "bg-rule"}`}
+          style={{ height: `${mic === "listening" ? Math.max(3, level * k[i % k.length] * height) : 3}px` }}
+        />
+      ))}
     </div>
+  );
+}
+
+/** The mic itself. `big` is the ask surface's button; the small one sits in the status line. */
+export function MicButton({ big = false }: { big?: boolean }) {
+  const mic = useStore((s) => s.mic);
+  const listening = mic === "listening";
+  const size = big ? "h-14 w-14" : "h-7 w-7";
+  const icon = big ? 22 : 14;
+  return (
+    <button
+      onClick={() => micToggle()}
+      aria-pressed={listening}
+      aria-label={listening ? "Stop listening (V)" : "Ask by voice (V)"}
+      title={listening ? "Stop listening (V)" : "Ask by voice (V)"}
+      className={`flex shrink-0 items-center justify-center rounded-full border transition-colors duration-150 ${size} ${
+        listening ? "border-main bg-main text-white ring-4 ring-main-soft" : "border-rule bg-surface-2 text-fg-2 hover:border-main hover:text-fg"
+      }`}
+    >
+      {mic === "thinking" ? <Loader2 size={icon} className="animate-spin" /> : listening ? <Square size={icon - 4} fill="currentColor" /> : <Mic size={icon} strokeWidth={1.75} />}
+    </button>
   );
 }

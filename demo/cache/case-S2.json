@@ -5,7 +5,7 @@
    "step": "start",
    "status": "ok",
    "data": {
-    "case_id": "case-f888fdd4b7",
+    "case_id": "case-eb8f0ff46e",
     "trigger": {
      "type": "close_match",
      "ref_ids": [
@@ -26,9 +26,9 @@
     "tool_calls": [
      "run_cypher"
     ],
-    "ms": 1290
+    "ms": 1024
    },
-   "ms": 1295
+   "ms": 1028
   },
   {
    "step": "cypher",
@@ -37,7 +37,7 @@
     "attempt": 1,
     "tool_call": 1,
     "query": "MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr\nLIMIT 200",
-    "purpose": "transfer history for RM-S2 to PK36RAVI0000000000020001",
+    "purpose": "transfer history for close_match trigger",
     "repair": false,
     "repair_n": 0,
     "row_count": 1,
@@ -53,7 +53,7 @@
      }
     ]
    },
-   "ms": 2087
+   "ms": 2073
   },
   {
    "step": "integrity",
@@ -63,7 +63,7 @@
     "total": 2,
     "excluded_rows": 0,
     "excluded_elements": [],
-    "epoch": 7,
+    "epoch": 24,
     "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
     "note": ""
    },
@@ -74,13 +74,13 @@
    "status": "ok",
    "data": {
     "purpose": "case_agent",
-    "egress_sha256": "313985603cf29f0316615972980d813c36bc572a605f4c93062e3ce9e2944941",
+    "egress_sha256": "f88decccec3e86816d64d7eed66830f2f870eea3933962d7a5596945367082ed",
     "tool_calls": [
      "run_cypher"
     ],
-    "ms": 1512
+    "ms": 1528
    },
-   "ms": 1513
+   "ms": 1529
   },
   {
    "step": "cypher",
@@ -88,14 +88,14 @@
    "data": {
     "attempt": 2,
     "tool_call": 2,
-    "query": "MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(:Transfer)-[:TO]->(a:Account)-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)<-[:TO]-(:Transfer)<-[:SENT]-(r) WHERE a.iban <> b.iban RETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\nLIMIT 200",
-    "purpose": "scoped ring check for RM-S2",
+    "query": "MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(:Transfer)-[:TO]->(a:Account {iban:$ACCT_1})-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)\nWHERE (r)-[:SENT]->(:Transfer)-[:TO]->(b)\nRETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\nLIMIT 200",
+    "purpose": "scoped ring check for shared fingerprints",
     "repair": false,
     "repair_n": 0,
     "row_count": 0,
     "rows": []
    },
-   "ms": 131
+   "ms": 11
   },
   {
    "step": "integrity",
@@ -116,73 +116,38 @@
    "status": "ok",
    "data": {
     "purpose": "case_agent",
-    "egress_sha256": "f99af336bb607a4eafee9cdddac1bc84ca0084e551a68f2f41dce9856fe95a3a",
-    "tool_calls": [
-     "propose_action"
-    ],
-    "ms": 1522
+    "egress_sha256": "54a084d772c948c49cae45cd25c883636ee7212b6b0cfac43c6dd775eedd8f7f",
+    "tool_calls": [],
+    "ms": 1189
    },
-   "ms": 1522
-  },
-  {
-   "step": "propose_action",
-   "status": "ok",
-   "data": {
-    "action": "proceed",
-    "rationale": "RM-S2 has a history of 7 transfers to PK36RAVI0000000000020001 spanning 6 months, indicating a regular relationship. No other beneficiary accounts of RM-S2 share a fingerprint with PK36RAVI0000000000020001, so no ring signal is present. The close‑match name variant alone does not raise risk. Proceed with the payment."
-   },
-   "ms": 0
+   "ms": 1190
   },
   {
    "step": "model",
-   "status": "unavailable",
-   "data": {
-    "error": "BadRequestError: Error code: 400 - Failed to parse tool call arguments as JSON",
-    "fallback": "deterministic investigator (same guard, gate and evidence rules)"
-   },
-   "ms": 18012
-  },
-  {
-   "step": "cypher",
    "status": "ok",
    "data": {
-    "attempt": 1,
-    "query": "MATCH (rm:Remitter {rmid:$rmid})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$iban}) RETURN rm.rmid AS rmid, a.iban AS iban, count(t) AS transfers, sum(t.amount_pkr) AS pkr, min(t.ts) AS first_ts, max(t.ts) AS last_ts\nLIMIT 200",
-    "error": null,
-    "rows": [
-     {
-      "rmid": "RM-S2",
-      "iban": "PK36RAVI0000000000020001",
-      "transfers": 7,
-      "pkr": 611800,
-      "first_ts": "2026-06-02T14:05:00.000000000+00:00",
-      "last_ts": "2026-11-01T14:11:00.000000000+00:00"
-     }
-    ],
-    "row_count": 1
+    "purpose": "case_output",
+    "egress_sha256": "6516570c5358335d6fe5cbf5ff2c1f0280337f444bec73d925bd32f2c0d25ce1",
+    "ms": 9727
    },
-   "ms": 2080
+   "ms": 9728
   },
   {
-   "step": "integrity",
+   "step": "validate",
    "status": "ok",
    "data": {
-    "verified": 2,
-    "total": 2,
-    "excluded_rows": 0,
-    "excluded_elements": [],
-    "epoch": 7,
-    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
-    "note": ""
+    "schema": "CASE_OUTPUT"
    },
-   "ms": 0
+   "ms": 52
   },
   {
    "step": "evidence",
    "status": "ok",
    "data": {
     "items": 1,
-    "stripped": []
+    "stripped": [
+     "claim:no shared fingerprint among RM-S2 beneficiaries"
+    ]
    },
    "ms": 0
   },
@@ -190,11 +155,12 @@
    "step": "final",
    "status": "ok",
    "data": {
-    "trigger": "Close name match for remitter RM-S2",
-    "narrative": "7 earlier transfers from the same remitter to this account were found, so the pattern is consistent with a repeat beneficiary. Recommend proceeding.",
+    "trigger": "close_match",
+    "narrative": "Remitter RM-S2 has made 7 transfers to beneficiary PK36RAVI0000000000020001 over six distinct months (June‑Nov 2026), totaling PKR 611,800. No other beneficiaries of RM-S2 share a fingerprint with PK36RAVI0000000000020001, indicating no ring activity.",
+    "narrative_ur": "",
     "evidence": [
      {
-      "claim": "7 prior transfers from this remitter to this account, first 2026-06-02, last 2026-11-01",
+      "claim": "repeat transfers to PK36RAVI0000000000020001",
       "node_ids": [
        "RM-S2",
        "PK36RAVI0000000000020001"
@@ -203,16 +169,17 @@
     ],
     "risk": "low",
     "recommended_action": "proceed",
-    "confidence": 0.8,
+    "fingerprints_to_publish": [],
+    "confidence": 0.95,
     "open_questions": [],
-    "id": "case-f888fdd4b7",
-    "case_id": "case-f888fdd4b7",
+    "id": "case-eb8f0ff46e",
+    "case_id": "case-eb8f0ff46e",
     "integrity": {
      "verified": 2,
      "total": 2,
-     "epoch": 7,
+     "epoch": 24,
      "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
-     "block": 8,
+     "block": 6,
      "items": [
       {
        "id": "PK36RAVI0000000000020001",
@@ -231,11 +198,12 @@
      ]
     },
     "case": {
-     "trigger": "Close name match for remitter RM-S2",
-     "narrative": "7 earlier transfers from the same remitter to this account were found, so the pattern is consistent with a repeat beneficiary. Recommend proceeding.",
+     "trigger": "close_match",
+     "narrative": "Remitter RM-S2 has made 7 transfers to beneficiary PK36RAVI0000000000020001 over six distinct months (June‑Nov 2026), totaling PKR 611,800. No other beneficiaries of RM-S2 share a fingerprint with PK36RAVI0000000000020001, indicating no ring activity.",
+     "narrative_ur": "",
      "evidence": [
       {
-       "claim": "7 prior transfers from this remitter to this account, first 2026-06-02, last 2026-11-01",
+       "claim": "repeat transfers to PK36RAVI0000000000020001",
        "node_ids": [
         "RM-S2",
         "PK36RAVI0000000000020001"
@@ -244,11 +212,12 @@
      ],
      "risk": "low",
      "recommended_action": "proceed",
-     "confidence": 0.8,
+     "fingerprints_to_publish": [],
+     "confidence": 0.95,
      "open_questions": []
     },
-    "epoch": 7,
-    "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+    "epoch": null,
+    "root": null,
     "evidence_leaves": {
      "Account:PK36RAVI0000000000020001": "0xdef18f491a14b0e4f0ef8db9873e52f9befe9d55b58fe5357c3b0b378114a78a",
      "Remitter:RM-S2": "0x668a724a38dc6cb1d243899b508d58b96269ef872ff7aa09a8a55c9f24e04500"
@@ -256,22 +225,30 @@
     "excluded_elements": [],
     "egress_hashes": [
      "9281636da33c18db76b4ac5d92fcd189ac66e8754280bf07fb9dd851a35cd1b1",
-     "313985603cf29f0316615972980d813c36bc572a605f4c93062e3ce9e2944941",
-     "f99af336bb607a4eafee9cdddac1bc84ca0084e551a68f2f41dce9856fe95a3a",
-     "20f594ad09388e600de1352ca7a8ac481f0b074beda96d972b9b321326975646"
+     "f88decccec3e86816d64d7eed66830f2f870eea3933962d7a5596945367082ed",
+     "54a084d772c948c49cae45cd25c883636ee7212b6b0cfac43c6dd775eedd8f7f",
+     "6516570c5358335d6fe5cbf5ff2c1f0280337f444bec73d925bd32f2c0d25ce1"
     ],
-    "mode": "deterministic",
-    "stripped_citations": [],
+    "mode": "llm",
+    "stripped_citations": [
+     "claim:no shared fingerprint among RM-S2 beneficiaries"
+    ],
     "cypher_attempts": [
      {
       "attempt": 1,
-      "query": "MATCH (rm:Remitter {rmid:$rmid})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$iban}) RETURN rm.rmid AS rmid, a.iban AS iban, count(t) AS transfers, sum(t.amount_pkr) AS pkr, min(t.ts) AS first_ts, max(t.ts) AS last_ts\nLIMIT 200",
+      "query": "MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(t:Transfer)-[:TO]->(a:Account {iban:$ACCT_1}) RETURN r.rmid AS rmid, a.iban AS iban, count(t) AS transfers, min(t.ts) AS first_ts, max(t.ts) AS last_ts, count(DISTINCT toString(t.ts.year) + '-' + toString(t.ts.month)) AS distinct_months, sum(t.amount_pkr) AS total_pkr\nLIMIT 200",
+      "ok": true,
+      "error": null
+     },
+     {
+      "attempt": 2,
+      "query": "MATCH (r:Remitter {rmid:'RM-S2'})-[:SENT]->(:Transfer)-[:TO]->(a:Account {iban:$ACCT_1})-[:HAS_FP]->(f:Fingerprint)<-[:HAS_FP]-(b:Account)\nWHERE (r)-[:SENT]->(:Transfer)-[:TO]->(b)\nRETURN DISTINCT a.iban AS a_iban, b.iban AS b_iban, f.fp AS fp\nLIMIT 200",
       "ok": true,
       "error": null
      }
     ]
    },
-   "ms": 20
+   "ms": 2089
   }
  ]
 }

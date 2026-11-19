@@ -70,6 +70,9 @@ def stream(gen_fn: Callable[[], Iterator[dict]], cache_name: str | None = None,
                     yield fmt({**e, "replayed": True})
                     time.sleep(min(e.get("ms", 0), 600) / 1000)
                 return
+            yield fmt({"step": "final", "status": "error", "ms": 0, "replayed": True,
+                       "data": {"error": f"offline: no recording '{cache_name}' (run make record-cache)"}})
+            return
         events = []
         try:
             for e in gen_fn():
@@ -80,6 +83,7 @@ def stream(gen_fn: Callable[[], Iterator[dict]], cache_name: str | None = None,
             yield fmt(err)
             return
         if cache_name and config.DEMO_RECORD and events and events[-1].get("step") == "final" \
-                and events[-1].get("status") == "ok":
+                and events[-1].get("status") == "ok" \
+                and not any(e.get("step") == "model" and e.get("status") == "unavailable" for e in events):
             save_cache(cache_name, events)
     return StreamingResponse(body(), media_type="text/event-stream", headers=HEADERS)

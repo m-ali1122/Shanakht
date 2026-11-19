@@ -1,0 +1,43 @@
+{
+ "recorded_from": "live",
+ "ms": 5,
+ "result": {
+  "case_id": "pc-1726ecc75f",
+  "items": [
+   {
+    "id": 231,
+    "case_id": "pc-1726ecc75f",
+    "ts": 1794239219.9516017,
+    "provider": "groq",
+    "model": "openai/gpt-oss-120b",
+    "sha256": "a4ea7bf75c5bbd6e99ceba01308867763a33a6ae3155733046cd970fbaeee196",
+    "payload": {
+     "provider": "groq",
+     "request": {
+      "messages": [
+       {
+        "content": "You explain a name check result to a remittance operations analyst in Pakistan. You receive: typed_name, title_raw, band, score, reasons (codes) and alignment. Write one sentence in English and one in Urdu (Nastaliq script). Use only the reasons given; do not add any. Plain words, no hedging, no exclamation marks.\n\nCodes: VARIANT_SPELLING, INITIAL_EXPANDED, TITLE_DROPPED, TITLE_ADDED, PATRONYMIC_DROPPED, SCRIPT_CONVERTED, TOKEN_ORDER, TYPO_1CHAR, SURNAME_MISSING, DIFFERENT_PERSON.\n\nNames and identifiers arrive as tokens (PERSON_n, ACCT_n). Use them exactly as given; they are replaced with real values after you answer.\n\nReturn JSON: {\"en\": \"...\", \"ur\": \"...\"}",
+        "role": "system"
+       },
+       {
+        "content": "{\"typed_name\": \"PERSON_1\", \"title_raw\": \"PERSON_1\", \"band\": \"CLOSE\", \"score\": 0.8757, \"reasons\": [\"VARIANT_SPELLING\", \"TITLE_DROPPED\", \"SCRIPT_CONVERTED\"], \"alignment\": [{\"relation\": \"transliterated\", \"reason\": \"VARIANT_SPELLING\"}, {\"relation\": \"exact\", \"reason\": null}, {\"relation\": \"dropped\", \"reason\": \"TITLE_DROPPED\"}]}",
+        "role": "user"
+       }
+      ],
+      "model": "openai/gpt-oss-120b",
+      "response_format": {
+       "type": "json_object"
+      },
+      "temperature": 0
+     }
+    },
+    "prompt_tokens": 382,
+    "completion_tokens": 362,
+    "substitutions": 2,
+    "blocked": false,
+    "reason": null,
+    "purpose": "payee_explain"
+   }
+  ]
+ }
+}

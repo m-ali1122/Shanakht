@@ -10,7 +10,7 @@
     "urdu_name": "راجہ عمران اکرم",
     "status": "FOUND"
    },
-   "ms": 2765
+   "ms": 5320
   },
   {
    "step": "compare",
@@ -106,7 +106,7 @@
      ]
     }
    },
-   "ms": 2262
+   "ms": 3632
   },
   {
    "step": "history",
@@ -117,7 +117,7 @@
     "last": "2026-10-05",
     "months": 2
    },
-   "ms": 4
+   "ms": 25
   },
   {
    "step": "decision",
@@ -136,26 +136,26 @@
     },
     "note": "3 prior transfers"
    },
-   "ms": 0
+   "ms": 3
   },
   {
    "step": "phrase",
    "status": "ok",
    "data": {
     "en": "The name matches closely with a variant spelling, title dropped and script converted.",
-    "ur": "نام ملتا جلتا ہے، مختلف املا، عنوان حذف شدہ اور اسکرپٹ تبدیل شدہ۔",
+    "ur": "نام میں متبادل املا، عنوان حذف اور اسکرپٹ تبدیل ہونے کی وجہ سے قریبی مماثلت ہے۔",
     "source": "llm",
     "egress_sha256": "a4ea7bf75c5bbd6e99ceba01308867763a33a6ae3155733046cd970fbaeee196"
    },
-   "ms": 5563
+   "ms": 21790
   },
   {
    "step": "final",
    "status": "ok",
    "data": {
     "scenario": "S4",
-    "case_id": "case-85444b772f",
-    "payee_check_id": "pc-85444b772f",
+    "case_id": "case-387f5e969a",
+    "payee_check_id": "pc-387f5e969a",
     "bank": "CHNB",
     "title": "RAJA IMRAN AKRAM",
     "urdu_name": "راجہ عمران اکرم",
@@ -209,13 +209,13 @@
     },
     "phrase": {
      "en": "The name matches closely with a variant spelling, title dropped and script converted.",
-     "ur": "نام ملتا جلتا ہے، مختلف املا، عنوان حذف شدہ اور اسکرپٹ تبدیل شدہ۔",
+     "ur": "نام میں متبادل املا، عنوان حذف اور اسکرپٹ تبدیل ہونے کی وجہ سے قریبی مماثلت ہے۔",
      "source": "llm",
      "egress_sha256": "a4ea7bf75c5bbd6e99ceba01308867763a33a6ae3155733046cd970fbaeee196"
     },
     "explain": {
      "en": "The name matches closely with a variant spelling, title dropped and script converted.",
-     "ur": "نام ملتا جلتا ہے، مختلف املا، عنوان حذف شدہ اور اسکرپٹ تبدیل شدہ۔"
+     "ur": "نام میں متبادل املا، عنوان حذف اور اسکرپٹ تبدیل ہونے کی وجہ سے قریبی مماثلت ہے۔"
     },
     "ledger": null,
     "banner": null,
@@ -227,7 +227,7 @@
      ]
     }
    },
-   "ms": 1
+   "ms": 12
   }
  ]
 }

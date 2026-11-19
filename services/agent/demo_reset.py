@@ -53,6 +53,12 @@ def restore_tampered() -> int:
 def reset():
     if not config.DEMO_MODE:
         raise HTTPException(403, "reset is only available with DEMO_MODE=1")
+    import offline
+    if offline.enabled():
+        from case_agent import CASES
+        CASES.clear()
+        offline.reset_state()
+        return offline.replay("reset") or {"replayed": True, "note": "offline: nothing to reset"}
     out = {}
     try:
         out["decisions_deleted"] = _delete_decisions()

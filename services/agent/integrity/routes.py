@@ -44,6 +44,12 @@ def prove(req: ProveReq):
 def tamper(req: TamperReq):
     if not config.DEMO_MODE:
         raise HTTPException(403, "tamper is only available with DEMO_MODE=1")
+    import offline
+    if offline.enabled():                      # cached tamper run: no Neo4j write
+        hit = offline.replay("tamper-S5")
+        if hit:
+            offline.STATE["tampered"] = True
+            return hit
     eid = req.element_id
     if ":" not in eid or eid[:3] in ("ph:", "fp:", "dv:"):
         key = eid.split(":", 1)[1] if eid[:3] in ("ph:", "fp:", "dv:") else eid

@@ -6,9 +6,13 @@ import { api, MOCK } from "./api";
 import { caseForPayee } from "./mock";
 
 type Phase = "idle" | "running" | "done" | "error";
+/** Console workspaces (docs/CONSOLE_V2.md). */
+export type View = "inbound" | "investigate" | "graph" | "audit";
+export const VIEWS: View[] = ["inbound", "investigate", "graph", "audit"];
 type CaseStatus = "idle" | "running" | "ready" | "approving" | "approved" | "rejected";
 
 interface State {
+  view: View;
   scenarioIdx: number; // 0..5
   stepPtr: number;
   graph: GraphElements | null;
@@ -46,6 +50,7 @@ interface State {
   error: string | null;
   busy: boolean;
 
+  setView: (v: View) => void;
   init: () => Promise<void>;
   setScenario: (idx: number) => Promise<void>;
   next: () => Promise<void>;
@@ -94,6 +99,41 @@ function liveRingIds(g: GraphElements | null): string[] {
   const kinds = new Set(["phone", "device", "fingerprint"]);
   const ids = g.nodes.filter((n) => kinds.has(n.data.kind) && !n.data.hollow || (n.data.kind === "phone" || n.data.kind === "device")).map((n) => n.data.id);
   return [...liveFocus(g), ...S5_RING, ...ids];
+}
+/** Count phone/device identifiers (by hash, merging ph:/dv:/fp: twins) linked to 2+ ring accounts, from the graph payload. */
+function sharedIdentifiers(g: GraphElements | null): { phones: number; devices: number } {
+  if (!g) return { phones: 0, devices: 0 };
+  const nodes = new Map(g.nodes.map((n) => [n.data.id, n.data]));
+  const adj = new Map<string, Set<string>>();
+  const link = (a: string, b: string) => {
+    if (!adj.has(a)) adj.set(a, new Set());
+    if (!adj.has(b)) adj.set(b, new Set());
+    adj.get(a)!.add(b);
+    adj.get(b)!.add(a);
+  };
+  g.edges.forEach((e) => link(e.data.source, e.data.target));
+  const ring = new Set<string>();
+  g.edges.forEach((e) => {
+    if (e.data.rel !== "SENT") return;
+    const a = nodes.get(e.data.source), b = nodes.get(e.data.target);
+    if (a?.kind === "remitter" && b?.kind === "account") ring.add(b.id);
+    if (b?.kind === "remitter" && a?.kind === "account") ring.add(a.id);
+  });
+  const byHash = new Map<string, { kind: "phone" | "device"; accts: Set<string> }>();
+  g.nodes.forEach(({ data: d }) => {
+    const kind = d.kind === "phone" || d.kind === "device" ? d.kind : d.kind === "fingerprint" && (d.fpKind === "phone" || d.fpKind === "device") ? d.fpKind : null;
+    if (!kind) return;
+    const hash = d.id.replace(/^(ph|dv|fp):/, "");
+    const slot = byHash.get(hash) ?? { kind, accts: new Set<string>() };
+    adj.get(d.id)?.forEach((n1) => {
+      if (ring.has(n1)) slot.accts.add(n1);
+      else if (nodes.get(n1)?.kind === "record") adj.get(n1)?.forEach((n2) => ring.has(n2) && slot.accts.add(n2));
+    });
+    byHash.set(hash, slot);
+  });
+  let phones = 0, devices = 0;
+  byHash.forEach((v) => { if (v.accts.size < 2) return; if (v.kind === "phone") phones++; else devices++; });
+  return { phones, devices };
 }
 /** Map bare 64-hex fingerprint ids (as cited by the case agent) to graph node ids (fp:/ph:/dv: prefixed). */
 function resolveIds(g: GraphElements | null, ids: string[]): string[] {
@@ -152,7 +192,10 @@ export const useStore = create<State>((set, get) => {
     const i = SCENARIOS[st.scenarioIdx].steps.indexOf(name as never);
     if (i >= 0 && st.stepPtr <= i) set({ stepPtr: i + 1 });
   };
+  // Moving through a scenario brings up the workspace where that step happens.
+  const goto = (view: View) => { if (get().view !== view) set({ view }); };
   return {
+  view: "inbound" as View,
   scenarioIdx: 0,
   graph: null,
   focus: SCENARIOS[0].focus,
@@ -169,6 +212,8 @@ export const useStore = create<State>((set, get) => {
   offlineDot: false,
   ...blank,
 
+  setView(view) { set({ view }); },
+
   async init() {
     try {
       const idx0 = get().scenarioIdx;
@@ -184,7 +229,8 @@ export const useStore = create<State>((set, get) => {
     abort?.abort();
     abort = null;
     const sc = SCENARIOS[idx];
-    set({ scenarioIdx: idx, focus: sc.focus, voiceIdx: 0, ...blank });
+    set({ scenarioIdx: idx, focus: sc.focus, voiceIdx: 0, registryHit: null, flash: {}, ...blank });
+    goto("inbound");
     if (!MOCK) {
       try { const graph = await api.graph(sc.key); set({ graph, focus: liveFocus(graph) }); } catch (e: any) { set({ error: String(e?.message ?? e) }); }
     }
@@ -215,6 +261,7 @@ export const useStore = create<State>((set, get) => {
     abort = new AbortController();
     set({ payeePhase: "running", payeeSteps: [], payee: null, busy: true, highlight: [] });
     sync("payee");
+    goto("inbound");
     try {
       await api.payeeCheck(sc.key, sc.transfer, (e) => {
         set((st) => ({ payeeSteps: mergeStep(st.payeeSteps, e) }));
@@ -240,11 +287,12 @@ export const useStore = create<State>((set, get) => {
 
   runRing() {
     sync("ring");
+    goto("inbound");
     // Motif detector result: highlight the star and pulse ring members once.
     const live = !MOCK;
     const ids = live ? liveRingIds(get().graph) : ["RM-S5", ...S5_RING, "ph:" + FP.S5_PHONE, "fp:" + FP.S5_PHONE, "fp:" + FP.S5_DEVICE, "R-MRGL-S5-1", "R-MRGL-S5-2"];
     set((st) => ({
-      ringAlert: { beneficiaries: S5_RING.length, banks: new Set(S5_RING.map((i) => i.slice(4, 8))).size, phones: 1, devices: 1 },
+      ringAlert: { beneficiaries: S5_RING.length, banks: new Set(S5_RING.map((i) => i.slice(4, 8))).size, ...sharedIdentifiers(get().graph) },
       caseId: "CASE-S5",
       highlight: ids,
       pulse: S5_RING,
@@ -260,6 +308,7 @@ export const useStore = create<State>((set, get) => {
     if (!caseId) return;
     if (sc.key === "S5" && !s.ringAlert) get().runRing();
     sync("case");
+    goto("investigate");
     abort?.abort();
     abort = new AbortController();
     set({ caseStatus: "running", caseSteps: [], caseOut: null, integrity: null, busy: true, caseId, egress: [], modelView: false });
@@ -337,6 +386,7 @@ export const useStore = create<State>((set, get) => {
     if (!target) return;
     abort?.abort();
     abort = new AbortController();
+    goto("audit");
     set({ busy: true, caseStatus: "running" });
     // immediate visual: re-verify marks the item red
     set((st) => ({
@@ -377,6 +427,7 @@ export const useStore = create<State>((set, get) => {
     const s = get();
     if (s.busy) return;
     sync("incoming");
+    goto("audit");
     set((st) => ({ busy: true, revealed: [...st.revealed, IBAN.S5_6] }));
     try {
       const res = await api.incoming("INDS", { iban: IBAN.S5_6, typed_name: "Hamza Kh.", remitter: "RM-S5", amount: 190000 });
@@ -417,6 +468,7 @@ export const useStore = create<State>((set, get) => {
     const i = idx ?? get().voiceIdx;
     const q = VOICE_QUERIES[i % VOICE_QUERIES.length];
     set({ mic: "thinking", transcriptPending: q.text, voice: null, voiceIdx: (i + 1) % VOICE_QUERIES.length });
+    goto("inbound");
     try {
       const r = await api.voiceText(q.text, i);
       set({ voice: r, highlight: MOCK ? r.highlight_ids : resolveIds(get().graph, r.highlight_ids ?? []), mic: "idle", transcriptPending: "" });
@@ -429,6 +481,7 @@ export const useStore = create<State>((set, get) => {
   async voiceFromAudio(blob) {
     const i = get().voiceIdx;
     set({ mic: "thinking", voice: null });
+    goto("inbound");
     try {
       const r = await api.voiceAudio(blob, i);
       set({ voice: r, highlight: MOCK ? r.highlight_ids : resolveIds(get().graph, r.highlight_ids ?? []), mic: "idle", voiceIdx: (i + 1) % VOICE_QUERIES.length });
@@ -443,10 +496,15 @@ export const useStore = create<State>((set, get) => {
     abort?.abort();
     abort = null;
     blockSeq = 1042;
+    // Reset the screen first, so a case picked while the services reset is not overwritten.
+    set({ view: "inbound", scenarioIdx: 0, focus: MOCK ? SCENARIOS[0].focus : [], revealed: [], flash: {}, registryHit: null, counter: { identifiers: 0, tokens: 0 }, mic: "idle", voiceIdx: 0, explorer: null, ...blank });
     await api.reset();
     const blocks = await api.blocks().catch(() => []);
-    set({ scenarioIdx: 0, focus: MOCK ? SCENARIOS[0].focus : [], revealed: [], blocks, flash: {}, registryHit: null, counter: { identifiers: 0, tokens: 0 }, mic: "idle", voiceIdx: 0, explorer: null, ...blank });
-    if (!MOCK) { const g = await api.graph(SCENARIOS[0].key).catch(() => get().graph); set({ graph: g, focus: liveFocus(g) }); }
+    set({ blocks });
+    if (!MOCK && get().scenarioIdx === 0 && get().stepPtr === 0) {
+      const g = await api.graph(SCENARIOS[0].key).catch(() => get().graph);
+      if (get().scenarioIdx === 0) set({ graph: g, focus: liveFocus(g) });
+    }
   },
   };
 });

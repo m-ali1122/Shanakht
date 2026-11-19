@@ -10,7 +10,7 @@
     "urdu_name": "محمد علی",
     "status": "FOUND"
    },
-   "ms": 2805
+   "ms": 4658
   },
   {
    "step": "compare",
@@ -104,7 +104,7 @@
      ]
     }
    },
-   "ms": 2278
+   "ms": 4220
   },
   {
    "step": "history",
@@ -115,7 +115,7 @@
     "last": "2026-11-01",
     "months": 5
    },
-   "ms": 4
+   "ms": 46
   },
   {
    "step": "decision",
@@ -134,26 +134,26 @@
     },
     "note": "7 prior transfers"
    },
-   "ms": 0
+   "ms": 1
   },
   {
    "step": "phrase",
    "status": "ok",
    "data": {
-    "en": "The name matches with an initial expanded and a patronymic dropped.",
+    "en": "The name matches with initial expanded and patronymic dropped.",
     "ur": "نام میں ابتدائی توسیع اور خاندانی نام حذف ہوا ہے۔",
     "source": "llm",
     "egress_sha256": "e3d0db31ab4bb78c8bd3fd2c610bff377d019967241fca6cf11c94766a4ac78b"
    },
-   "ms": 5632
+   "ms": 13517
   },
   {
    "step": "final",
    "status": "ok",
    "data": {
     "scenario": "S2",
-    "case_id": "case-4b9c5ef93d",
-    "payee_check_id": "pc-4b9c5ef93d",
+    "case_id": "case-e0bdfd1096",
+    "payee_check_id": "pc-e0bdfd1096",
     "bank": "RAVI",
     "title": "MUHAMMAD ALI",
     "urdu_name": "محمد علی",
@@ -205,13 +205,13 @@
      "note": "7 prior transfers"
     },
     "phrase": {
-     "en": "The name matches with an initial expanded and a patronymic dropped.",
+     "en": "The name matches with initial expanded and patronymic dropped.",
      "ur": "نام میں ابتدائی توسیع اور خاندانی نام حذف ہوا ہے۔",
      "source": "llm",
      "egress_sha256": "e3d0db31ab4bb78c8bd3fd2c610bff377d019967241fca6cf11c94766a4ac78b"
     },
     "explain": {
-     "en": "The name matches with an initial expanded and a patronymic dropped.",
+     "en": "The name matches with initial expanded and patronymic dropped.",
      "ur": "نام میں ابتدائی توسیع اور خاندانی نام حذف ہوا ہے۔"
     },
     "ledger": null,
@@ -224,7 +224,7 @@
      ]
     }
    },
-   "ms": 1
+   "ms": 2
   }
  ]
 }

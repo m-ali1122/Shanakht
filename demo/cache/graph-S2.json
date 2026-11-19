@@ -34,6 +34,18 @@
    },
    {
     "data": {
+     "id": "D-2",
+     "label": "decision D-2",
+     "kind": "decision",
+     "bank": null,
+     "hollow": false,
+     "focus": false,
+     "tampered": false,
+     "eid": "Decision:D-2"
+    }
+   },
+   {
+    "data": {
      "id": "fp:165adfd08b39e02a871062f0071226d9839607c54ff177eb893e463c939ea155",
      "label": "165adf",
      "kind": "fingerprint",
@@ -73,6 +85,24 @@
    }
   ],
   "edges": [
+   {
+    "data": {
+     "id": "ABOUT:D-2>RM-S2",
+     "source": "D-2",
+     "target": "RM-S2",
+     "rel": "ABOUT",
+     "label": null
+    }
+   },
+   {
+    "data": {
+     "id": "ABOUT:D-2>PK36RAVI0000000000020001",
+     "source": "D-2",
+     "target": "PK36RAVI0000000000020001",
+     "rel": "ABOUT",
+     "label": null
+    }
+   },
    {
     "data": {
      "id": "FP:PK36RAVI0000000000020001>fp:165adfd08b39e02a871062f0071226d9839607c54ff177eb893e463c939ea155",

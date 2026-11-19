@@ -17,6 +17,7 @@ from pydantic import BaseModel
 
 import config
 import graphdb
+import offline
 import sse
 from cypher_session import CypherSession
 from gateway import GatewayBlocked, get_gateway, parse_json
@@ -466,18 +467,23 @@ def _cache_name(trigger: dict) -> str | None:
     return None
 
 
-def _register_replay(events: list[dict]):
+def _register_replay(events: list[dict], sid: str | None = None):
     fin = events[-1] if events else None
     if fin and fin.get("step") == "final" and fin["data"].get("case"):
         d = fin["data"]
-        save_case({"case_id": d["case_id"], "status": "pending", "trigger": {}, "output": d["case"],
+        trig = (events[0].get("data") or {}).get("trigger") or {}
+        if sid:
+            offline.note_case(d["case_id"], sid)
+        save_case({"case_id": d["case_id"], "status": "pending", "trigger": trig, "scenario": sid, "output": d["case"],
                    "epoch": d.get("epoch"), "root": d.get("root"), "evidence_leaves": d.get("evidence_leaves", {}),
                    "egress_hashes": d.get("egress_hashes", []), "model_version": model_version(), "replayed": True})
 
 
 @router.post("/case")
 def post_case(req: TriggerReq):
-    return sse.stream(lambda: run_case(req.trigger), _cache_name(req.trigger), on_replay=_register_replay)
+    name = _cache_name(req.trigger)
+    sid = name.split("-")[1] if name else None
+    return sse.stream(lambda: run_case(req.trigger), name, on_replay=lambda ev: _register_replay(ev, sid))
 
 
 def run_reverify(case_id: str):
@@ -510,7 +516,12 @@ def run_reverify(case_id: str):
 def reverify(case_id: str):
     if not get_case(case_id):
         raise HTTPException(404, "unknown case")
-    return sse.stream(lambda: run_reverify(case_id))
+    name = None
+    if offline.enabled():       # recorded after a tamper (agent re-run) or clean (nothing changed)
+        sid = offline.STATE["cases"].get(case_id) or (get_case(case_id) or {}).get("scenario") or "S5"
+        name = f"reverify-{sid}-{'tampered' if offline.STATE['tampered'] else 'clean'}"
+        offline.STATE["tampered"] = False
+    return sse.stream(lambda: run_reverify(case_id), name)
 
 
 @router.get("/case/{case_id}")
@@ -536,13 +547,20 @@ def fp_kind(fp: str) -> int:
 
 @router.post("/case/{case_id}/approve")
 def approve(case_id: str, req: ApproveReq):
-    from chain_client import ChainUnavailable, get_chain
-    from integrity.routes import get_integrity
     c = get_case(case_id)
     if not c:
         raise HTTPException(404, "unknown case")
     if c["status"] != "pending":
         raise HTTPException(409, f"case already {c['status']}")
+    if offline.enabled():
+        sid = offline.STATE["cases"].get(case_id) or c.get("scenario")
+        hit = offline.replay(f"approve-{sid}")
+        if hit:
+            c["status"] = "approved"
+            offline.STATE["ledger"] = sid
+            return {**hit, "case_id": case_id}
+    from chain_client import ChainUnavailable, get_chain
+    from integrity.routes import get_integrity
     integ, chain = get_integrity(), get_chain()
     ids = sorted(c["evidence_leaves"])
     proof = integ.prove(ids) if ids else {"items": [], "epoch": None, "root": None}
@@ -567,6 +585,13 @@ def approve(case_id: str, req: ApproveReq):
         if action == "hold_and_publish":
             for fp in c["output"].get("fingerprints_to_publish", []):
                 kind_i = fp_kind(fp)
+                try:  # already on the registry (e.g. a second approve of the same ring): don't re-publish
+                    if chain.is_flagged(fp)["flagged"]:
+                        continue
+                except ChainUnavailable:
+                    raise
+                except Exception:
+                    pass
                 tx = chain.publish(fp, kind_i, config.BANK_IDS[config.HOST_BANK])
                 published.append({"fp": fp[:16], "tx": tx["tx"], "block": tx["block"],
                                   "kind": {v: k for k, v in config.KINDS.items()}.get(kind_i)})

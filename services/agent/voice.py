@@ -12,7 +12,9 @@ from pydantic import BaseModel
 
 import config
 import graphdb
+import offline
 import sse
+import time
 import stt
 from cypher_guard import clean
 from cypher_session import CypherSession
@@ -125,16 +127,26 @@ def answer_text(text: str, language: str | None = None, runner=None, gate=None) 
 
 
 def _cached(qid: str | None):
+    """Offline replay: the recorded result, after its recorded latency (capped). Registers its egress log too."""
     if config.DEMO_OFFLINE and qid:
         c = sse.load_cache(f"voice-{qid}")
         if c:
+            time.sleep(min(c.get("ms", 0), offline.MAX_SLEEP_S * 1000) / 1000)
+            offline.note_egress(c["result"].get("case_id"), f"egress-voice-{qid}")
+            if offline.STATE["counter"] in ("S5", "V"):
+                offline.STATE["counter"] = "V"
             return c["result"]
     return None
 
 
-def _record(qid: str | None, res: dict):
+def _qid_from_filename(name: str | None) -> str | None:
+    m = re.match(r"^v(\d)[-_.]", (name or "").lower())
+    return f"V{m.group(1)}" if m else None
+
+
+def _record(qid: str | None, res: dict, ms: int = 0):
     if qid and config.DEMO_RECORD and not res.get("error") and res.get("answer"):
-        sse.save_cache(f"voice-{qid}", [], {"result": res})
+        sse.save_cache(f"voice-{qid}", [], {"result": res, "ms": ms})
 
 
 @router.post("/voice/text")
@@ -143,13 +155,16 @@ def voice_text(req: TextReq):
     hit = _cached(qid)
     if hit:
         return {**hit, "replayed": True}
+    t0 = time.perf_counter()
     res = answer_text(req.text, req.language)
-    _record(qid, res)
+    res["qid"] = qid
+    _record(qid, res, int((time.perf_counter() - t0) * 1000))
     return res
 
 
 @router.post("/voice")
 def voice(audio: UploadFile = File(...), language: str | None = Form(None), qid: str | None = Form(None)):
+    qid = qid or _qid_from_filename(audio.filename)
     hit = _cached(qid)
     if hit:
         return {**hit, "replayed": True}
@@ -159,7 +174,12 @@ def voice(audio: UploadFile = File(...), language: str | None = Form(None), qid:
     except Exception as e:
         return JSONResponse(status_code=503, content={"error": f"speech-to-text failed: {e}", "fallback": "browser"})
     qid = qid or qid_for(tr["text"])
+    hit = _cached(qid)                      # offline: transcript matched a scripted query; STT ran locally only
+    if hit:
+        return {**hit, "replayed": True, "stt": {**tr["stt"], "stt_ms": tr["stt_ms"], "detected": tr["language"]}}
+    t0 = time.perf_counter()
     res = answer_text(tr["text"], language)
+    res["qid"] = qid
     res["stt"] = {**tr["stt"], "stt_ms": tr["stt_ms"], "detected": tr["language"]}
-    _record(qid, res)
+    _record(qid, res, tr["stt_ms"] + int((time.perf_counter() - t0) * 1000))
     return res

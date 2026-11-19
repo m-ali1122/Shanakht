@@ -23,7 +23,9 @@ function Dev {
   Start-Process powershell -ArgumentList "-NoExit","-Command","cd '$Root\apps\web'; npm run dev"
 }
 function Reset { Invoke-RestMethod -Method Post http://localhost:8103/demo/reset }
-function Test { & $Py -m pytest services\agent\tests -q }
+function Test { & $Py -m pytest services\agent\tests services\resolver\tests services\banks\tests data\neo4j\tests data\generator\tests -q }
+esolver	ests servicesbanks	ests data
+eo4j	ests datagenerator	ests -q }
 
 switch ($Target) {
   "up" { Up } "seed" { Seed } "seed-graph" { SeedGraph } "dev" { Dev } "reset" { Reset } "test" { Test }

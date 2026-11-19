@@ -1,0 +1,418 @@
+{
+ "agent": {
+  "ok": true,
+  "service": "agent",
+  "demo_offline": false,
+  "chain": true,
+  "llm": {
+   "provider": "groq",
+   "model": "openai/gpt-oss-120b"
+  }
+ },
+ "info": {
+  "s5_kept_run": 1,
+  "s5_kept_genuine_repair": false,
+  "s5_runs": [
+   {
+    "run": 1,
+    "valid_model_run": true,
+    "genuine_repair": false,
+    "ms": 91889,
+    "cypher_errors": []
+   },
+   {
+    "run": 2,
+    "valid_model_run": false,
+    "genuine_repair": false,
+    "ms": 1475,
+    "cypher_errors": []
+   },
+   {
+    "run": 3,
+    "valid_model_run": false,
+    "genuine_repair": false,
+    "ms": 23059,
+    "cypher_errors": []
+   }
+  ],
+  "incoming": {
+   "registry_check": "HIT",
+   "kind": "device",
+   "fingerprint": "374a6d3dc00a5058"
+  },
+  "voice": {
+   "V1": {
+    "transcript": "Faisal Nawaz any logon ko paise?",
+    "exact": false,
+    "language": "ur",
+    "answer": null,
+    "stt": {
+     "model": "small",
+     "device": "cpu",
+     "compute": "int8",
+     "load_s": 8.0,
+     "stt_ms": 19619,
+     "detected": "en"
+    },
+    "cached": false
+   },
+   "V2": {
+    "transcript": "Show every account that shares a phone with Usman Ghani.",
+    "exact": true,
+    "language": "en",
+    "answer": null,
+    "stt": {
+     "model": "small",
+     "device": "cpu",
+     "compute": "int8",
+     "load_s": 8.0,
+     "stt_ms": 14250,
+     "detected": "en"
+    },
+    "cached": false
+   },
+   "V3": {
+    "transcript": "Which remitter is sent to more than three banks this quarter?",
+    "exact": false,
+    "language": "en",
+    "answer": null,
+    "stt": {
+     "model": "small",
+     "device": "cpu",
+     "compute": "int8",
+     "load_s": 8.0,
+     "stt_ms": 12729,
+     "detected": "en"
+    },
+    "cached": false
+   }
+  },
+  "tamper_element": "RM-S5"
+ },
+ "steps": [
+  {
+   "name": "case-S5 run 1",
+   "endpoint": "POST /case",
+   "ms": 91889,
+   "steps": [
+    {
+     "step": "start",
+     "ms": 27
+    },
+    {
+     "step": "model",
+     "ms": 3513
+    },
+    {
+     "step": "cypher",
+     "ms": 13370
+    },
+    {
+     "step": "integrity",
+     "ms": 0
+    },
+    {
+     "step": "model",
+     "ms": 1102
+    },
+    {
+     "step": "cypher",
+     "ms": 481
+    },
+    {
+     "step": "integrity",
+     "ms": 0
+    },
+    {
+     "step": "model",
+     "ms": 1165
+    },
+    {
+     "step": "registry",
+     "ms": 45
+    },
+    {
+     "step": "model",
+     "ms": 21562
+    },
+    {
+     "step": "registry",
+     "ms": 2063
+    },
+    {
+     "step": "model",
+     "ms": 1467
+    },
+    {
+     "step": "propose_action",
+     "ms": 1
+    },
+    {
+     "step": "model",
+     "ms": 20203
+    },
+    {
+     "step": "model",
+     "ms": 22401
+    },
+    {
+     "step": "validate",
+     "ms": 18
+    },
+    {
+     "step": "evidence",
+     "ms": 3023
+    },
+    {
+     "step": "final",
+     "ms": 1421
+    }
+   ]
+  },
+  {
+   "name": "case-S5 run 2",
+   "endpoint": "POST /case",
+   "ms": 1475,
+   "steps": [
+    {
+     "step": "start",
+     "ms": 0
+    },
+    {
+     "step": "model",
+     "ms": 214
+    },
+    {
+     "step": "cypher",
+     "ms": 597
+    },
+    {
+     "step": "integrity",
+     "ms": 0
+    },
+    {
+     "step": "evidence",
+     "ms": 342
+    },
+    {
+     "step": "final",
+     "ms": 311
+    }
+   ]
+  },
+  {
+   "name": "case-S5 run 3",
+   "endpoint": "POST /case",
+   "ms": 23059,
+   "steps": [
+    {
+     "step": "start",
+     "ms": 0
+    },
+    {
+     "step": "model",
+     "ms": 16497
+    },
+    {
+     "step": "cypher",
+     "ms": 4826
+    },
+    {
+     "step": "integrity",
+     "ms": 0
+    },
+    {
+     "step": "model",
+     "ms": 261
+    },
+    {
+     "step": "cypher",
+     "ms": 427
+    },
+    {
+     "step": "integrity",
+     "ms": 0
+    },
+    {
+     "step": "evidence",
+     "ms": 466
+    },
+    {
+     "step": "final",
+     "ms": 569
+    }
+   ]
+  },
+  {
+   "name": "egress-case-S5",
+   "endpoint": "GET /gateway/egress?case_id=case-c7ee084af2",
+   "ms": 24
+  },
+  {
+   "name": "counter-S5",
+   "endpoint": "GET /gateway/counter",
+   "ms": 7
+  },
+  {
+   "name": "reverify-S5-clean",
+   "endpoint": "POST /case/case-c7ee084af2/reverify",
+   "ms": 891,
+   "steps": [
+    {
+     "step": "integrity",
+     "ms": 875
+    },
+    {
+     "step": "final",
+     "ms": 4
+    }
+   ]
+  },
+  {
+   "name": "approve-S5",
+   "endpoint": "POST /case/case-c7ee084af2/approve",
+   "ms": 129483
+  },
+  {
+   "name": "ledger-S5",
+   "endpoint": "GET /ledger/blocks?limit=20",
+   "ms": 3513
+  },
+  {
+   "name": "incoming-INDS",
+   "endpoint": "POST /banks/INDS/incoming",
+   "ms": 8202
+  },
+  {
+   "name": "voice-V1 (audio)",
+   "endpoint": "POST /voice",
+   "ms": 29781
+  },
+  {
+   "name": "voice-V1 (scripted text)",
+   "endpoint": "POST /voice/text",
+   "ms": 2299
+  },
+  {
+   "name": "egress-voice-V1",
+   "endpoint": "GET /gateway/egress?case_id=voice-9752c70da9",
+   "ms": 10
+  },
+  {
+   "name": "voice-V2 (audio)",
+   "endpoint": "POST /voice",
+   "ms": 26532
+  },
+  {
+   "name": "voice-V2 (scripted text)",
+   "endpoint": "POST /voice/text",
+   "ms": 2745
+  },
+  {
+   "name": "egress-voice-V2",
+   "endpoint": "GET /gateway/egress?case_id=voice-3fb26cff55",
+   "ms": 7
+  },
+  {
+   "name": "voice-V3 (audio)",
+   "endpoint": "POST /voice",
+   "ms": 19129
+  },
+  {
+   "name": "voice-V3 (scripted text)",
+   "endpoint": "POST /voice/text",
+   "ms": 156
+  },
+  {
+   "name": "egress-voice-V3",
+   "endpoint": "GET /gateway/egress?case_id=voice-123fea4fbd",
+   "ms": 6
+  },
+  {
+   "name": "counter-V",
+   "endpoint": "GET /gateway/counter",
+   "ms": 5
+  },
+  {
+   "name": "tamper-S5",
+   "endpoint": "POST /integrity/tamper",
+   "ms": 2147
+  },
+  {
+   "name": "reverify-S5-tampered",
+   "endpoint": "POST /case/case-c7ee084af2/reverify",
+   "ms": 1235,
+   "steps": [
+    {
+     "step": "integrity",
+     "ms": 758
+    },
+    {
+     "step": "rerun",
+     "ms": 1
+    },
+    {
+     "step": "model",
+     "ms": 139
+    },
+    {
+     "step": "cypher",
+     "ms": 322
+    },
+    {
+     "step": "integrity",
+     "ms": 0
+    },
+    {
+     "step": "final",
+     "ms": 0
+    }
+   ]
+  },
+  {
+   "name": "demo/reset (final)",
+   "endpoint": "POST /demo/reset",
+   "ms": 104693
+  },
+  {
+   "name": "voice-V1 (audio)",
+   "endpoint": "POST /voice",
+   "ms": 22428
+  },
+  {
+   "name": "voice-V1 (scripted text)",
+   "endpoint": "POST /voice/text",
+   "ms": 1993
+  },
+  {
+   "name": "voice-V2 (audio)",
+   "endpoint": "POST /voice",
+   "ms": 16251
+  },
+  {
+   "name": "voice-V2 (scripted text)",
+   "endpoint": "POST /voice/text",
+   "ms": 2211
+  },
+  {
+   "name": "voice-V3 (audio)",
+   "endpoint": "POST /voice",
+   "ms": 13012
+  },
+  {
+   "name": "voice-V3 (scripted text)",
+   "endpoint": "POST /voice/text",
+   "ms": 136
+  },
+  {
+   "name": "counter-V",
+   "endpoint": "GET /gateway/counter",
+   "ms": 5
+  },
+  {
+   "name": "demo/reset (final)",
+   "endpoint": "POST /demo/reset",
+   "ms": 100263
+  }
+ ]
+}

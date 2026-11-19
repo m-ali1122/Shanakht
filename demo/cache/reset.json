@@ -1,0 +1,16 @@
+{
+ "recorded_from": "live",
+ "ms": 35785,
+ "result": {
+  "decisions_deleted": 0,
+  "tampered_restored": 0,
+  "chain": {
+   "reverted": true
+  },
+  "recommit": {
+   "epoch": 17,
+   "root": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+   "root_source": "chain"
+  }
+ }
+}

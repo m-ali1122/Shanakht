@@ -1,0 +1,106 @@
+{
+ "recorded_from": "live",
+ "ms": 667,
+ "result": [
+  {
+   "id": 10,
+   "kind": "commit",
+   "tx": "0xafbb65fe23a8c47bf1eec8da68055f494ec611e0523c519c0a04b9cb30e4ebd0",
+   "hash": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+   "ts": "2026-11-09T16:27:12Z",
+   "detail": {
+    "event": "GraphRootLog.Committed",
+    "block": 10,
+    "nodes": 70301,
+    "edges": 112504
+   },
+   "epoch": 17
+  },
+  {
+   "id": 9,
+   "kind": "commit",
+   "tx": "0x02ee22876b10d284e44bf35b8cdac8954591c083924810c49333f500d6b4e977",
+   "hash": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+   "ts": "2026-11-09T15:37:00Z",
+   "detail": {
+    "event": "GraphRootLog.Committed",
+    "block": 9,
+    "nodes": 70301,
+    "edges": 112504
+   },
+   "epoch": 16
+  },
+  {
+   "id": 8,
+   "kind": "commit",
+   "tx": "0xa1e311112451497a5d0f7a4029b0df4280d210cc3465d27b15a9a5ac4781d2dc",
+   "hash": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+   "ts": "2026-11-09T15:34:40Z",
+   "detail": {
+    "event": "GraphRootLog.Committed",
+    "block": 8,
+    "nodes": 70301,
+    "edges": 112504
+   },
+   "epoch": 15
+  },
+  {
+   "id": 7,
+   "kind": "decision",
+   "tx": "0x578b1797cf5cfa9789fbc7573667d8aeb296b8add8b0f0a05b5a5ce78fd53b0a",
+   "hash": "0xbf44d883e0ef1a84739274d07949bad1ebfbc5714c5e25c67c8115cacc95983f",
+   "ts": "2026-11-09T14:32:03Z",
+   "detail": {
+    "event": "DecisionLog.Anchored",
+    "block": 7,
+    "decision_id": 0
+   },
+   "epoch": 6,
+   "band": "CLOSE",
+   "action": "hold",
+   "approver": "0x73bb4d1c91346890"
+  },
+  {
+   "id": 6,
+   "kind": "commit",
+   "tx": "0x18a614d1042f0b298904c26fba79168708cbc40420bed0f71efaaf1804c65df8",
+   "hash": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+   "ts": "2026-11-09T14:30:41Z",
+   "detail": {
+    "event": "GraphRootLog.Committed",
+    "block": 6,
+    "nodes": 70301,
+    "edges": 112504
+   },
+   "epoch": 6
+  },
+  {
+   "id": 5,
+   "kind": "commit",
+   "tx": "0xaa3768be19fc11e626cb9fa4a011cd67d37eed52b7a01809b4861a452b54c8a7",
+   "hash": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+   "ts": "2026-11-09T13:57:57Z",
+   "detail": {
+    "event": "GraphRootLog.Committed",
+    "block": 5,
+    "nodes": 70301,
+    "edges": 112504
+   },
+   "epoch": 5
+  },
+  {
+   "id": 4,
+   "kind": "commit",
+   "tx": "0x6e95c41dcf7f4bac52bfc8d41476bf274923f1541e6225a55fe2576517ebbe93",
+   "hash": "0x612a7ff6cb47b3990ab95e50e6ae7b60f30b4cf0814312735f46462a57f980d9",
+   "ts": "2026-11-09T13:42:33Z",
+   "detail": {
+    "event": "GraphRootLog.Committed",
+    "block": 4,
+    "nodes": 70301,
+    "edges": 112504
+   },
+   "epoch": 1
+  }
+ ]
+}
